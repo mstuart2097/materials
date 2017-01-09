@@ -1,0 +1,46 @@
+---
+title: "Stat 585 - Working in teams"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Tools for collaborating in teams
+
+## A test case
+
+The dataset `brfss_iowa.csv` (linked from website) contains 6227 records from the Behavioral Risk Factor Surveillance System (BRFSS) for Iowans.
+
+> The Behavioral Risk Factor Surveillance System (BRFSS) is the nation's premier system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors.
+
+It is conducted annually by the Center for Disease Control and Prevention (CDC).
+
+
+## Your turn
+
+You are asked to investigate the relationship between height and weight of Iowans based on the 2015 BRFSS records (see course website for data).
+(The variables `WEIGHT2` and `HEIGHT3` are collected during the interview)
+
+In the next 20 mins:
+
+1. Use your favorite software (IT DOES NOT NEED TO BE R!!!) to come up with a graphical summary of the relationship between weight and height (fix potential problems in the data!). 
+2. Write a short report of your findings. 
+
+
+## Your turn
+
+In the next 10 mins:
+
+1. Introduce yourself to your neighbor. 
+2. Exchange reports - **BUT DO NOT TALK ABOUT THE DATA OR THE ANALYSIS** (yet)
+3. Try to reproduce your neighbor's findings. 
+
+# How did that go?
+
+- Where did things get problematic?
