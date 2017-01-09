@@ -1,0 +1,140 @@
+---
+title: "Stat 585 - Syllabus discussion"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+# Welcome to Data Technologies for Statistical Analysis
+
+## Why Data Technologies?
+
+Not all data ... 
+
+- lives in spread sheets, 
+- is nice and clean, 
+- fits in a machine's main memory.
+
+As statisticians we **cannot** always rely on other people and disciplines to get the data into a nice and tidy format.
+
+## What are we going to do?
+
+This course deals with concepts, skills, and tools related to 
+
+- acquiring and combining data from different sources, 
+- rearranging and summarising data,
+- communicating methods and results in form of graphics, packages, and web applications.
+
+... along the way ... make our process as transparent and reproducible as possible.
+
+## Data comes in a lot of different formats
+
+... as sound 
+![](data/i-like-statistics_hh.mp3)
+
+... as image
+<img src="data/striations.jpg" width=150>
+
+... in a monitoring device
+<img src="data/fitbit.png" width=250>
+
+
+## 
+
+```{r}
+library(tuneR)
+ils_class <- readWave("data/i-like-statistics_hh.wav")
+str(ils_class)
+```
+
+```{r, echo =FALSE, cache = TRUE, message=FALSE, warning = FALSE, fig.height = 3, fig.width = 5}
+ils_df <- data.frame(left=ils_class@left, right=ils_class@right)
+ils_df$time <- 1:nrow(ils_df)
+library(ggplot2)
+library(tidyverse)
+ils_df %>% ggplot(aes(time, right)) + geom_line()
+```
+
+##
+
+```{r}
+library(jpeg)
+img <- readJPEG("data/imgres.jpg")
+str(img)
+```
+
+```{r, echo = FALSE, message = TRUE, cache= TRUE, fig.width=9, fig.height=3}
+img_df <- data.frame(expand.grid(y = 1:dim(img)[1], x = 1:dim(img)[2]))
+img_df$red <- as.numeric(img[,,1])
+img_df$green <- as.numeric(img[,,2])
+img_df$blue <- as.numeric(img[,,3])
+p1 <- qplot(data=img_df, geom="tile", x =x, y=-y, fill = red) + xlab("") +ylab("") + scale_fill_gradient(low="white", high = "red") + theme(legend.position="none")
+p2 <- qplot(data=img_df, geom="tile", x =x, y=-y, fill = green) + xlab("") +ylab("") + scale_fill_gradient(low="white", high = "green")+ theme(legend.position="none")
+p3 <- qplot(data=img_df, geom="tile", x =x, y=-y, fill = blue) + xlab("") +ylab("") + scale_fill_gradient(low="white", high = "blue")+ theme(legend.position="none")
+library(gridExtra)
+grid.arrange(p1,p2,p3, nrow=1)
+```
+
+... what kind of birds are [these](http://www.theradzoo.com/meet-the-animals/birds/rainbow-lorikeet/)?
+
+## ... there's an R package for that!
+
+answer almost independent from the question asked ... obvious advantages
+
+disadvantages
+
+- finding a needle in a haystack? - problem of riches: which is the best solution, is there a good solution?
+- often a solution to a different problem - can we extend/append functionality? how?
+- packages are of varying quality - we need to be able to assess code for its performance
+
+... these are some of the problems we will be dealing with.
+
+## Syllabus
+
+Full syllabus is available [from the course website](syllabus.pdf).
+
+###Textbook (optional)
+
+- Hadley Wickham: *Advanced Programming in R*
+- Paul Murrell: *Data Technologies in R*
+- Yihui Xie: *Dynamic Documents with R and knitr*
+- additional readings
+
+Course website: 
+
+- Materials, assignments, code: [https://stat585-at-isu.github.io/](https://stat585-at-isu.github.io/)
+- Blackboard (for grades)
+
+
+
+## Grades
+
+| Component | Weight |
+|:-- | --:|
+| Reading & Blog | 15% |
+| Labs | 40% |
+| *Final Project* | |
+|   report | 35% |
+|   presentation | 10% |
+
+
+## Labs
+
+- during class time on every other Thursday (starting with Thursday, Jan 19th) 
+- you will be partnered (randomly) in groups of 2 to 3
+- lab assignments are designed to be finished during class time, but 'finishing touches' can be applied until the following Monday, 10pm. 
+- if you cannot attend the lab, please let me know beforehand. Nevertheless, you are expected to do the work!
+
+## Attendance
+
+I expect you to attend class: there will be a substantial amount of time devoted to 'hands-on' examples on the computers. Make use of that time!
+
+If you have to miss class, please 
+
+(a) let me know ahead of time. 
+(b) make sure to catch up with the material (e.g. have a designated note taker, talk to one of your team members, ... )
+
