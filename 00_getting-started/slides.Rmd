@@ -138,3 +138,20 @@ If you have to miss class, please
 (a) let me know ahead of time. 
 (b) make sure to catch up with the material (e.g. have a designated note taker, talk to one of your team members, ... )
 
+## Getting Help
+
+There's lots of ways to get help in case you are stuck:
+
+(1) Google is your friend! in particular, stackoverflow and R help are usually great resources,
+(2) ask a team member,
+(3) write email to the instructor with your question
+
+## Asking a good question
+
+is a learned and valuable skill!
+
+Have a look at:
+
+- stackoverflow's [Asking a good question](http://stackoverflow.com/help/how-to-ask)
+- R's [Posting guidelines](https://www.r-project.org/posting-guide.html)
+
