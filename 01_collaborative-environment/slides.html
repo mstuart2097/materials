@@ -38,7 +38,8 @@
 <h2>Your turn</h2>
 <p>You are asked to investigate the relationship between height and weight of Iowans based on the 2015 BRFSS records (see course website for data). (The variables <code>WEIGHT2</code> and <code>HEIGHT3</code> are collected during the interview)</p>
 <p>In the next 20 mins:</p>
-<ol type="1">
+<ol start="0" type="1">
+<li>Complete the following tasks and <strong>write instructions / documentation</strong> for a collaborator to be able to reproduce your findings.</li>
 <li>Use your favorite software (IT DOES NOT NEED TO BE R!!!) to come up with a graphical summary of the relationship between weight and height (fix potential problems in the data!).</li>
 <li>Write a short report of your findings.</li>
 </ol>
@@ -47,8 +48,44 @@
 <p>In the next 10 mins:</p>
 <ol type="1">
 <li>Introduce yourself to your neighbor.</li>
-<li>Exchange reports - <strong>BUT DO NOT TALK ABOUT THE DATA OR THE ANALYSIS</strong> (yet)</li>
-<li>Repeat your neighbor’s analysis with the data for Minnesota (<code>brfss_mn.csv</code>)</li>
+<li>Swap the report and the instructions / documentation with your collaborator - <strong>BUT DO NOT TALK ABOUT THE DATA OR THE ANALYSIS</strong> (yet)</li>
+<li>Try to reproduce your neighbor’s findings.</li>
+</ol>
+<p><br> <br><br></p>
+<p>Thanks to Jenny Bryant and Mine Cetinkaya-Rundel for the idea for the original example!</p>
+</section>
+<section id="how-did-that-go" class="titleslide slide level1"><h2 class="shout">How did that go?</h2></section><section id="reflection" class="slide level2">
+<h2>Reflection</h2>
+<ul>
+<li>What tools did you use?</li>
+<li>Were you successful in reproducing each others’ work? <br><br></li>
+<li>What would happen if your collaborator is no longer available to walk you through their analysis?</li>
+<li>What made it easy / hard for reproducing your partners’ work?</li>
+<li>What would have to happen if
+<ul>
+<li>you had to swap out the dataset or extend the analysis further?</li>
+<li>you caught further data errors and had to re-create the analysis with corrections?</li>
+<li>you had to revert back to the original dataset?</li>
+</ul></li>
+</ul>
+</section><section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Everyone struggles with reproducibility and it is a hindrance to moving science forward</li>
+<li>Even with a fairly simple analysis challenges were faced in four main areas: organization, documentation, automation, and dissemination</li>
+</ul>
+</section>
+<section id="four-facets-of-reproducibility" class="titleslide slide level1"><h2 class="shout">Four facets of reproducibility</h2></section><section id="four-facets-of-reproducibility-1" class="slide level2">
+<h2>Four facets of reproducibility</h2>
+<ol type="1">
+<li><strong>Documentation:</strong> difference between binary files (e.g. docx) and text files and why text files are preferred for documentation
+<ul>
+<li><em>Protip:</em> Use markdown to document your workflow so that anyone can pick up your data and follow what you are doing</li>
+<li><em>Protip:</em> Use literate programming so that your analysis and your results are tightly connected, or better yet, unseparable</li>
+</ul></li>
+<li><strong>Organization:</strong> tools to organize your projects so that you don’t have a single folder with hundreds of files</li>
+<li><strong>Automation:</strong> the power of scripting to create automated data analyses</li>
+<li><strong>Dissemination:</strong> publishing is not the end of your analysis, rather it is a way station towards your future research and the future research of others</li>
 </ol>
 </section>
 
