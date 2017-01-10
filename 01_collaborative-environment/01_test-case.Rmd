@@ -48,7 +48,12 @@ In the next 10 mins:
 
 Thanks to  Jenny Bryant and Mine Cetinkaya-Rundel for the idea for the original  example!
 
-# How did that go?
+
+
+
+## How did that go? 
+
+![](images/desperation-0.jpg)
 
 
 - Where did things get problematic?
