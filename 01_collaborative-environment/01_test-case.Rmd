@@ -21,6 +21,7 @@ The dataset `brfss_iowa.csv` (linked from website) contains 6227 records from th
 
 It is conducted annually by the Center for Disease Control and Prevention (CDC).
 
+Codebook with detailed explanations of variables is [available here](https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf).
 
 ## Your turn
 
