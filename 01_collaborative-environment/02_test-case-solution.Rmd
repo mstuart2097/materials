@@ -1,7 +1,12 @@
 ---
 title: "Stat 585 - Working in teams: Sample solution for the test case"
 author: "Heike Hofmann"
-output: html_document
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
