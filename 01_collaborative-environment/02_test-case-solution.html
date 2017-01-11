@@ -64,7 +64,7 @@
 
     
   
-<section id="a-test-case" class="slide level2">
+<section id="solution-to-the-test-case" class="titleslide slide level1"><h2 class="shout">Solution to the test case</h2></section><section id="a-test-case" class="slide level2">
 <h2>A test case</h2>
 <p>The dataset <code>brfss_iowa.csv</code> (linked from website) contains 6227 records from the Behavioral Risk Factor Surveillance System (BRFSS) for Iowans.</p>
 <blockquote>
@@ -72,12 +72,17 @@
 </blockquote>
 <p>It is conducted annually by the Center for Disease Control and Prevention (CDC).</p>
 <p>Codebook with detailed explanations of variables is <a href="https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf">available here</a>.</p>
-</section>
-<section id="our-turn" class="slide level2">
+</section><section id="our-turn" class="slide level2">
 <h2>Our turn</h2>
 <p>We are asked to investigate the relationship between height and weight of Iowans based on the 2015 BRFSS records (see course website for data). (The variables <code>WEIGHT2</code> and <code>HEIGHT3</code> are collected during the interview)</p>
-</section>
-<section id="what-is-the-relationship-between-height-and-weight" class="slide level2">
+<p><br></p>
+<ol type="1">
+<li>Navigate to <a href="https://github.com/Stat585-at-ISU/materials" class="uri">https://github.com/Stat585-at-ISU/materials</a></li>
+<li>Open the folder <code>01_collaborative-environment</code> and download the file <code>02_test-case-solution.Rmd</code></li>
+<li>Open the file in RStudio.</li>
+<li>“Knit” the file.</li>
+</ol>
+</section><section id="what-is-the-relationship-between-height-and-weight" class="slide level2">
 <h2>What is the relationship between height and weight?</h2>
 <p>Read the data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&quot;https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/data/brfss_iowa.csv&quot;</span>) 
@@ -123,8 +128,7 @@ iowa</code></pre></div>
 ## #   LMTJOIN3 &lt;int&gt;, ARTHDIS2 &lt;int&gt;, ARTHSOCL &lt;int&gt;, JOINPAIN &lt;int&gt;,
 ## #   SEATBELT &lt;int&gt;, FLUSHOT6 &lt;int&gt;, FLSHTMY2 &lt;int&gt;, IMFVPLAC &lt;int&gt;,
 ## #   PNEUVAC3 &lt;int&gt;, HIVTST6 &lt;int&gt;, HIVTSTD3 &lt;int&gt;, ...</code></pre>
-</section>
-<section id="plot" class="slide level2">
+</section><section id="plot" class="slide level2">
 <h2>Plot</h2>
 <p>Load the <code>ggplot2</code> package to plot weight versus height:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
@@ -132,14 +136,12 @@ iowa</code></pre></div>
 iowa %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> WEIGHT2, <span class="dt">y =</span> HEIGHT3)) +<span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="02_test-case-solution_files/figure-revealjs/unnamed-chunk-2-1.png" width="336" /></p>
-</section>
-<section id="section" class="slide level2">
+</section><section id="section" class="slide level2">
 <h2></h2>
 <p>Now that picture comes a bit as a surprise! I would have thought that height and weight would show a somewhat positive correlation, but these clusters are strange.</p>
 <p>Have a look at the <a href="https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf">codebook</a>: HEIGHT3 and WEIGHT2 are the originally recorded variables.</p>
 <p><img src="https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/images/codebook-height3.png" width=750></p>
-</section>
-<section id="next-steps" class="slide level2">
+</section><section id="next-steps" class="slide level2">
 <h2>Next steps</h2>
 <p>Obviously, we need to spend some time cleaning this variable (and the weight variable, too) before we can make use of them.</p>
 <p>We have a couple of choices:</p>
@@ -147,8 +149,7 @@ iowa %&gt;%<span class="st"> </span>
 <li>We can buckle down and do that clean-up and then move on to the graphical summary.</li>
 <li>We can take another look at the variables and investigate what <code>HTIN4</code>, <code>HTM4</code>, and <code>WTKG3</code> are …</li>
 </ol>
-</section>
-<section id="route-2" class="slide level2">
+</section><section id="route-2" class="slide level2">
 <h2>Route 2</h2>
 <p>Let’s take the second route first and draw a picture of height and weight in metric units:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa %&gt;%<span class="st"> </span>
@@ -156,8 +157,7 @@ iowa %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
 <p><img src="02_test-case-solution_files/figure-revealjs/unnamed-chunk-3-1.png" width="528" /></p>
 <p>These charts look much better! We see a general increase in weight as height increases. The variability in weight is huge, though. On average, women (<code>SEX = 2</code>) are shorter and lighter.</p>
-</section>
-<section id="route-1" class="slide level2">
+</section><section id="route-1" class="slide level2">
 <h2>Route 1</h2>
 <p>This is a bit more work. Let’s just take on height for now:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># split the data into metric and standard:</span>
@@ -181,8 +181,7 @@ standard &lt;-<span class="st"> </span>standard %&gt;%<span class="st"> </span><
 
 <span class="co"># get the data together again:</span>
 iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standard)</code></pre></div>
-</section>
-<section id="section-1" class="slide level2">
+</section><section id="section-1" class="slide level2">
 <h2></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># now plot</span>
 iowa %&gt;%<span class="st"> </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(height)) %&gt;%
@@ -190,8 +189,7 @@ iowa %&gt;%<span class="st"> </span><span class="kw">filter</span>(!<span class=
 <span class="st">  </span><span class="kw">facet_grid</span>(SEX~.)</code></pre></div>
 <p><img src="02_test-case-solution_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
 <p>We get similar findings - for height at least: women are on average shorter than men.</p>
-</section>
-<section id="route-1-contd." class="slide level2">
+</section><section id="route-1-contd." class="slide level2">
 <h2>Route 1 (cont’d.)</h2>
 <p>do the same thing for weight as we did for height before: 1 pound is 0.454 kg</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># split the data into metric and standard:</span>
@@ -213,8 +211,7 @@ standard &lt;-<span class="st"> </span>standard %&gt;%<span class="st"> </span><
 
 <span class="co"># get the data together again:</span>
 iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standard)</code></pre></div>
-</section>
-<section id="route-1-result" class="slide level2">
+</section><section id="route-1-result" class="slide level2">
 <h2>Route 1, result</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> height, <span class="dt">y =</span> weight)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>) +
@@ -222,8 +219,7 @@ iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standar
 <span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
 <p><img src="02_test-case-solution_files/figure-revealjs/unnamed-chunk-7-1.png" width="624" /></p>
-</section>
-<section id="overview-of-the-different-height-variables" class="slide level2">
+</section><section id="overview-of-the-different-height-variables" class="slide level2">
 <h2>Overview of the different height variables</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(iowa[,<span class="kw">c</span>(<span class="st">&quot;HEIGHT3&quot;</span>, <span class="st">&quot;HTIN4&quot;</span>, <span class="st">&quot;HTM4&quot;</span>, <span class="st">&quot;height&quot;</span>)])</code></pre></div>
 <pre><code>##     HEIGHT3           HTIN4            HTM4           height     
@@ -235,8 +231,7 @@ iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standar
 ##  Max.   :9999.0   Max.   :82.00   Max.   :208.0   Max.   :208.3  
 ##                   NA&#39;s   :161     NA&#39;s   :139     NA&#39;s   :139</code></pre>
 <p>Why are there more missing values in <code>HTIN4</code>?</p>
-</section>
-<section id="section-2" class="slide level2">
+</section><section id="section-2" class="slide level2">
 <h2></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(HTIN4), !<span class="kw">is.na</span>(HTM4)) %&gt;%<span class="st"> </span><span class="kw">select</span>(HEIGHT3)</code></pre></div>
 <pre><code>## # A tibble: 22 × 1
@@ -258,8 +253,7 @@ iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standar
 <pre><code>##    Mode   FALSE    TRUE    NA&#39;s 
 ## logical    6112      22       0</code></pre>
 <p>No. The official BRFSS data is missing any metric data in the variable <code>HTIN4</code>!</p>
-</section>
-<section id="recap" class="slide level2">
+</section><section id="recap" class="slide level2">
 <h2>Recap</h2>
 <ul>
 <li>this slide deck is rendered from an R Markdown document, located at <a href="https://github.com/Stat585-at-ISU/materials/tree/master/01_collaborative-environment">a github repo</a>.</li>

@@ -2,15 +2,13 @@
 title: "Stat 585 - Working in teams: Sample solution for the test case"
 author: "Heike Hofmann"
 ratio: 16x10
-output:
-  rmdshower::shower_presentation:
-    self_contained: false
-    katex: true
-    theme: ribbon
+output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Solution to the test case 
 
 ## A test case
 
@@ -26,6 +24,13 @@ Codebook with detailed explanations of variables is [available here](https://www
 
 We are asked to investigate the relationship between height and weight of Iowans based on the 2015 BRFSS records (see course website for data).
 (The variables `WEIGHT2` and `HEIGHT3` are collected during the interview)
+
+<br>
+
+1. Navigate to https://github.com/Stat585-at-ISU/materials
+2. Open the folder `01_collaborative-environment` and download the file `02_test-case-solution.Rmd`
+3. Open the file in RStudio.
+4. "Knit" the file.
 
 ## What is the relationship between height and weight? 
 
