@@ -1,5 +1,5 @@
 ---
-title: "Stat 585 - Tools of the working environment"
+title: "Stat 585 - R, RStudio, and RMarkdown"
 author: "Heike Hofmann"
 ratio: 16x10
 output:
@@ -11,15 +11,8 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-# Tools for collaborating in teams
 
-## Tools of the working environment
-
-- R and RStudio
-- markup and markdown
-- git and github
-
-## Why R
+# R, RStudio, and RMarkdown
 
 ## R is ...
 
@@ -53,14 +46,16 @@ length(pkgs)
 ## The RStudio IDE
 
 
-1. Source editor: Docking station for multiple files, Useful shortcuts ("Knit"), Highlighting/Tab-completion, Code-checking (R, HTML, JS), Debugging features  
-2. Console window: Highlighting/Tab-completion, Search recent commands
-3. Environment pane: Tools for package development, git, etc
-4. Other tabs/panes: Graphics, R documentation, File system navigation/access
+1. **Source editor:** Docking station for multiple files, Useful shortcuts ("Knit"), Highlighting/Tab-completion, Code-checking (R, HTML, JS), Debugging features  
+2. **Console window:** Highlighting/Tab-completion, Search recent commands
+3. **Environment pane:** Tools for package development, git, etc
+4. **Other tabs/panes:** Graphics, R documentation, File system navigation/access
 
 <br>
 <br>
+<p class = "note">
 *Protip:* save yourself the headaches figuring out file paths and instead work in an RStudio R project (popup menu at the top left)
+</p>
 
 ## Markdown
 
@@ -70,7 +65,29 @@ length(pkgs)
 - LaTeX gives you much greater control, but it is restricted to pdf and has a much greater learning curve.
 - Markdown is becoming a standard. Many websites will generate HTML from Markdown (e.g. GitHub, Stack Overflow, reddit, ...).
 
-XXX link to markdown cheat sheet
+## Markdown is easy
+
+```
+*italic*
+**bold**
+
+# Header 1
+## Header 2
+### Header 3
+
+- List item 1
+- List item 2
+    - item 2a
+    - item 2b
+
+1. Numbered list item 1
+1. Numbered list item 2
+    - item 2a
+    - item 2b
+```
+
+
+Have a look at RStudio's [RMarkdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
 ## What is RMarkdown?
 
@@ -87,7 +104,25 @@ XXX link to markdown cheat sheet
 - Encourages transparency. Collaborators (including your future self) will thank you for integrating your analysis & report.
 - Enables interactivity/reactivity. Allow your audience to explore the analysis (rather than passively read it).
 
-## 
-
+## {.white}
 
 <img class="cover" src="images/hello-rmarkdown.png" alt="">
+
+## {.white}
+
+<img class="cover" src="images/rmarkdown.png" alt="">
+
+
+## Your Turn {.white}
+
+<img class="cover" src="images/yourturn.jpg" alt="">
+
+
+
+1. <span style="color:white">Open RStudio, create a new project.</span>
+2. <span style="color:white">Create a new RMarkdown file and knit it.</span>
+3. <span style="color:white">Navigate to the RMarkdown cheat sheet and download a copy (Google for the link!)</span>
+3. <span style="color:white">Make changes to the markdown formatting and knit again.</span>
+4. <span style="color:white">Export output to different files.</span>
+5. <span style="color:white">If you feel adventurous, change some of the R code and knit again.</span>
+

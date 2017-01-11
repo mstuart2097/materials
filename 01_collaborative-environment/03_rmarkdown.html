@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stat 585 - Tools of the working environment</title>
+  <title>Stat 585 - R, RStudio, and RMarkdown</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,22 +58,13 @@
 <body class="shower list">
 
   <header class="caption">
-    <h1>Stat 585 - Tools of the working environment</h1>
+    <h1>Stat 585 - R, RStudio, and RMarkdown</h1>
     <p>Heike Hofmann</p>
   </header>
 
     
   
-<section id="tools-for-collaborating-in-teams" class="titleslide slide level1"><h2 class="shout">Tools for collaborating in teams</h2></section><section id="tools-of-the-working-environment" class="slide level2">
-<h2>Tools of the working environment</h2>
-<ul>
-<li>R and RStudio</li>
-<li>markup and markdown</li>
-<li>git and github</li>
-</ul>
-</section><section id="why-r" class="slide level2">
-<h2>Why R</h2>
-</section><section id="r-is" class="slide level2">
+<section id="r-rstudio-and-rmarkdown" class="titleslide slide level1"><h2 class="shout">R, RStudio, and RMarkdown</h2></section><section id="r-is" class="slide level2">
 <h2>R is …</h2>
 <ul>
 <li><strong>Free</strong> to use</li>
@@ -85,7 +76,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;metacran/crandb&quot;)</span>
 pkgs &lt;-<span class="st"> </span>crandb::<span class="kw">list_packages</span>(<span class="dt">limit =</span> <span class="dv">999999</span>)
 <span class="kw">length</span>(pkgs)</code></pre></div>
-<pre><code>## [1] 9882</code></pre>
+<pre><code>## [1] 9886</code></pre>
 </section><section id="rstudio-is" class="slide level2 white">
 <h2>RStudio is …</h2>
 <p><a href="http://jules32.github.io/resources/RStudio_intro/">From Julie Lowndes</a>:</p>
@@ -101,13 +92,16 @@ pkgs &lt;-<span class="st"> </span>crandb::<span class="kw">list_packages</span>
 </section><section id="the-rstudio-ide-1" class="slide level2">
 <h2>The RStudio IDE</h2>
 <ol type="1">
-<li>Source editor: Docking station for multiple files, Useful shortcuts (“Knit”), Highlighting/Tab-completion, Code-checking (R, HTML, JS), Debugging features<br />
+<li><strong>Source editor:</strong> Docking station for multiple files, Useful shortcuts (“Knit”), Highlighting/Tab-completion, Code-checking (R, HTML, JS), Debugging features<br />
 </li>
-<li>Console window: Highlighting/Tab-completion, Search recent commands</li>
-<li>Environment pane: Tools for package development, git, etc</li>
-<li>Other tabs/panes: Graphics, R documentation, File system navigation/access</li>
+<li><strong>Console window:</strong> Highlighting/Tab-completion, Search recent commands</li>
+<li><strong>Environment pane:</strong> Tools for package development, git, etc</li>
+<li><strong>Other tabs/panes:</strong> Graphics, R documentation, File system navigation/access</li>
 </ol>
-<p><br> <br> <em>Protip:</em> save yourself the headaches figuring out file paths and instead work in an RStudio R project (popup menu at the top left)</p>
+<br> <br>
+<p class="note">
+<em>Protip:</em> save yourself the headaches figuring out file paths and instead work in an RStudio R project (popup menu at the top left)
+</p>
 </section><section id="markdown" class="slide level2">
 <h2>Markdown</h2>
 <ul>
@@ -117,7 +111,25 @@ pkgs &lt;-<span class="st"> </span>crandb::<span class="kw">list_packages</span>
 <li>LaTeX gives you much greater control, but it is restricted to pdf and has a much greater learning curve.</li>
 <li>Markdown is becoming a standard. Many websites will generate HTML from Markdown (e.g. GitHub, Stack Overflow, reddit, …).</li>
 </ul>
-<p>XXX link to markdown cheat sheet</p>
+</section><section id="markdown-is-easy" class="slide level2">
+<h2>Markdown is easy</h2>
+<pre><code>*italic*
+**bold**
+
+# Header 1
+## Header 2
+### Header 3
+
+- List item 1
+- List item 2
+    - item 2a
+    - item 2b
+
+1. Numbered list item 1
+1. Numbered list item 2
+    - item 2a
+    - item 2b</code></pre>
+<p>Have a look at RStudio’s <a href="https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">RMarkdown cheat sheet</a></p>
 </section><section id="what-is-rmarkdown" class="slide level2">
 <h2>What is RMarkdown?</h2>
 <ul>
@@ -134,9 +146,23 @@ pkgs &lt;-<span class="st"> </span>crandb::<span class="kw">list_packages</span>
 <li>Encourages transparency. Collaborators (including your future self) will thank you for integrating your analysis &amp; report.</li>
 <li>Enables interactivity/reactivity. Allow your audience to explore the analysis (rather than passively read it).</li>
 </ul>
-</section><section id="section" class="slide level2">
+</section><section id="section" class="slide level2 white">
 <h2></h2>
 <p><img class="cover" src="images/hello-rmarkdown.png" alt=""></p>
+</section><section id="section-1" class="slide level2 white">
+<h2></h2>
+<p><img class="cover" src="images/rmarkdown.png" alt=""></p>
+</section><section id="your-turn" class="slide level2 white">
+<h2>Your Turn</h2>
+<p><img class="cover" src="images/yourturn.jpg" alt=""></p>
+<ol type="1">
+<li><span style="color:white">Open RStudio, create a new project.</span></li>
+<li><span style="color:white">Create a new RMarkdown file and knit it.</span></li>
+<li><span style="color:white">Navigate to the RMarkdown cheat sheet and download a copy (Google for the link!)</span></li>
+<li><span style="color:white">Make changes to the markdown formatting and knit again.</span></li>
+<li><span style="color:white">Export output to different files.</span></li>
+<li><span style="color:white">If you feel adventurous, change some of the R code and knit again.</span></li>
+</ol>
 </section>
 
   <!--
