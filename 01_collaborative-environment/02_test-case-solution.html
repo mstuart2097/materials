@@ -80,7 +80,7 @@
 <section id="what-is-the-relationship-between-height-and-weight" class="slide level2">
 <h2>What is the relationship between height and weight?</h2>
 <p>Read the data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&quot;data/brfss_iowa.csv&quot;</span>) 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&quot;https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/data/brfss_iowa.csv&quot;</span>) 
 <span class="co"># the read_csv function from the readr package is faster than the standard read.csv</span>
 <span class="co"># but the output is a tibble (we&#39;ll come back to that)</span>
 iowa</code></pre></div>
@@ -137,7 +137,7 @@ iowa %&gt;%<span class="st"> </span>
 <h2></h2>
 <p>Now that picture comes a bit as a surprise! I would have thought that height and weight would show a somewhat positive correlation, but these clusters are strange.</p>
 <p>Have a look at the <a href="https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf">codebook</a>: HEIGHT3 and WEIGHT2 are the originally recorded variables.</p>
-<p><img src="images/codebook-height3.png" width=750></p>
+<p><img src="https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/images/codebook-height3.png" width=750></p>
 </section>
 <section id="next-steps" class="slide level2">
 <h2>Next steps</h2>
@@ -262,8 +262,10 @@ iowa &lt;-<span class="st"> </span><span class="kw">rbind</span>(metric, standar
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
 <ul>
-<li>this slide deck is rendered from an R Markdown document, located at <a href=""></a>.</li>
+<li>this slide deck is rendered from an R Markdown document, located at <a href="https://github.com/Stat585-at-ISU/materials/tree/master/01_collaborative-environment">a github repo</a>.</li>
 <li>code and text/documentation are interwoven: reproducible and self-documenting.</li>
+<li>extend or refine analyses by copying and modifying code blocks.</li>
+<li>disseminate your work by sharing the RMarkdown file</li>
 </ul>
 </section>
 

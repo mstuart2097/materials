@@ -1,12 +1,8 @@
 ---
 title: "Stat 585 - Working in teams: Sample solution for the test case"
 author: "Heike Hofmann"
-ratio: 16x10
 output:
-  rmdshower::shower_presentation:
-    self_contained: false
-    katex: true
-    theme: ribbon
+  word_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -32,7 +28,7 @@ We are asked to investigate the relationship between height and weight of Iowans
 Read the data: 
 
 ```{r message = FALSE}
-iowa <- readr::read_csv("data/brfss_iowa.csv") 
+iowa <- readr::read_csv("https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/data/brfss_iowa.csv") 
 # the read_csv function from the readr package is faster than the standard read.csv
 # but the output is a tibble (we'll come back to that)
 iowa
@@ -53,7 +49,7 @@ Now that picture comes a bit as a surprise! I would have thought that height and
 
 Have a look at the [codebook](https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf): HEIGHT3 and WEIGHT2 are the originally recorded variables.
 
-<img src="images/codebook-height3.png" width=750>
+<img src="https://github.com/Stat585-at-ISU/materials/raw/master/01_collaborative-environment/images/codebook-height3.png" width=750>
 
 ## Next steps
 
@@ -175,5 +171,7 @@ No. The official BRFSS data is missing any metric data in the variable `HTIN4`!
 
 ## Recap
 
-- this slide deck is rendered from an R Markdown document, located at []().
+- this slide deck is rendered from an R Markdown document, located at [a github repo](https://github.com/Stat585-at-ISU/materials/tree/master/01_collaborative-environment).
 - code and text/documentation are interwoven: reproducible and self-documenting.
+- extend or refine analyses by copying and modifying code blocks.
+- disseminate your work by sharing the RMarkdown file
