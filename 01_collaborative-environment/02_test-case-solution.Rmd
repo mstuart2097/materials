@@ -1,0 +1,179 @@
+---
+title: "Stat 585 - Working in teams: Sample solution for the test case"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## A test case
+
+The dataset `brfss_iowa.csv` (linked from website) contains 6227 records from the Behavioral Risk Factor Surveillance System (BRFSS) for Iowans.
+
+> The Behavioral Risk Factor Surveillance System (BRFSS) is the nation's premier system of health-related telephone surveys that collect state data about U.S. residents regarding their health-related risk behaviors.
+
+It is conducted annually by the Center for Disease Control and Prevention (CDC).
+
+Codebook with detailed explanations of variables is [available here](https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf).
+
+## Our turn
+
+We are asked to investigate the relationship between height and weight of Iowans based on the 2015 BRFSS records (see course website for data).
+(The variables `WEIGHT2` and `HEIGHT3` are collected during the interview)
+
+## What is the relationship between height and weight? 
+
+Read the data: 
+
+```{r message = FALSE}
+iowa <- readr::read_csv("data/brfss_iowa.csv") 
+# the read_csv function from the readr package is faster than the standard read.csv
+# but the output is a tibble (we'll come back to that)
+iowa
+```
+
+## Plot 
+
+Load the `ggplot2` package to plot weight versus height:
+```{r message = FALSE, fig.width=3.5, fig.height = 3.5, warning = FALSE}
+library(ggplot2)
+library(tidyverse)
+iowa %>% 
+  ggplot(aes(x = WEIGHT2, y = HEIGHT3)) + geom_point()
+```
+
+## 
+Now that picture comes a bit as a surprise! I would have thought that height and weight would show a somewhat positive correlation, but these clusters are strange.
+
+Have a look at the [codebook](https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf): HEIGHT3 and WEIGHT2 are the originally recorded variables.
+
+<img src="images/codebook-height3.png" width=750>
+
+## Next steps
+
+Obviously, we need to spend some time cleaning this variable (and the weight variable, too) before we can make use of them. 
+
+We have a couple of choices: 
+
+(1) We can buckle down and do that clean-up and then move on to the graphical summary. 
+(2) We can take another look at the variables and investigate what `HTIN4`, `HTM4`, and `WTKG3` are ... 
+
+## Route 2
+
+Let's take the second route first and draw a picture of height and weight in metric units:
+
+```{r message = FALSE, warning = FALSE, fig.width = 5.5, fig.height = 2.5}
+iowa %>% 
+  ggplot(aes(x = HTM4, y = WTKG3)) + geom_point(alpha = 0.2) + facet_grid(.~SEX) +
+  geom_smooth()
+```
+
+These charts look much better! We see a general increase in weight as height increases. The variability in weight is huge, though. On average, women (`SEX = 2`) are shorter and lighter.
+
+## Route 1
+
+This is a bit more work. Let's just take on height for now:
+
+```{r}
+# split the data into metric and standard:
+metric <- iowa %>% filter(HEIGHT3 >= 9000)
+standard <- iowa %>% filter(HEIGHT3 < 9000)
+
+# transform all metric values by subtracting 9000
+metric <- metric %>% mutate(
+  height = HEIGHT3 - 9000,
+  height = replace(height, height == 999, NA)
+)
+
+# extract feet and inch. calculate height from combining the two.
+# height is variable converted from inch to centimeter
+standard <- standard %>% mutate(
+  height = replace(HEIGHT3, HEIGHT3 == 7777, NA),
+  feet = height %/% 100,
+  inch = height %% 100,
+  height = feet *30.48 + 2.54*inch
+) %>% select (-feet, -inch)
+
+# get the data together again:
+iowa <- rbind(metric, standard)
+```
+
+##
+
+```{r}
+# now plot
+iowa %>% filter(!is.na(height)) %>%
+  ggplot(aes(x = height)) + geom_histogram(binwidth = 2.5) +
+  facet_grid(SEX~.)
+```
+
+We get similar findings - for height at least: women are on average shorter than men.
+
+## Route 1 (cont'd.)
+
+do the same thing for weight as we did for height before: 1 pound is 0.454 kg
+
+```{r}
+# split the data into metric and standard:
+metric <- iowa %>% filter(WEIGHT2 >= 9000)
+standard <- iowa %>% filter(WEIGHT2 < 9000)
+
+# transform all metric values by subtracting 9000
+metric <- metric %>% mutate(
+  weight = WEIGHT2 - 9000,
+  weight = replace(weight, weight == 999, NA)
+)
+
+# extract feet and inch. calculate height from combining the two.
+# height is variable converted from inch to centimeter
+standard <- standard %>% mutate(
+  weight = replace(WEIGHT2, WEIGHT2 == 7777, NA),
+  weight = weight*.454
+) 
+
+# get the data together again:
+iowa <- rbind(metric, standard)
+```
+
+## Route 1, result
+
+```{r warning = FALSE, fig.width=6.5, fig.height=3}
+iowa %>% ggplot(aes(x = height, y = weight)) + 
+  geom_point(alpha = 0.1) +
+  facet_grid(.~SEX) +
+  geom_smooth()
+```
+
+
+## Overview of the different height variables
+
+```{r}
+summary(iowa[,c("HEIGHT3", "HTIN4", "HTM4", "height")])
+```
+
+Why are there more missing values in `HTIN4`?
+
+##
+
+```{r}
+iowa %>% filter(is.na(HTIN4), !is.na(HTM4)) %>% select(HEIGHT3)
+```
+
+These seem to be metric values! Are any metric values  converted?
+
+```{r}
+summary(between(iowa$HEIGHT3, 9000, 9998))
+```
+
+No. The official BRFSS data is missing any metric data in the variable `HTIN4`!
+
+## Recap
+
+- this slide deck is rendered from an R Markdown document, located at []().
+- code and text/documentation are interwoven: reproducible and self-documenting.
