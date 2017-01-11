@@ -1,8 +1,7 @@
 ---
 title: "Stat 585 - Working in teams: Sample solution for the test case"
 author: "Heike Hofmann"
-output:
-  word_document
+output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
