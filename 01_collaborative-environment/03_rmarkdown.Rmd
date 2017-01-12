@@ -60,10 +60,10 @@ length(pkgs)
 ## Markdown
 
 - Markdown is a particular type of **markup** language.
-- Markup languages are designed to produce documents from plain text.
-- Some of you may be familiar with LaTeX. This is another (less human friendly) markup language for creating pdf documents.
+- Markup languages are designed to **produce documents from plain text**.
+- Some of you may be familiar with **LaTeX**. This is another (less human friendly) markup language for creating pdf documents.
 - LaTeX gives you much greater control, but it is restricted to pdf and has a much greater learning curve.
-- Markdown is becoming a standard. Many websites will generate HTML from Markdown (e.g. GitHub, Stack Overflow, reddit, ...).
+- **Markdown** is becoming a **standard**. Many websites will generate HTML from Markdown (e.g. GitHub, Stack Overflow, reddit, ...).
 
 ## Markdown is easy
 
@@ -95,6 +95,10 @@ Have a look at RStudio's [RMarkdown cheat sheet](https://www.rstudio.com/wp-cont
 - it combines the core syntax of markdown with embedded R code chunks that are run so their output can be included in the final document.
 - R Markdown documents are fully reproducible (they are automatically regenerated whenever underlying R code or data changes).
 
+## {.white}
+
+<img class="cover" src="images/rmarkdown.png" alt="">
+
 
 ## Why R Markdown?
 
@@ -108,9 +112,6 @@ Have a look at RStudio's [RMarkdown cheat sheet](https://www.rstudio.com/wp-cont
 
 <img class="cover" src="images/hello-rmarkdown.png" alt="">
 
-## {.white}
-
-<img class="cover" src="images/rmarkdown.png" alt="">
 
 
 ## Your Turn {.white}
