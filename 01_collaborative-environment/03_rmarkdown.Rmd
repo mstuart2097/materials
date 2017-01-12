@@ -114,7 +114,7 @@ Have a look at RStudio's [RMarkdown cheat sheet](https://www.rstudio.com/wp-cont
 
 
 
-## Your Turn {.white}
+## Your Turn (5 min) {.white}
 
 <img class="cover" src="images/yourturn.jpg" alt="">
 

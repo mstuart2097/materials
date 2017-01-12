@@ -25,9 +25,9 @@ http://xkcd.com/1597/
 
 ## What is git?
 
-- **Git** is a version control system that was created to help developers manage collaborative software projects. Git tracks the evolution of a set of files, called a **repository** or **repo**. 
+- **Git** is a *version control system* that was created to help developers manage collaborative software projects. Git tracks the evolution of a set of files, called a **repository** or **repo**. 
 - This helps us
-    - *merge* conflicts that arrise from collaboration
+    - *merge* conflicts that arise from collaboration
     - *rollback* to previous versions of files as necessary
     - store *master* versions of files, no more `paper_final_final_I_really_mean_it.docx`
 
@@ -38,6 +38,19 @@ http://xkcd.com/1597/
 
 <img src="images/github.png" width=400>
 
+## Your Turn (5 min) 
+
+<img src="images/stones-faded.png" class="cover">
+
+This Your Turn is just a prep to get ready for a bigger Your Turn later. 
+It'll take a couple of minutes of your time, but may need more time from github ... 
+
+
+Here goes: Do you have a github account? 
+
+- No? Create a _free_ account at https://github.com/
+- Yes? Then log into it. 
+    - Do you remember your login and password? If not, try out different emails and let github send you the info.
 
 ## Git Terminology
 
@@ -65,13 +78,7 @@ from [github glossary](https://help.github.com/articles/github-glossary/)
 
 
 
-## Your Turn 
 
-Do you have a github account? 
-
-- No? Create a _free_ account at https://github.com/
-- Yes? Then log into it. 
-    - Do you remember your login and password? If not, try out different emails and let github send you the info.
 
 
 ## Repositories
@@ -103,7 +110,7 @@ In this activity you are going to learn how to collaborate using Github.  With a
 Follow along with your instructor and perform these steps:
 
 1. Go to your Github profile. The url should be [http://github/your-user-name]().
-2. Create a new Github repository, click the green "new" button, under the repositories tab.
+2. Create a new Github repository, click <span style="background:limegreen; color:white">new</span> button, under the repositories tab.
 3. Name your repository `work-organization-your-name`
 4. In the details write "tips to organizing research".
 5. Click the initiate a `README.md file` option. 
@@ -129,7 +136,7 @@ Follow along with your instructor and perform these steps:
 
 - **Commit** takes a snap shot of your project. Each commit includes a commit message that concisely defines changes made or project state at the time of the commit. 
 
-1. Summarize the changes that you have made in 50 characters or less and click the <span style="background:darkgreen; color:white"> commit </span>    button. 
+1. Summarize the changes that you have made in 50 characters or less and click the <span style="background:limegreen; color:white"> commit </span>    button. 
 2. Check out the git history.  You should now see two commits.
 
 # Edit and collaborate with your partner
@@ -169,7 +176,7 @@ Now it is time to collaborate with your partner.  Navigate to your partner's rep
 - A **pull request** is the final step in the collaboration process, essentially asking if the edits made to your copy can be incorporated into another repository. 
 
 1.  Make sure you are in your copy of your partner's repository by looking at the url - your user name should preface the repository name.  
-2.  Click the  <span style="background:darkgreen; color:white">New Pull Request</span> button. You will get an overview of the changes you made to the repository. 
+2.  Click the  <span style="background:limegreen; color:white">New Pull Request</span> button. You will get an overview of the changes you made to the repository. 
 3.  Click the "Create a Pull Request" button to continue the pull request. Your partner will now get a notification of a pull request on their main repository, as will you if your partner made changes. 
 4.  Go ahead and accept this pull request. 
 
