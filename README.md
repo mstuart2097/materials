@@ -1,6 +1,3 @@
 # Materials for Stat 585
 
-Tentative outline for Spring 2017
-
-- Getting started
-- Collaborative working environment
+For the complete schedule see: https://stat585-at-isu.github.io/syllabus.html
