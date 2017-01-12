@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # git and github
 
-![](images/github-icon.png)
+
 
 ## Why git?
 
@@ -80,8 +80,7 @@ By default, all materials on GitHub are **public**. This is *good* because you a
 
 If you need **private** repos, checkout [GitHub for Education](https://education.github.com/) - free private repos for students/postdocs/professors.
 
-<center><img src="images/daftpunktocat-guy.gif" height="100px"/></center>
-
+![](images/github-icon.png)
 
 
 # Big 'Your turn' coming up!
@@ -118,19 +117,19 @@ Follow along with your instructor and perform these steps:
 
 ## Edit the `README.md` file (5 minutes)
 
-1.  Go to the `work-organization-your-name` repository main page. Click on `README.md`, then click "edit this file". Add the following information into the `readme.md` file:
+1.  Go to the `work-organization-your-name` repository main page. Click on `README.md`, then click "edit this file". Add the following information into the `README.md` file:
     -  Name?
-    -  What kind of scientist do you you tell people you are at dinner parties?
+    -  What kind of scientist do you tell people you are at dinner parties?
     -  In the past month, what are the three main activities you have been doing at work?
     -  What are the three most important tools/strategies you use for organizing your work?
 
-*tip*:  Notice that you can use markdown syntax. Use [this guide](https://help.github.com/articles/markdown-basics/) for Github's flavor of Markdown. Use the "Preview" button to view the formatting of your readme.md file. 
+<p class="note">*tip*:  Notice that you can use markdown syntax. Use [this guide](https://help.github.com/articles/markdown-basics/) for Github's flavor of Markdown. Use the "Preview" button to view the formatting of your readme.md file. </p>
 
 ## Commit
 
 - **Commit** takes a snap shot of your project. Each commit includes a commit message that concisely defines changes made or project state at the time of the commit. 
 
-1. Summarize the changes that you have made in 50 characters or less and click the green "commit button". 
+1. Summarize the changes that you have made in 50 characters or less and click the <span style="background:darkgreen; color:white"> commit </span>    button. 
 2. Check out the git history.  You should now see two commits.
 
 # Edit and collaborate with your partner
@@ -143,7 +142,7 @@ Now it is time to collaborate with your partner.  Navigate to your partner's rep
 2. Make edits and commit 
 3. Create a pull request that merges your changes into their repository. 
 
-*tip*: Depending on the project there are variations on the above work flow. Often the rules for contributing to a project are outlined in a file called `CONTRIBUTING.md` within the repository. One of the more often used works flows is [Github Flow](https://guides.github.com/introduction/flow/). 
+<p class="note">*tip*: Depending on the project there are variations on the above work flow. Often the rules for contributing to a project are outlined in a file called `CONTRIBUTING.md` within the repository. One of the more often used works flows is [Github Flow](https://guides.github.com/introduction/flow/). </p>
 
 ## Forking
 
@@ -170,9 +169,8 @@ Now it is time to collaborate with your partner.  Navigate to your partner's rep
 - A **pull request** is the final step in the collaboration process, essentially asking if the edits made to your copy can be incorporated into another repository. 
 
 1.  Make sure you are in your copy of your partner's repository by looking at the url - your user name should preface the repository name.  
-2.  Click the green "New Pull Request" button. You will get an overview of the changes you made to the repository. 
+2.  Click the  <span style="background:darkgreen; color:white">New Pull Request</span> button. You will get an overview of the changes you made to the repository. 
 3.  Click the "Create a Pull Request" button to continue the pull request. Your partner will now get a notification of a pull request on their main repository, as will you if your partner made changes. 
-
 4.  Go ahead and accept this pull request. 
 
 
