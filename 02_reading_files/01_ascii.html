@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Reading data from files</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_ascii_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_ascii_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_ascii_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_ascii_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Reading data from files</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="reading-data" class="titleslide slide level1"><h2 class="shout">Reading Data</h2></section><section id="printable-characters" class="slide level2 black">
+<h2>95 printable characters</h2>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/ASCII_full.svg/217px-ASCII_full.svg.png" class="cover"></p>
+</section><section id="ascii" class="slide level2">
+<h2>ASCII</h2>
+<ul>
+<li>short for American Standard Code for Information Interchange (1960, Bell Data)</li>
+<li>developed from telegraph code (such as Morse code)</li>
+<li>enables text representation on computers, screens and communication devices</li>
+<li>uses 7-bit binary integers</li>
+<li>encodes 128 specified characters, numbers 0-9, letters a-z, A-Z, some basic punctuation, and (some now obselete) control codes</li>
+</ul>
+</section><section id="ascii-reference-card" class="slide level2">
+<h2>ASCII reference card</h2>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/US-ASCII_code_chart.png" alt="ASCII image" width=650></p>
+</section><section id="ascii-1" class="slide level2">
+<h2>ASCII</h2>
+<ul>
+<li>printable characters: 100 0001=A, 100 0010=B, 110 0001=a, 110 0010=b, …</li>
+<li>first 32 chars are for control, e.g. 000 1000=BS=backspace, 111 1111=DEL=delete,</li>
+<li>horizontal tab (000 1001=HT ), line feed (000 1010=LF ) and carriage return (000 1101=CR ) are also control codes</li>
+<li>Advantage of ASCII: human readable, less prone to error/can be humanly checked</li>
+</ul>
+<p>[<a href="http://en.wikipedia.org/wiki/Ascii" class="uri">http://en.wikipedia.org/wiki/Ascii</a>]</p>
+</section><section id="ascii-and-r" class="slide level2">
+<h2>ASCII and R</h2>
+<ul>
+<li>base R supports reading ASCII files, e.g. <code>read.table(), read.csv(), read.delim()</code> reads data from ASCII files with specified delimiters</li>
+<li><code>write.table()</code> writes ASCII files</li>
+<li>the <code>readr</code> package provides similar functionality: <code>read_csv, read_tsv, read_delim</code></li>
+<li><code>readr</code> functions are faster than base R functions, if the whole file is being read at once</li>
+</ul>
+</section><section id="binary-file-formats" class="slide level2">
+<h2>Binary file formats</h2>
+<ul>
+<li>No restriction in terms on content, streams of bytes</li>
+<li>Advantage: Generally much smaller files, and with compression even smaller, e.g. <code>nasadata.csv</code> is 3.7Mb, <code>nasadata.rds</code> is 288kb</li>
+<li>Disadvantage: Can be machine-dependent</li>
+</ul>
+</section><section id="binary-files-and-r" class="slide level2">
+<h2>Binary files and R</h2>
+<ul>
+<li><code>saveRDS()</code> saves a single R object in binary format, use extension <code>.rds</code></li>
+<li><code>readRDS()</code> reads R binary file</li>
+<li><code>save()</code> saves all objects in a binary file (and keeps their names), use extension <code>.rda</code></li>
+<li><code>load()</code> retrieves these objects (using the same names)</li>
+</ul>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(d1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/nasadata.csv&quot;</span>))</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.570   0.014   0.612</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(d1)</code></pre></div>
+<pre><code>## [1] 41472    14</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1[<span class="dv">1</span>,]</code></pre></div>
+<pre><code>##   time y x   lat   long       date cloudhigh cloudlow cloudmid ozone
+## 1    1 1 1 -21.2 -113.8 1995-01-01       0.5       31        2   260
+##   pressure surftemp temperature  id
+## 1     1000    297.4       296.9 1-1</code></pre>
+</section><section id="example-1" class="slide level2">
+<h2>Example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(d2 &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../data/nasadata.rds&quot;</span>))</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.022   0.001   0.024</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(d2)</code></pre></div>
+<pre><code>## [1] 41472    16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d2[<span class="dv">1</span>,]</code></pre></div>
+<pre><code>##   time y x   lat   long       date cloudhigh cloudlow cloudmid ozone
+## 1    1 1 1 -21.2 -113.8 1995-01-01       0.5       31        2   260
+##   pressure surftemp temperature  id month year
+## 1     1000    297.4       296.9 1-1     1 1995</code></pre>
+</section><section id="awkward-text-formats-and-r" class="slide level2">
+<h2>Awkward text formats and R</h2>
+<p>The National Climate Data Center at NOAA publishes information on temperature and precipation across a network of stations in the US.</p>
+<p>The Data can be accessed through ftp at <a href="ftp://ftp.ncdc.noaa.gov/pub/data/ushcn/v2.5" class="uri">ftp://ftp.ncdc.noaa.gov/pub/data/ushcn/v2.5</a>, a code book with a description of the data structure is available at <a href="ftp://ftp.ncdc.noaa.gov/pub/data/ushcn/v2.5/readme.txt" class="uri">ftp://ftp.ncdc.noaa.gov/pub/data/ushcn/v2.5/readme.txt</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">temp.all&lt;-<span class="kw">readLines</span>(<span class="st">&quot;../data/USH00132999.raw.tmax&quot;</span>, <span class="dt">n =</span> <span class="dv">5</span>)
+temp.all</code></pre></div>
+<pre><code>## [1] &quot;USH00132999 1899 -9999    -9999    -9999    -9999    -9999    -9999    -9999    -9999    -9999    -9999    -9999      -62f  &quot;
+## [2] &quot;USH00132999 1900 -9999     -427b     482e    1854a    2468     2815     2879b    3151     2416a    2229      563      205   &quot;
+## [3] &quot;USH00132999 1901   222a    -191      646     1673     2337     2909     3624     3137     2444     1887      863     -160   &quot;
+## [4] &quot;USH00132999 1902    77     -262     1026a    1636     2434     2584h    2895a    2620     2231a   -9999    -9999    -9999   &quot;
+## [5] &quot;USH00132999 1903 -9999     -128b   -9999    -9999     2117d    2289b    2687f    2582     2266f    1834a     648       -7   &quot;</code></pre>
+</section><section id="from-the-code-book" class="slide level2">
+<h2>From the code book</h2>
+<pre><code>2.2.1 DATA FORMAT
+
+          Variable          Columns      Type
+          --------          -------      ----
+
+          ID                 1-11        Integer
+          YEAR              13-16        Integer
+          VALUE1            17-22        Integer
+          DMFLAG1           23-23        Character
+          QCFLAG1           24-24        Character
+          DSFLAG1           25-25        Character
+            .                 .             .
+            .                 .             .
+            .                 .             .
+          VALUE12          116-121       Integer
+          DMFLAG12         122-122       Character
+          QCFLAG12         123-123       Character
+          DSFLAG12         124-124       Character</code></pre>
+</section><section id="fixed-width-format" class="slide level2">
+<h2>Fixed width format</h2>
+<ul>
+<li>Fixed formats can be read with <code>read.fwf()</code> or <code>readr::read_fwf()</code></li>
+<li>Need to specify column positions: pretty painful to specify</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+temps &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(<span class="st">&quot;../data/USH00132999.raw.tmax&quot;</span>,
+  <span class="dt">col_positions =</span> <span class="kw">fwf_positions</span>(
+    <span class="dt">start=</span><span class="kw">c</span>( <span class="dv">1</span>,<span class="dv">13</span>, <span class="kw">rep</span>(<span class="dv">16+9</span>*<span class="dv">0</span>:<span class="dv">11</span>, <span class="dt">each=</span><span class="dv">4</span>) +<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)), 
+    <span class="dt">end  =</span><span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">16</span>, <span class="kw">rep</span>(<span class="dv">16+9</span>*<span class="dv">0</span>:<span class="dv">11</span>, <span class="dt">each=</span><span class="dv">4</span>) +<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>))))
+<span class="kw">names</span>(temps) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Station&quot;</span>, <span class="st">&quot;Year&quot;</span>, 
+  <span class="kw">paste0</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Value&quot;</span>,<span class="st">&quot;DMflag&quot;</span>, <span class="st">&quot;QCflag&quot;</span>, <span class="st">&quot;DSflag&quot;</span>), <span class="dv">12</span>), 
+         <span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">each=</span><span class="dv">4</span>)))</code></pre></div>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FortDodge &lt;-<span class="st"> </span>temps %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;Month&quot;</span>, <span class="dt">value=</span><span class="st">&quot;Temp_Max&quot;</span>, <span class="kw">starts_with</span>(<span class="st">&quot;Value&quot;</span>))
+FortDodge$Month &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;Value&quot;</span>, <span class="st">&quot;&quot;</span>, FortDodge$Month))
+FortDodge$Temp_Max &lt;-<span class="st"> </span><span class="kw">replace</span>(FortDodge$Temp_Max, 
+                              FortDodge$Temp_Max ==<span class="st"> </span>-<span class="dv">9999</span>, <span class="ot">NA</span>)
+
+FortDodge %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, Temp_Max/<span class="dv">100</span>)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~Month, <span class="dt">nrow=</span><span class="dv">2</span>) </code></pre></div>
+<p><img src="01_ascii_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section><section id="your-turn-10-min" class="slide level2">
+<h2>Your turn (10 min)</h2>
+<p>The file <code>ushcn-v2.5-stations.txt</code> contains information on all weather stations in the USHCN network. This file is also in fixed width format. <strong>Read the file into R and plot latitude versus longitude.</strong></p>
+<pre><code>    ----------------------------------------
+    Variable             Columns    Type
+    ----------------------------------------
+    COUNTRY CODE             1-2    Character
+    NETWORK CODE               3    Character
+    ID PLACEHOLDERS (&quot;00&quot;)   4-5    Character
+    COOP ID                 6-11    Character
+    LATITUDE               13-20    Real
+    LONGITUDE              22-30    Real
+    ELEVATION              33-37    Real
+    STATE                  39-40    Character
+    NAME                   42-71    Character
+    COMPONENT 1 (COOP ID)  73-78    Character
+    COMPONENT 2 (COOP ID)  80-85    Character
+    COMPONENT 3 (COOP ID)  87-92    Character
+    UTC OFFSET             94-95    Integer
+    -----------------------------------------</code></pre>
+</section><section id="html-files" class="slide level2">
+<h2>HTML FILES</h2>
+<ul>
+<li>A lot of data is available online in the form of html tables</li>
+<li>Extracting the data requires recognizing the html table format, and stripping off the html</li>
+<li>The package <code>xml</code> helps with this</li>
+</ul>
+</section><section id="html-files-1" class="slide level2">
+<h2>HTML FILES</h2>
+<p>Pulling election polls off the web…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
+url &lt;-<span class="st"> &quot;http://www.nytimes.com/elections/results/iowa&quot;</span>
+doc &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)
+tables &lt;-<span class="st"> </span><span class="kw">html_table</span>(doc, <span class="dt">fill=</span><span class="ot">TRUE</span>)
+<span class="kw">head</span>(tables[[<span class="dv">2</span>]])</code></pre></div>
+<pre><code>##   Vote by county  Trump Clinton
+## 1           Polk 93,421 119,671
+## 2           Linn 48,183  58,481
+## 3          Scott 39,083  40,302
+## 4        Johnson 20,993  49,942
+## 5     Black Hawk 27,382  32,006
+## 6        Dubuque 23,384  22,774</code></pre>
+</section><section id="other-binary-formats-and-r" class="slide level2">
+<h2>Other binary formats and R</h2>
+<ul>
+<li>Packages <code>foreign</code> or <code>haven</code>: Data export/import for other (statistical) software: Stata, Epi, Octave, SPSS, Systat, SAS</li>
+<li>Package <code>readxl</code> import/export with Excel spreadsheets e.g. web index data at <a href="http://www.visualizing.org/datasets/web-index-2013" class="uri">http://www.visualizing.org/datasets/web-index-2013</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreign)
+knights &lt;-<span class="st"> </span><span class="kw">read.spss</span>(<span class="st">&quot;../data/knightfoundation2008sotcdata.por&quot;</span>)
+<span class="kw">str</span>(knights)</code></pre></div>
+</section><section id="json" class="slide level2">
+<h2>JSON</h2>
+<ul>
+<li>JSON is short for JavaScript Object Notation (<a href="http://json.org/" class="uri">http://json.org/</a>)</li>
+<li>it is a lightweight data interchange format, becoming popular</li>
+<li>Human readable and writable</li>
+<li>Utilized by many web APIs, e.g. tumblr, twitter, …</li>
+<li>… and also the Census Bureau!</li>
+</ul>
+<p>e.g. result from get query in JSON format:</p>
+<pre><code>[[&quot;P0010001&quot;,&quot;NAME&quot;,&quot;state&quot;],
+ [&quot;710231&quot;,&quot;Alaska&quot;,&quot;02&quot;],
+ [&quot;4779736&quot;,&quot;Alabama&quot;,&quot;01&quot;],
+ [&quot;2915918&quot;,&quot;Arkansas&quot;,&quot;05&quot;],
+ [&quot;6392017&quot;,&quot;Arizona&quot;,&quot;04&quot;],
+ [&quot;37253956&quot;,&quot;California&quot;,&quot;06&quot;]]</code></pre>
+<p>i.e. vector of vector format - focus is on individual rows in a data set, whereas R puts emphasis on individual columns (data set is list of vectors).</p>
+</section><section id="example-census-bureau-api" class="slide level2">
+<h2>Example: Census Bureau API</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
+if (!<span class="kw">require</span>(cbapi)) {
+  <span class="kw">install_github</span>(<span class="st">&quot;heike/cbapi&quot;</span>) <span class="co"># run this the first time </span>
+  <span class="kw">library</span>(cbapi)
+}</code></pre></div>
+<pre><code>## Warning: package &#39;XML&#39; was built under R version 3.3.2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setkey</span>(<span class="st">&quot;7f784587c3918611ad6ca67188d9b269b3558dd4&quot;</span>) <span class="co"># my key - if you want to use this, get your own :)</span></code></pre></div>
+<pre><code>## key is saved, now you will be able to access data through the API.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># population based on 2010 Census:</span>
+popstate &lt;-<span class="st"> </span><span class="kw">read.census</span>(<span class="kw">sprintf</span>(<span class="st">&quot;http://api.census.gov/data/2010/sf1?key=%s&amp;get=P0010001,NAME&amp;for=state:*&quot;</span>, <span class="kw">getkey</span>()))
+<span class="kw">head</span>(popstate)</code></pre></div>
+<pre><code>##   P0010001       NAME state
+## 1  4779736    Alabama    01
+## 2   710231     Alaska    02
+## 3  6392017    Arizona    04
+## 4  2915918   Arkansas    05
+## 5 37253956 California    06
+## 6  5029196   Colorado    08</code></pre>
+</section><section id="why-do-we-need-to-access-all-these-formats" class="slide level2">
+<h2>Why do we need to access all these formats?</h2>
+<ul>
+<li>To solve a problem, may need to collate data from multiple sources</li>
+<li>Rearranging and merging data from different sources helps to pull together the data necessary to solve the problem</li>
+</ul>
+</section><section id="reading-and-blog" class="slide level2">
+<h2>Reading and blog</h2>
+<p>Watch the talk Prof Donald Knuth gave at the useR!2016. Based on that, answer the following questions:</p>
+<ul>
+<li>What role does literate programming play in your life so far?</li>
+<li>Where do you see potential in applying literate programming in your workflow?</li>
+</ul>
+<p>Make a blog entry by 10 pm Tuesday, Jan 24.</p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_ascii_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

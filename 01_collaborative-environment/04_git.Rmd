@@ -185,6 +185,15 @@ Now it is time to collaborate with your partner.  Navigate to your partner's rep
 
 Now that you have accepted the pull request.  Take a few minutes to explore the git history using the Graphs section of the repository. 
 
+## Commit statements
+
+Make sure to write commit statements. They will help you later!
+
+http://starlogs.net/#heike/rwrks
+
+http://starlogs.net/#Stat585-at-ISU/Stat585-at-ISU.github.io
+
+
 # We're done!
 
 ## Looking ahead ... 
@@ -200,3 +209,4 @@ In this class we will use git & github for
 - Jenny Bryant's: Happy Git with R http://happygitwithr.com/
 - Data Carpentry's tutorials: https://github.com/datacarpentry
 - Reproducible Science Curriculum intitative: https://github.com/Reproducible-Science-Curriculum
+
