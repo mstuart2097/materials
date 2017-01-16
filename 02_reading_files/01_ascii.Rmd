@@ -247,3 +247,12 @@ Watch the talk Prof Donald Knuth gave at the useR!2016. Based on that, answer th
 - Where do you see potential in applying literate programming in your workflow?
 
 Make a blog entry by 10 pm Tuesday, Jan 24.
+
+## Accessing the blog
+
+1. Navigate to the repo https://github.com/Stat585-at-ISU/blog
+2. Fork this repo.
+2. In the folder `01` is the file LastnameFirstname.Rmd
+3. **Copy** the file LastnameFirstname.Rmd (Do NOT change the original file).
+4. Rename the copy with your last and first name.
+5. Follow the instructions within the file. 
