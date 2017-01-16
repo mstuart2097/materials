@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Reading data from files</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="02_ascii-solution_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="02_ascii-solution_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="02_ascii-solution_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="02_ascii-solution_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Reading data from files</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="your-turn---solution" class="slide level2">
+<h2>Your turn - Solution</h2>
+<p>The file <code>ushcn-v2.5-stations.txt</code> contains information on all weather stations in the USHCN network. This file is also in fixed width format. <strong>Read the file into R and plot latitude versus longitude.</strong></p>
+<pre><code>    ----------------------------------------
+    Variable             Columns    Type
+    ----------------------------------------
+    COUNTRY CODE             1-2    Character
+    NETWORK CODE               3    Character
+    ID PLACEHOLDERS (&quot;00&quot;)   4-5    Character
+    COOP ID                 6-11    Character
+    LATITUDE               13-20    Real
+    LONGITUDE              22-30    Real
+    ELEVATION              33-37    Real
+    STATE                  39-40    Character
+    NAME                   42-71    Character
+    COMPONENT 1 (COOP ID)  73-78    Character
+    COMPONENT 2 (COOP ID)  80-85    Character
+    COMPONENT 3 (COOP ID)  87-92    Character
+    UTC OFFSET             94-95    Integer
+    -----------------------------------------</code></pre>
+</section>
+<section id="first-look-at-the-data" class="slide level2">
+<h2>First look at the data</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stations&lt;-<span class="kw">readLines</span>(<span class="st">&quot;https://raw.githubusercontent.com/Stat585-at-ISU/materials/master/data/ushcn-v2.5-stations.txt&quot;</span>, <span class="dt">n =</span> <span class="dv">5</span>)
+stations</code></pre></div>
+<pre><code>## [1] &quot;USH00011084  31.0581  -87.0547   25.9 AL BREWTON 3 SSE                  ------ ------ ------ +6&quot;
+## [2] &quot;USH00012813  30.5467  -87.8808    7.0 AL FAIRHOPE 2 NE                  ------ ------ ------ +6&quot;
+## [3] &quot;USH00013160  32.8347  -88.1342   38.1 AL GAINESVILLE LOCK               011694 ------ ------ +6&quot;
+## [4] &quot;USH00013511  32.7017  -87.5808   67.1 AL GREENSBORO                     ------ ------ ------ +6&quot;
+## [5] &quot;USH00013816  31.8700  -86.2542  132.0 AL HIGHLAND HOME                  ------ ------ ------ +6&quot;</code></pre>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+stations &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(<span class="st">&quot;https://raw.githubusercontent.com/Stat585-at-ISU/materials/master/data/ushcn-v2.5-stations.txt&quot;</span>,
+  <span class="dt">col_positions =</span> <span class="kw">fwf_positions</span>(
+    <span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">13</span>,<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">39</span>,<span class="dv">42</span>,<span class="dv">73</span>,<span class="dv">80</span>,<span class="dv">87</span>,<span class="dv">94</span>), 
+    <span class="dt">end  =</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">37</span>,<span class="dv">40</span>,<span class="dv">71</span>,<span class="dv">78</span>,<span class="dv">85</span>,<span class="dv">92</span>,<span class="dv">95</span>)))
+<span class="co"># check that the formats are correct</span>
+stations %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>## Observations: 1,218
+## Variables: 13
+## $ X1  &lt;chr&gt; &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;...
+## $ X2  &lt;chr&gt; &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;, &quot;H&quot;...
+## $ X3  &lt;chr&gt; &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;, &quot;00&quot;...
+## $ X4  &lt;chr&gt; &quot;011084&quot;, &quot;012813&quot;, &quot;013160&quot;, &quot;013511&quot;, &quot;013816&quot;, &quot;015749&quot;...
+## $ X5  &lt;dbl&gt; 31.0581, 30.5467, 32.8347, 32.7017, 31.8700, 34.7442, 34.1...
+## $ X6  &lt;dbl&gt; -87.0547, -87.8808, -88.1342, -87.5808, -86.2542, -87.5997...
+## $ X7  &lt;chr&gt; &quot;25.9&quot;, &quot;7.0&quot;, &quot;38.1&quot;, &quot;67.1&quot;, &quot;132.0&quot;, &quot;164.6&quot;, &quot;243.8&quot;, ...
+## $ X8  &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;...
+## $ X9  &lt;chr&gt; &quot;BREWTON 3 SSE&quot;, &quot;FAIRHOPE 2 NE&quot;, &quot;GAINESVILLE LOCK&quot;, &quot;GRE...
+## $ X10 &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;011694&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;...
+## $ X11 &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;...
+## $ X12 &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;...
+## $ X13 &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7...</code></pre>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p>We need to get the names in, Elevation needs to be converted to double</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(stations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Country code&quot;</span>, <span class="st">&quot;Network code&quot;</span>, <span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Coop ID&quot;</span>,
+                     <span class="st">&quot;Latitude&quot;</span>, <span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Elevation&quot;</span>, <span class="st">&quot;State&quot;</span>,
+                     <span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Comp1&quot;</span>, <span class="st">&quot;Comp2&quot;</span>, <span class="st">&quot;Comp3&quot;</span>, <span class="st">&quot;UTC offset&quot;</span>)
+stations$Elevation[<span class="kw">is.na</span>(<span class="kw">as.numeric</span>(stations$Elevation))]</code></pre></div>
+<pre><code>## character(0)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stations$Elevation &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(stations$Elevation)</code></pre></div>
+<p>Which Iowa stations do we have?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stations[stations$State ==<span class="st"> &quot;IA&quot;</span>,]$Name</code></pre></div>
+<pre><code>##  [1] &quot;ALBIA 3 NNE&quot;       &quot;ALGONA 3 W&quot;        &quot;BELLE PLAINE&quot;     
+##  [4] &quot;CHARLES CITY&quot;      &quot;CLARINDA&quot;          &quot;CLINTON #1&quot;       
+##  [7] &quot;ESTHERVILLE 2 N&quot;   &quot;FAIRFIELD&quot;         &quot;FAYETTE&quot;          
+## [10] &quot;FOREST CITY 2 NNE&quot; &quot;FORT DODGE 5NNW&quot;   &quot;INDIANOLA 2W&quot;     
+## [13] &quot;IOWA FALLS&quot;        &quot;LE MARS&quot;           &quot;LOGAN&quot;            
+## [16] &quot;MT AYR&quot;            &quot;MT PLEASANT 1 SSW&quot; &quot;NEW HAMPTON&quot;      
+## [19] &quot;ROCK RAPIDS&quot;       &quot;ROCKWELL CITY&quot;     &quot;STORM LAKE 2 E&quot;   
+## [22] &quot;TOLEDO 3N&quot;         &quot;WASHINGTON&quot;</code></pre>
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<p>Now we plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">us &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)
+stations %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Longitude, <span class="dt">y =</span> Latitude)) +
+<span class="st">  </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), <span class="dt">data =</span> us) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="02_ascii-solution_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="02_ascii-solution_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
