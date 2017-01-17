@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - developed from telegraph code (such as Morse code)
 - enables text representation on computers, screens and  communication devices
 - uses 7-bit binary integers
-- encodes 128 specified characters, numbers 0-9, letters a-z, A-Z, some basic punctuation, and (some now obselete) control codes
+- encodes 128 specified characters, numbers 0-9, letters a-z, A-Z, some basic punctuation, and (some now obsolete) control codes
 
 ## ASCII reference card
 

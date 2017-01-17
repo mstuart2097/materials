@@ -29,7 +29,7 @@ Steps:
 4. Run the commands in `build.r`.
 5. The book will be available in `book/advanced-r.pdf`.
 
-Deliverables: none
+Deliverables: what is the last word on page 21?
 
 # Weather stations
 
