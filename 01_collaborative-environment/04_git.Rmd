@@ -139,6 +139,15 @@ Follow along with your instructor and perform these steps:
 1. Summarize the changes that you have made in 50 characters or less and click the <span style="background:limegreen; color:white"> commit </span>    button. 
 2. Check out the git history.  You should now see two commits.
 
+## Commit statements
+
+Get into the habit of writing commit statements. They will help you later!
+
+http://starlogs.net/#heike/rwrks
+
+http://starlogs.net/#Stat585-at-ISU/Stat585-at-ISU.github.io
+
+
 # Edit and collaborate with your partner
 
 ## Collaborate 
@@ -184,14 +193,6 @@ Now it is time to collaborate with your partner.  Navigate to your partner's rep
 ## Explore Github Features
 
 Now that you have accepted the pull request.  Take a few minutes to explore the git history using the Graphs section of the repository. 
-
-## Commit statements
-
-Make sure to write commit statements. They will help you later!
-
-http://starlogs.net/#heike/rwrks
-
-http://starlogs.net/#Stat585-at-ISU/Stat585-at-ISU.github.io
 
 
 # We're done!
