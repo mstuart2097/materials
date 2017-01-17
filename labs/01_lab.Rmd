@@ -1,0 +1,44 @@
+---
+title: 'Lab Assignment #1'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab #1
+
+# Building a book
+
+## Building a book
+
+The goal of this first part of the lab is to build the pdf for the book `Advanced R Programming` from Hadley Wickham's repository.
+
+Steps:
+
+1. Clone the repository `https://github.com/hadley/adv-r`.
+2. Open the R project in the repository in RStudio.
+3. Navigate to the file `build.r` in the folder `book`.
+4. Run the commands in `build.r`.
+5. The book will be available in `book/advanced-r.pdf`.
+
+Deliverables: none
+
+# Weather stations
+
+## US weather stations
+
+1. Download a copy of the monthly max temperature recordings from the USHCN website at https://www1.ncdc.noaa.gov/pub/data/ushcn/v2.5/
+2. Unzip the archive and place the folder in your working directory.
+3. Write a function `tmax(stationid)` that reads the data for a given weather station and returns the (cleaned) dataset for the weather records of this station. 
+4. Try out your routine at a weather station of your choice. 
+5. Visualize the temperature records over time. Describe your plot.
+
+Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to hofmann@iastate.edu. 
