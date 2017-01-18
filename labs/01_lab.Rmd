@@ -41,4 +41,4 @@ Deliverables: what is the last word on page 21?
 4. Try out your routine at a weather station of your choice. 
 5. Visualize the temperature records over time. Describe your plot.
 
-Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to hofmann@iastate.edu. 
+Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard. 
