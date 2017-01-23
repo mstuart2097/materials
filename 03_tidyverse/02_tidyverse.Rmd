@@ -1,0 +1,55 @@
+---
+title: "Stat 585 - numeric summaries with dplyr and tidyr"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Numeric summaries 
+
+## NY Times: 2016 is another record year
+On Jan 18 2017 the NY Times published the article [How 2016 Became Earth’s Hottest Year on Record](https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html). Part of the article was the image shown below:
+
+<img src="https://static01.nyt.com/newsgraphics/2016/12/08/hottest-year/69e769dba65f6bd4266644d66915cb40cde65cb9/scatter-Artboard_1.png" width=650>
+
+Can we re-create this chart and the analysis?
+
+##
+
+```{r}
+temps <- readRDS("../data/temps.rds") 
+```
+
+NY Times model: take monthly means for years 1951 to 1980
+
+```{r message = FALSE}
+require(tidyverse)
+nyt_model <- temps %>% filter(between(Year, 1951, 1980)) %>% 
+  group_by(Month) %>%
+  summarise(Est = mean(Temp, na.rm = TRUE))
+```
+
+## NY Times model
+
+```{r}
+nyt_model %>% ggplot(aes(x = Month, y = Est/100)) + geom_point()
+```
+
+It would be nice to also have an idea of the variability in each month.
+
+
+## Compute Residuals 
+
+```{r message=FALSE, cache=TRUE}
+us_avgs <- temps %>% 
+  group_by(Year, Month) %>%
+  summarise(Avgs = mean(Temp, na.rm = TRUE))
+us_avgs <- left_join(us_avgs, nyt_model)
+us_avgs %>% ggplot(aes(x = Year+Month/100, y=Avgs-Est)) + geom_point()
+```
