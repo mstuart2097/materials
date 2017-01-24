@@ -246,7 +246,7 @@ Watch the talk Prof Donald Knuth gave at the useR!2016. Based on that, answer th
 - What role does literate programming play in your life so far?
 - Where do you see potential in applying literate programming in your workflow?
 
-Make a blog entry by 10 pm Tuesday, Jan 24.
+Make a blog entry by 10 pm <s>Tuesday, Jan 24</s> Wednesday, Jan 25.
 
 ## Accessing the blog
 
