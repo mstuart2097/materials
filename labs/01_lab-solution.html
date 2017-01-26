@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab Assignment #1 - Sample Solution</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_lab-solution_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_lab-solution_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_lab-solution_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_lab-solution_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Lab Assignment #1 - Sample Solution</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="lab-1---sample-solution" class="titleslide slide level1"><h2 class="shout">Lab #1 - Sample Solution</h2></section></section>
+<section id="building-a-book" class="titleslide slide level1"><h2 class="shout">Building a book</h2></section><section id="building-a-book---problems-that-came-up" class="slide level2">
+<h2>Building a book - Problems that came up</h2>
+<ul>
+<li><code>xelatex</code> not installed or path not set</li>
+<li>particularly on Windows machines: system commands not working from R</li>
+<li>workaround: some people got the commands to work from the terminal window</li>
+<li>Inconsolata font not installed</li>
+</ul>
+</section>
+<section id="weather-stations" class="titleslide slide level1"><h2 class="shout">Weather stations</h2></section><section id="us-weather-stations---problems-that-came-up" class="slide level2">
+<h2>US weather stations - Problems that came up</h2>
+<ul>
+<li>Downloaded file is a zipped archive (<code>.tar.gz</code>) - how do we get to the files?</li>
+<li>workaround: on Windows you need to have 7-Zip installed</li>
+<li>alternative: use <code>untar</code> in R</li>
+</ul>
+</section><section id="us-weather-stations" class="slide level2">
+<h2>US weather stations</h2>
+<ol type="1">
+<li>Download a copy of the monthly max temperature recordings from the USHCN website at <a href="https://www1.ncdc.noaa.gov/pub/data/ushcn/v2.5/" class="uri">https://www1.ncdc.noaa.gov/pub/data/ushcn/v2.5/</a></li>
+<li>Unzip the archive and place the folder in your working directory.</li>
+</ol>
+<p><em>I am assuming that the downloaded tar.gz file is placed in a data folder one level above this file. Then we use <code>untar</code> to create a folder (which we rename to <code>ushcn</code> afterwards) in the data folder that contains all of the extracted files. Note that in the code chunk <code>cache</code> is set to <code>TRUE</code>. That means that as long we don’t change the code, it will not be executed again.</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">untar</span>(<span class="st">&quot;../data/ushcn.tavg.latest.raw.tar.gz&quot;</span>)
+<span class="kw">system</span>(<span class="st">&quot;mv ../data/ushcn.v2.5.5.* ../data/ushcn&quot;</span>)</code></pre></div>
+</section><section id="the-function" class="slide level2">
+<h2>The function</h2>
+<ul>
+<li><em>For this function, we wrap the code from the slides on reading files into a function.</em></li>
+<li><em>Despite what the instructions say, I am using average temperature values and therefore call my function <code>tavg</code>.</em></li>
+<li><em>For the weather station I am using a default value (Fort Dodge) - that way the function works even if the user doesn’t know any weather stations. What would be a convenient solution for the user?</em></li>
+<li><em>It would be good to check whether the file actually exists before trying to read it. We will talk about error handling more at a later point.</em></li>
+</ul>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tavg &lt;-<span class="st"> </span>function(<span class="dt">station=</span><span class="st">&quot;H00132999&quot;</span>) {
+  <span class="kw">require</span>(tidyverse)
+  <span class="co"># get the right file name</span>
+  filename &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;../data/ushcn/US&quot;</span>,station,<span class="st">&quot;.raw.tavg&quot;</span>)
+  <span class="co"># read the file from fixed width format</span>
+  temps &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(filename,
+    <span class="dt">col_positions =</span> <span class="kw">fwf_positions</span>(
+      <span class="dt">start=</span><span class="kw">c</span>( <span class="dv">1</span>,<span class="dv">13</span>, <span class="kw">rep</span>(<span class="dv">16+9</span>*<span class="dv">0</span>:<span class="dv">11</span>, <span class="dt">each=</span><span class="dv">4</span>) +<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)), 
+      <span class="dt">end  =</span><span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">16</span>, <span class="kw">rep</span>(<span class="dv">16+9</span>*<span class="dv">0</span>:<span class="dv">11</span>, <span class="dt">each=</span><span class="dv">4</span>) +<span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>))))
+  <span class="co"># name the variables</span>
+  <span class="kw">names</span>(temps) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Station&quot;</span>, <span class="st">&quot;Year&quot;</span>, 
+    <span class="kw">paste0</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Value&quot;</span>,<span class="st">&quot;DMflag&quot;</span>, <span class="st">&quot;QCflag&quot;</span>, <span class="st">&quot;DSflag&quot;</span>), <span class="dv">12</span>), 
+           <span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">each=</span><span class="dv">4</span>)))
+  <span class="co"># get all the ValueXX variables into a variable called Temp</span>
+  <span class="co"># and make a Month variable from the column names</span>
+  temps &lt;-<span class="st"> </span>temps %&gt;%<span class="st"> </span><span class="kw">gather</span>(<span class="dt">key=</span>Month, <span class="dt">value =</span> Temp, <span class="kw">starts_with</span>(<span class="st">&quot;Value&quot;</span>)) %&gt;%
+<span class="st">    </span><span class="kw">select</span>(Station, Year, Month, Temp) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(
+      <span class="dt">Temp =</span> <span class="kw">replace</span>(Temp, Temp ==<span class="st"> </span>-<span class="dv">9999</span>, <span class="ot">NA</span>), <span class="co"># -9999 are missing values</span>
+      <span class="dt">Month =</span> <span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot;Value&quot;</span>, <span class="st">&quot;&quot;</span>, Month)) <span class="co"># Months are now just numbers from 1 to 12</span>
+    )
+  
+  temps <span class="co"># return the long and skinny data</span>
+}</code></pre></div>
+</section><section id="try-the-function-out" class="slide level2">
+<h2>Try the function out</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">storm &lt;-<span class="st"> </span><span class="kw">tavg</span>(<span class="st">&quot;H00137979&quot;</span>) <span class="co"># weather station in Storm Lake, IA</span>
+<span class="kw">head</span>(storm)</code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##       Station  Year Month  Temp
+##         &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+## 1 USH00137979  1891     1    NA
+## 2 USH00137979  1892     1  -994
+## 3 USH00137979  1893     1 -1154
+## 4 USH00137979  1898     1    NA
+## 5 USH00137979  1899     1  -720
+## 6 USH00137979  1900     1  -432</code></pre>
+</section><section id="visualize-the-data" class="slide level2">
+<h2>Visualize the data</h2>
+<p><em>There’s lots of ways to visualize the data - the time series is really long, so we need to pick the aspect ratio carefully to get an idea of the seasonal trends.</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+storm %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year+Month/<span class="dv">12</span>, <span class="dt">y =</span> Temp/<span class="dv">100</span>)) +<span class="st"> </span><span class="kw">geom_line</span>()</code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_path).</code></pre>
+<p><img src="01_lab-solution_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" /></p>
+</section><section id="extracting-data-for-all-weather-stations" class="slide level2">
+<h2>Extracting data for all weather stations</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stations &lt;-<span class="st"> </span><span class="kw">library</span>(tidyverse)
+stations &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(<span class="st">&quot;https://raw.githubusercontent.com/Stat585-at-ISU/materials/master/data/ushcn-v2.5-stations.txt&quot;</span>,
+  <span class="dt">col_positions =</span> <span class="kw">fwf_positions</span>(
+    <span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">13</span>,<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">39</span>,<span class="dv">42</span>,<span class="dv">73</span>,<span class="dv">80</span>,<span class="dv">87</span>,<span class="dv">94</span>), 
+    <span class="dt">end  =</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">11</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">37</span>,<span class="dv">40</span>,<span class="dv">71</span>,<span class="dv">78</span>,<span class="dv">85</span>,<span class="dv">92</span>,<span class="dv">95</span>)))</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   X1 = col_character(),
+##   X2 = col_character(),
+##   X3 = col_double(),
+##   X4 = col_double(),
+##   X5 = col_character(),
+##   X6 = col_character(),
+##   X7 = col_character(),
+##   X8 = col_character(),
+##   X9 = col_character(),
+##   X10 = col_character(),
+##   X11 = col_integer()
+## )</code></pre>
+</section><section id="section-1" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(stations) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Country code&quot;</span>, <span class="st">&quot;Station ID&quot;</span>,
+                     <span class="st">&quot;Latitude&quot;</span>, <span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Elevation&quot;</span>, <span class="st">&quot;State&quot;</span>,
+                     <span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Comp1&quot;</span>, <span class="st">&quot;Comp2&quot;</span>, <span class="st">&quot;Comp3&quot;</span>, <span class="st">&quot;UTC offset&quot;</span>)
+stations$Elevation &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(stations$Elevation)
+<span class="co"># check that the formats are correct</span>
+stations %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>## Observations: 1,218
+## Variables: 11
+## $ Country code &lt;chr&gt; &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;US&quot;, &quot;...
+## $ Station ID   &lt;chr&gt; &quot;H00011084&quot;, &quot;H00012813&quot;, &quot;H00013160&quot;, &quot;H00013511...
+## $ Latitude     &lt;dbl&gt; 31.0581, 30.5467, 32.8347, 32.7017, 31.8700, 34.7...
+## $ Longitude    &lt;dbl&gt; -87.0547, -87.8808, -88.1342, -87.5808, -86.2542,...
+## $ Elevation    &lt;dbl&gt; 25.9, 7.0, 38.1, 67.1, 132.0, 164.6, 243.8, 187.5...
+## $ State        &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;...
+## $ Name         &lt;chr&gt; &quot;BREWTON 3 SSE&quot;, &quot;FAIRHOPE 2 NE&quot;, &quot;GAINESVILLE LO...
+## $ Comp1        &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;011694&quot;, &quot;------&quot;, &quot;------&quot;,...
+## $ Comp2        &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;,...
+## $ Comp3        &lt;chr&gt; &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;, &quot;------&quot;,...
+## $ UTC offset   &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7...</code></pre>
+</section><section id="section-2" class="slide level2">
+<h2></h2>
+<p>The next command takes a moment (or five minutes), so we’ll turn on caching again. The result is one big dataset of all monthly temperatures in the US between 1880 and now</p>
+<p>We save it in a binary file and push it to the repo:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alldata &lt;-<span class="st"> </span>stations$<span class="st">`</span><span class="dt">Station ID</span><span class="st">`</span> %&gt;%<span class="st"> </span>purrr::<span class="kw">map_df</span>(tavg)
+alldata &lt;-<span class="st"> </span><span class="kw">na.omit</span>(alldata)
+<span class="kw">dim</span>(alldata)</code></pre></div>
+<pre><code>## [1] 1622006       4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">saveRDS</span>(alldata, <span class="st">&quot;../data/temps.rds&quot;</span>)</code></pre></div>
+</section><section id="us-weather-stations---main-problem" class="slide level2">
+<h2>US weather stations - main problem</h2>
+<p>File paths: local (or relative) and global (or absolute) file references</p>
+<ul>
+<li>What is the difference and why do we need to know?</li>
+</ul>
+</section><section id="file-structure-is-a-tree" class="slide level2">
+<h2>File structure is a tree</h2>
+<p><img src="http://art.wallyzone.com/dm60a/tutorials/paths_files/pathstree_510x330.gif" /></p>
+<ul>
+<li>a file is in a folder</li>
+<li>a folder consists of files and folders</li>
+</ul>
+</section><section id="file-structure-notation" class="slide level2">
+<h2>File structure notation</h2>
+<ul>
+<li><code>/</code> root directory, i.e. root of the tree at the top</li>
+<li><code>~</code> short cut for user’s home directory, usually something like <code>/Users/heike</code></li>
+<li><code>.</code> current directory</li>
+<li><code>..</code> parent directory of the current directory</li>
+</ul>
+</section><section id="global-and-local-paths" class="slide level2">
+<h2>Global and local paths</h2>
+<p>Global file references start at the root and then navigate to the location, e.g. <code>/www.server.com/dayclass/SmithMary/index.html</code>, <code>C:\\System\User\Myname\Files</code>, <code>~/Desktop/Downloads</code></p>
+<p>Relative file references start from the current directory and navigate from there to the location, e.g.: <code>index.html</code> is a file in the current directory (same as <code>./index.html</code>) <code>../SmithMary/index.html</code> starts goes to the parent directory, then into folder<code>SmithMary</code>, i.e. starts from inside folder <code>SkyJohn</code>.</p>
+</section><section id="which-paths-should-we-use" class="slide level2">
+<h2>Which paths should we use?</h2>
+<p>In RMarkdown files or your own websites:</p>
+<ul>
+<li>use local file paths whenever possible (faster and we can move or rename the parent folder)</li>
+<li>global file paths: for reference material and only if the file path exists openly (i.e. <em>never</em> use absolute references to files on your local machine/environment)</li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_lab-solution_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

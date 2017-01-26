@@ -1,0 +1,140 @@
+---
+title: "Stat 585 - ggplot2"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# `ggplot2`
+
+# Why `ggplot2`?
+
+## Why `ggplot2`
+
+- Wildly popular package for statistical graphics: over 1.75 million downloads from CRAN in 2015 (~ 6,200 times per day)
+- Developed by Hadley Wickham (An ISU Alumni)
+- Designed to adhere to good graphical practices
+- Constructs plots using the concept of layers
+- Supports a wide variety plot types and extensions
+\medskip
+- http://ggplot2.org/book/ or Hadley's book *ggplot2: Elegant Graphics for Data Analysis* for reference 
+
+## Grammar of Graphics
+
+A graphical representation (plot) consists of:
+
+1. **mappings** (`aes`):  data variables are mapped to graphical elements
+2. **layers**:  geometric elements (`geoms`, such as points, lines, rectangles, text, ...) and statistical transformations (`stats`, are identity, counts, bins, ...)
+3. **scales**: map values in the data space to values in an aesthetic space (e.g. color, size, shape, but also position)
+4. **coordinate system** (`coord`): normally Cartesian, but pie charts use e.g. polar coordinates
+5. **facetting**: for small multiples (subsets) and their arrangement
+6. **theme**: fine-tune display items, such as font and its size, color of background, margins, ...
+
+## Mapping Data
+
+```{r echo = FALSE}
+FortDodge <- readRDS("../data/USH00132999.rds")
+library(ggplot2)
+```
+
+```{r fig.width = 6, fig.height = 3, warning = FALSE}
+ggplot(data = FortDodge, aes(x = Year+Month/12, Temp_Avg/100)) + 
+  geom_point() + 
+  xlim(c(2011,2016))
+```
+
+## Changing geometric elements
+
+```{r fig.width = 6, fig.height = 3, warning = FALSE}
+ggplot(data = FortDodge, aes(x = Year+Month/12, Temp_Avg/100)) + 
+  geom_line() + 
+  xlim(c(2011,2016))
+```
+
+## Adding data layer
+
+```{r fig.width = 6, fig.height = 3, warning = FALSE}
+ggplot(data = FortDodge, aes(x = Year+Month/12, Temp_Avg/100)) + 
+  geom_line() + geom_point() + 
+  xlim(c(2011,2016))
+```
+
+## Adding summary layer
+
+```{r fig.width = 6, fig.height = 3, warning = FALSE}
+ggplot(data = FortDodge, aes(x = Year+Month/12, Temp_Avg/100)) + 
+  geom_point() + geom_smooth(method = "lm") +
+  xlim(c(2011,2016))
+```
+
+## Theming
+
+```{r fig.width = 6, fig.height = 3, warning = FALSE}
+ggplot(data = FortDodge, aes(x = Year+Month/12, Temp_Avg/100)) + 
+  geom_point() + geom_smooth(method = "lm") +
+  xlim(c(2011,2016)) + 
+  xlab("Time") + ylab("Average Temperature") +
+  xkcd::theme_xkcd()
+```
+
+## `ggplot2` resources
+
+Generally in `ggplot2`: every aspect of a plot can be changed, but there are good defaults based on cognitive principles.
+
+RStudio's [cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
+
+Online [`ggplot2` documentation](http://docs.ggplot2.org/current/)
+
+Email list (sign up from http://ggplot2.org/)
+
+## Your Turn (10 min)
+
+Load the temperature data [temps.rds](https://github.com/Stat585-at-ISU/materials/blob/master/data/temps.rds) with `readRDS`. 
+
+1. Pick one weather station and plot the monthly temperatures using the `ggplot2` package. Use a line to show the time series.
+2. Now expand this plot to show information for two weather stations. 
+3. Label the time series by the station ID.
+
+## Layers
+
+each layer has several parts, the two most important are:
+
+- mapping: using the `aes()` function, we specify mappings between variables and aesthetics of the chart
+- `data`: the dataset used in the layer 
+
+`ggplot` is the layer that sets the defaults, <br>
+`geom_XXX` creates a layer: for each aspect it either uses the default or has to specify its own
+
+## Default versus Layer Specification
+
+```{r, fig.width=9.5, fig.height = 3, message = FALSE}
+library(tidyverse)
+temps <- readRDS("../data/temps.rds")
+temps %>% filter(Station %in% c("USH00012813", "USH00454764")) %>%
+  ggplot(aes(x = Year+Month/12, y = Temp)) +
+  geom_line(aes(group = Station, colour=Station)) +
+  geom_text(data = temps %>%
+              filter(Year == 2016, Month==7,
+                     Station %in% c("USH00012813", "USH00454764")),
+            hjust = 0,
+            aes(label = Station)) + xlim(c(1950, 2020))
+```
+
+##
+
+```{r, fig.width=9.5, fig.height = 3, message = FALSE}
+temps %>% filter(Station %in% c("USH00012813", "USH00454764")) %>%
+  ggplot(aes(x = Year+Month/12, y = Temp, colour=Station)) +
+  geom_line(aes(group = Station)) +
+  geom_text(data = temps %>%
+              filter(Year == 2016, Month==7,
+                     Station %in% c("USH00012813", "USH00454764")),
+            hjust = 0,
+            aes(label = Station)) + xlim(c(1950, 2020))
+```
