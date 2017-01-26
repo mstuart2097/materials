@@ -226,20 +226,5 @@ From the help file:
 Plot weight gain over time. Connect the observed weight gain for each chick by a line. Facet by diet.  
 2. Focus on weight gains on day 21. Draw side-by-side dotplots of weight gains by diet. Summarize the average weight gain on day 21 under each diet. Overlay the dotplots by error bars around the average weight gain under each diet (see `?geom_errorbar`)
 
-##
 
-```
-ChickPlus <- ChickWeight %>% group_by(Chick) %>% mutate(gain = weight - weight[Time == 0])
-
-ChickPlus %>% ggplot(aes(x = Time, y = gain, group = Chick)) + facet_wrap(~Diet) + geom_line()
-
-ChickError <- ChickPlus %>% filter(Time == 21) %>% group_by(Diet) %>% summarize(
-  mean_gain = mean(gain, na.rm=TRUE),
-  sd_gain = sd(gain, na.rm=TRUE)/n()
-)
-
-ChickPlus %>% filter(Time == 21) %>%
-ggplot(aes(x = Diet)) + geom_point(aes(y = gain)) +
-geom_errorbar(aes(ymin = mean_gain-1.96*sd_gain, ymax = mean_gain+1.96*sd_gain, colour = Diet), data = ChickError) + 
-geom_point(aes(y = mean_gain, colour = Diet), size = 3, data = ChickError)
-```
+# The `tidyr` package
