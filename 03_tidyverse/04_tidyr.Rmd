@@ -1,0 +1,36 @@
+---
+title: "Stat 585 - numeric summaries with dplyr and tidyr"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# The `tidyr` package
+
+## What is tidy data?
+
+> Happy families are all alike; every unhappy family is unhappy in its own way.<br>
+Leo Tolstoy
+
+- Resource: follow along tidyr vignette 
+- available as 
+`vignette("tidy-data", package="tidyr")`
+- vignette is version of the [tidy data paper](https://www.jstatsoft.org/article/view/v059i10) with updated code
+
+# Outline
+
+- Discuss 
+
+
+## Sources of Messiness
+
+- Column headers are values, not variable names.
+- Multiple variables are stored in one column.
+- Multiple observational units are stored in the same table.
+- A single observational unit is stored in multiple tables.
