@@ -226,5 +226,12 @@ From the help file:
 Plot weight gain over time. Connect the observed weight gain for each chick by a line. Facet by diet.  
 2. Focus on weight gains on day 21. Draw side-by-side dotplots of weight gains by diet. Summarize the average weight gain on day 21 under each diet. Overlay the dotplots by error bars around the average weight gain under each diet (see `?geom_errorbar`)
 
+## Re-cap
 
-# The `tidyr` package
+- getting used to `dplyr` actions takes a bit of time and practice
+- recognize keywords and match them to `dplyr` functions
+- make a conscious effort in applying `dplyr` functions in your regular workflow: that means you have to do things **differently** - the long-term benefits are there, promise!
+
+
+
+# Next up: [`tidyr`](04_tidyr.html)

@@ -293,23 +293,15 @@ reps</code></pre></div>
 </li>
 <li>Focus on weight gains on day 21. Draw side-by-side dotplots of weight gains by diet. Summarize the average weight gain on day 21 under each diet. Overlay the dotplots by error bars around the average weight gain under each diet (see <code>?geom_errorbar</code>)</li>
 </ol>
-</section><section id="section" class="slide level2">
-<h2></h2>
-<pre><code>ChickPlus &lt;- ChickWeight %&gt;% group_by(Chick) %&gt;% mutate(gain = weight - weight[Time == 0])
-
-ChickPlus %&gt;% ggplot(aes(x = Time, y = gain, group = Chick)) + facet_wrap(~Diet) + geom_line()
-
-ChickError &lt;- ChickPlus %&gt;% filter(Time == 21) %&gt;% group_by(Diet) %&gt;% summarize(
-  mean_gain = mean(gain, na.rm=TRUE),
-  sd_gain = sd(gain, na.rm=TRUE)/n()
-)
-
-ChickPlus %&gt;% filter(Time == 21) %&gt;%
-ggplot(aes(x = Diet)) + geom_point(aes(y = gain)) +
-geom_errorbar(aes(ymin = mean_gain-1.96*sd_gain, ymax = mean_gain+1.96*sd_gain, colour = Diet), data = ChickError) + 
-geom_point(aes(y = mean_gain, colour = Diet), size = 3, data = ChickError)</code></pre>
+</section><section id="re-cap" class="slide level2">
+<h2>Re-cap</h2>
+<ul>
+<li>getting used to <code>dplyr</code> actions takes a bit of time and practice</li>
+<li>recognize keywords and match them to <code>dplyr</code> functions</li>
+<li>make a conscious effort in applying <code>dplyr</code> functions in your regular workflow: that means you have to do things <strong>differently</strong> - the long-term benefits are there, promise!</li>
+</ul>
 </section>
-<section id="the-tidyr-package" class="titleslide slide level1"><h2 class="shout">The <code>tidyr</code> package</h2></section></section>
+<section id="next-up-tidyr" class="titleslide slide level1"><h2 class="shout">Next up: <a href="04_tidyr.html"><code>tidyr</code></a></h2></section></section>
 
   <!--
   To hide progress bar from entire presentation
