@@ -10,6 +10,8 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+data(french_fries, package="reshape2")
 ```
 # The `tidyr` package
 
@@ -23,14 +25,107 @@ Leo Tolstoy
 `vignette("tidy-data", package="tidyr")`
 - vignette is version of the [tidy data paper](https://www.jstatsoft.org/article/view/v059i10) with updated code
 
-# Outline
+## Outline
 
-- Discuss 
+- Discuss data formats
+- Key-Value pairs
 
+## Data is usually in a spreadsheet format, but ...
+
+there's different ways of encoding the same information:
+
+Option #1
+```{r echo = FALSE}
+read.csv("../data/preg.csv")
+```
+
+Option #2
+```{r echo = FALSE}
+read.csv("../data/preg2.csv")
+```
+
+Neither #1 nor #2 are "clean" versions of the data: observed information is part of the data structure; some implicit information is assumed
 
 ## Sources of Messiness
 
-- Column headers are values, not variable names.
-- Multiple variables are stored in one column.
+- Column headers are values, not variable names.<br>
+e.g. *treatmenta, treatmentb*
+- Multiple variables are stored in one column.<br>
+e.g. *Fall 2015, Spring 2016* or *"1301 8th St SE, Orange City, Iowa 51041
+(42.99755, -96.04149)", "2102 Durant, Harlan, Iowa 51537
+(41.65672, -95.33780)"*
 - Multiple observational units are stored in the same table.
 - A single observational unit is stored in multiple tables.
+
+## Tidy data
+
+
+1. Each variable forms one column.
+2. Each observation forms one row.
+3. Each type of observational unit forms a table.
+
+## Clean version of the example
+
+```{r echo = FALSE}
+preg2 <- read.csv("../data/preg2.csv")
+preg2 %>% gather(key = patient, value = score, 2:4) %>% 
+  mutate(patient = gsub("\\.", " ", patient))
+```
+
+- `treatment` and `patient` uniquely describe a single row in the dataset.
+- `treatment` and `patient` are **key variables**,
+- `score` is a **measurement variable**
+- this makes `treatment-patient` and `score` a **key-value pair**
+
+
+## Key-value pairs (KVP)
+ 
+**Key-Value pairs** (KVP) - also *attribute-value*, *field-value*, *name-value*:
+abstract data representation that allows a lot of flexibility  
+
+One way of telling whether a data set is tidy is to check that all keys for a value are aligned in one row:
+
+| | |
+|:------------- |:------------- | 
+| | |
+| <img src="images/kvp-unhappy.png" width=150> | <img src="images/kvp-happy.png" width=150>     | 
+|Untidy data | Tidy data |
+
+## Tidying data
+
+Very few functions are needed for tidying data:
+
+- `tidyr::gather (data, key, value, ...)`<br>
+take multiple columns and collapse into key-value pairs
+- `tidyr::spread (data, key, value, fill = NA)`<br> 
+spread a key-value pair across multiple columns.
+- `tidyr::separate (data, col, into, sep = "[^[:alnum:]]+")`<br>
+separate one column into multiple columns
+- join multiple data sets (in `dplyr` package)
+
+## Gather
+
+```{r}
+ffm <- french_fries %>% gather(key = scale, value = score, 5:9)
+ffm
+```
+
+## Spread
+
+```{r}
+ffm %>% spread(key = rep, value = score)
+```
+
+##
+
+```{r}
+ffm %>% spread(key = rep, value = score) %>%
+  ggplot(aes(x = `1`, y = `2`)) + geom_point() +
+  facet_wrap(~scale) + geom_abline(colour = "grey50")
+```
+
+## Your Turn (15 min)
+
+<img src="images/beardshear-view.png" width=1100 class="cover">
+
+- 
