@@ -92,7 +92,7 @@ french_fries %>%
     summarise(mean_rancid = mean(rancid), sd_rancid = sd(rancid))
 ```
 
-## mutate
+## Mutate
 
 Change an existing or create a new variable into the data
 
