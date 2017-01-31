@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - numeric summaries with tidyr</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="05_tidyr_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="05_tidyr_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="05_tidyr_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="05_tidyr_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - numeric summaries with tidyr</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="dealing-with-messy-3-and-4" class="titleslide slide level1"><h2 class="shout">Dealing with Messy (3) and (4)</h2></section><section id="messy-3" class="slide level2">
+<h2>Messy (3)</h2>
+<p>Messy (3): <em>Multiple observational units are stored in the same table.</em></p>
+<p>What does that mean? The <em>key is split</em>, i.e. for some values all key variables are necessary, while other values only need some key variables.</p>
+<p><img src="images/normal-not-2.png" /></p>
+</section><section id="why-do-we-need-to-take-care-of-split-keys" class="slide level2">
+<h2>Why do we need to take care of split keys?</h2>
+<ul>
+<li>Data redundancy introduces potential problems (same student <em>should</em> have the same student ID)</li>
+<li>to check data consistency, we split data set into parts - this process is called <em>normalizing</em></li>
+<li>normalization reduces overall data size</li>
+<li>useful way of thinking about objects under study</li>
+</ul>
+</section><section id="tidying-messy-3" class="slide level2">
+<h2>Tidying Messy (3)</h2>
+<p>Splitting into separate datasets:</p>
+<p><img src="images/normal-split.png" /></p>
+</section><section id="example-box-office-gross" class="slide level2">
+<h2>Example: Box office gross</h2>
+<p>The-Numbers website publishes <a href="http://www.the-numbers.com/weekend-box-office-chart">weekly charts</a> of the gross income of all movies playing across the US. A set of scraped data with movies for the last two years is available in the repo.</p>
+<pre><code>##   Rank Rank.Last.Week                        Movie      Distributor
+## 1    1            (1)                        Split        Universal
+## 2    2            new              A Dog’s Purpose        Universal
+## 3    3            (3)               Hidden Figures 20th Century Fox
+## 4    4            new Resident Evil: The Final Ch…    Sony Pictures
+##         Gross Change Thtrs. Per.Thtr.  Total.Gross Days       date
+## 1 $25,655,440   -36%  3,199    $8,020  $77,385,530   10 2017-01-27
+## 2 $18,222,810         3,059    $5,957  $18,222,810    3 2017-01-27
+## 3 $14,003,275   -11%  3,351    $4,179 $104,024,969   36 2017-01-27
+## 4 $13,601,682         3,104    $4,382  $13,601,682    3 2017-01-27</code></pre>
+<p>What are the key variables? Why is the key split?</p>
+</section><section id="first-round-of-data-tidying" class="slide level2">
+<h2>First round of Data tidying</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+  <span class="dt">Gross =</span> <span class="kw">parse_number</span>(Gross),
+  <span class="dt">Total.Gross =</span> <span class="kw">parse_number</span>(Total.Gross),
+  <span class="dt">Days =</span> <span class="kw">parse_number</span>(Days),
+  <span class="dt">Thtrs. =</span> <span class="kw">parse_number</span>(Thtrs.)
+) </code></pre></div>
+<ul>
+<li>All other variables are derived from these four variables, <code>Movie</code> name, and <code>Distributor</code>.</li>
+<li>We should take re-calculate the derived variabes to check for consistency.</li>
+</ul>
+</section><section id="taking-care-of-the-split-key" class="slide level2">
+<h2>Taking care of the split key</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if we get an error with a message about the length of a dataset we know we have a problem</span>
+movie &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">Distributor =</span> <span class="kw">unique</span>(Distributor) 
+)</code></pre></div>
+<p><code>Error: expecting a single value</code></p>
+<p>Bingo! but what now?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">Distributor =</span> <span class="kw">length</span>(<span class="kw">unique</span>(Distributor))
+) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Distributor))</code></pre></div>
+<pre><code>## # A tibble: 1,386 × 2
+##                           Movie Distributor
+##                          &lt;fctr&gt;       &lt;int&gt;
+## 1                      Girlhood           2
+## 2                   The Witness           2
+## 3                           ’71           1
+## 4              1,000 Rupee Note           1
+## 5           10 Cloverfield Lane           1
+## 6         10 Days in a Madhouse           1
+## 7  13 Hours: The Secret Soldie…           1
+## 8                          1915           1
+## 9             2015 Oscar Shorts           1
+## 10            2016 Oscar Shorts           1
+## # ... with 1,376 more rows</code></pre>
+</section><section id="looking-into-inconsistencies" class="slide level2">
+<h2>Looking into inconsistencies</h2>
+<p>The movie <em>Girlhood</em> has two distributors: &quot; &quot; and <code>Strand</code> - i.e. the first week the distributor is missing, let’s fix that:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+  <span class="dt">Distributor =</span> <span class="kw">replace</span>(Distributor, Movie==<span class="st">&quot;Girlhood&quot;</span>, <span class="st">&quot;Strand&quot;</span>)
+)</code></pre></div>
+<p>The movie <code>The Witness</code> is actually two different movies, one that came out in October 2015, another one that came out in June 2016. Movie name by itself is not a key. Let’s derive the <em>release date</em> for each movie:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Release =</span> lubridate::<span class="kw">ymd</span>(date)-Days)</code></pre></div>
+</section><section id="splitting-into-separate-datasets---take-2" class="slide level2">
+<h2>Splitting into separate datasets - Take 2</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movie &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie, Release) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">Distributor =</span> <span class="kw">unique</span>(Distributor) 
+)
+<span class="kw">dim</span>(movie)</code></pre></div>
+<pre><code>## [1] 1406    3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">unique</span>(box$Movie))</code></pre></div>
+<pre><code>## [1] 1386</code></pre>
+<p>Still not quite right - the number of days is a derived variable, and is not quite consistent.</p>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Gross))  +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> Movie), <span class="dt">alpha =</span> <span class="fl">0.1</span>) +<span class="st"> </span><span class="co">#scale_y_log10() +</span>
+<span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</code></pre></div>
+<pre><code>## Warning: Removed 1089 rows containing missing values (geom_path).</code></pre>
+<p><img src="05_tidyr_files/figure-revealjs/unnamed-chunk-8-1.png" width="768" /></p>
+</section>
+<section id="messy-4" class="titleslide slide level1"><h2 class="shout">Messy (4)</h2></section></section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="05_tidyr_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
