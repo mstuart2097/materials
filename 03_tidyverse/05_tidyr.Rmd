@@ -59,7 +59,7 @@ box <- box %>% mutate(
 ) 
 ```
 
-- All other variables are derived from these four variables, `Movie` name, and `Distributor`. 
+- All other variables are derived from these four variables, `Movie` name, `Rank`, `Date` and `Distributor`. 
 - We should take re-calculate the derived variabes to check for consistency. 
 
 ## Taking care of the split key
@@ -112,20 +112,106 @@ Still not quite right - the number of days is a derived variable, and is not qui
 ## 
 
 ```{r}
-movie %>% group_by(Movie) %>% count() %>% arrange(desc(n))
+movie %>% group_by(Movie) %>% count() %>% arrange(desc(n)) %>% head(5)
 movie %>% filter(Movie =="Hot Water")
 ```
 
 ## Different approach
 
+```{r}
+# introduce release date for each movie and distributor separately
+box <- box %>% group_by(Movie, Distributor) %>% 
+  mutate(
+    Release = min(lubridate::ymd(date))-Days[which.min(lubridate::ymd(date))]
+    )
 
+# split again
+movie <- box %>% group_by(Movie, Release) %>% summarize(
+  Distributor = unique(Distributor) 
+)
+dim(movie)
+length(unique(box$Movie)) # should be one less than above (b/c The Witness)
+```
+
+Better!
+
+## Your Turn  (10 mins)
+
+
+- Re-derive derived variables: `%Change`, `Rank last week`, `Days`, `Gross Per Theater`.<br>
+- Is `Total.Gross` strictly increasing? And does `Gross` match with the differences from one week to the next?
+
+How much of thic can you do in 10 mins?
+
+<img src="images/tools.jpeg" width=850>
+
+## 
+
+
+```{r}
+# days and per theatre gross:
+box <- box %>% ungroup() %>% mutate(
+  Days_new = lubridate::ymd(date) - lubridate::ymd(Release),
+  Per.Theater = Gross/Thtrs.
+) 
+box %>% select(Movie, Days, Days_new)
+```
 
 ##
 
 ```{r}
-box %>% ggplot(aes(x = Days, y = Gross))  + 
-  geom_line(aes(group = Movie), alpha = 0.1) + #scale_y_log10() +
-  xlim(c(0, 100))
+# introduce change variable and rank-last-week:
+box <- box %>% group_by(Movie, Release) %>% arrange(date) %>% mutate(
+  Change = c(NA, diff(Gross)/Gross[-length(Gross)])*100,
+  Rank.Last.Week_new = c(NA, Rank[-length(Rank)]),
+  Days_diff = c(NA, diff(Days_new))
+) 
+# some of these ranks are not from last week:
+box <- box %>% mutate(
+  Rank.Last.Week_new = replace(Rank.Last.Week_new, Days_diff != 7, NA)
+)
+
+box %>% filter(Movie=="3 Hearts") %>% arrange(Days_new) %>% as.data.frame() %>% head(5)
+```
+
+##
+
+```{r}
+box <- box %>% group_by(Movie, Release) %>% 
+  arrange(Days) %>% mutate(
+    Gross_new = c(NA, diff(Total.Gross))
+  )
+
+box %>% 
+  ggplot(aes(Gross, Gross_new, colour = Gross_new < 0)) + geom_point()
+
+box %>% ungroup() %>%  filter(Gross_new <0) %>% select(Movie, date, Gross, Gross_new, Total.Gross) %>% arrange(Gross_new)
+```
+
+## 
+
+Now we have finally a clean data set and could get started on an analysis!
+
+Can you predict the Total Gross of a movie based on the opening weekend and the second week?
+
+```{r echo = FALSE, eval = FALSE}
+movies <- box %>% select(date, Rank, Rank.Last.Week_new, Days_new, Movie, Distributor, Gross, Change, Total.Gross, Release, Thtrs., Per.Theater) 
+names(movies) <- c("Date", "Rank", "Rank.Last.Week", "Days", "Movie", "Distributor", "Gross", "Change", "Total.Gross", "Release", "Theaters", "Per.Theater")
+write.csv(movies, file="../data/movies.csv", row.names=FALSE)
+```
+
+
+## 
+
+```{r}
+box %>% filter(Days_new < 100) %>% 
+  ggplot(aes(x = Days_new, y = Total.Gross))  + 
+  geom_line(aes(group = interaction(Movie, Release)), alpha = 0.5) +   
+  xlim(c(0,110)) +
+  geom_text(aes(x = Days_new+7, label=Movie), 
+            hjust = 1,
+            data = box %>% filter(Total.Gross > 2.5*10^8, Days_new < 100) %>% 
+              group_by(Movie) %>% filter(Days_new == max(Days_new))) 
 ```
 
 
