@@ -39,7 +39,7 @@ Splitting into separate datasets:
 
 ## Example: Box office gross
 
-The-Numbers website publishes [weekly charts](http://www.the-numbers.com/weekend-box-office-chart) of the gross income of all movies playing across the US. A set of scraped data with movies for the last two years is available in the repo.
+The-Numbers website publishes [weekly charts](http://www.the-numbers.com/weekend-box-office-chart) of the gross income of all movies playing across the US. A set of [scraped data](../data/boxoffice.csv) with movies for the last two years is available in the repo.
 
 ```{r echo = FALSE}
 box <- read.csv("../data/boxoffice.csv")
@@ -65,7 +65,8 @@ box <- box %>% mutate(
 ## Taking care of the split key
 
 ```{r eval = FALSE}
-# if we get an error with a message about the length of a dataset we know we have a problem
+# if we get an error with a message about the length of a dataset
+# we know we have a problem
 movie <- box %>% group_by(Movie) %>% summarize(
   Distributor = unique(Distributor) 
 )
@@ -141,9 +142,9 @@ Better!
 - Re-derive derived variables: `%Change`, `Rank last week`, `Days`, `Gross Per Theater`.<br>
 - Is `Total.Gross` strictly increasing? And does `Gross` match with the differences from one week to the next?
 
-How much of thic can you do in 10 mins?
+How much of this can you do in 10 mins?
 
-<img src="images/tools.jpeg" width=850>
+<img src="images/tools.jpeg" width=550>
 
 ## 
 
@@ -171,7 +172,7 @@ box <- box %>% mutate(
   Rank.Last.Week_new = replace(Rank.Last.Week_new, Days_diff != 7, NA)
 )
 
-box %>% filter(Movie=="3 Hearts") %>% arrange(Days_new) %>% as.data.frame() %>% head(5)
+box %>% filter(Movie=="3 Hearts") %>% arrange(Days_new) %>% as.data.frame() %>% head(3)
 ```
 
 ##
@@ -194,26 +195,61 @@ Now we have finally a clean data set and could get started on an analysis!
 
 Can you predict the Total Gross of a movie based on the opening weekend and the second week?
 
+This is the dataset we used for lab #2.
+
 ```{r echo = FALSE, eval = FALSE}
 movies <- box %>% select(date, Rank, Rank.Last.Week_new, Days_new, Movie, Distributor, Gross, Change, Total.Gross, Release, Thtrs., Per.Theater) 
 names(movies) <- c("Date", "Rank", "Rank.Last.Week", "Days", "Movie", "Distributor", "Gross", "Change", "Total.Gross", "Release", "Theaters", "Per.Theater")
-write.csv(movies, file="../data/movies.csv", row.names=FALSE)
+#write.csv(movies, file="../data/movies.csv", row.names=FALSE)
 ```
-
-
-## 
-
-```{r}
-box %>% filter(Days_new < 100) %>% 
-  ggplot(aes(x = Days_new, y = Total.Gross))  + 
-  geom_line(aes(group = interaction(Movie, Release)), alpha = 0.5) +   
-  xlim(c(0,110)) +
-  geom_text(aes(x = Days_new+7, label=Movie), 
-            hjust = 1,
-            data = box %>% filter(Total.Gross > 2.5*10^8, Days_new < 100) %>% 
-              group_by(Movie) %>% filter(Days_new == max(Days_new))) 
-```
-
 
 
 # Messy (4)
+
+## Messy (4)
+
+Messy (4): *Values for a single observational unit are stored across multiple tables.*
+
+After data are normalized by splitting, we want to de-normalize again by *joining* datasets.
+
+## Example: Lahman package
+
+Sean Lahman is a database journalist, who started databases of historical sports statistics, in particular, the Lahman database on baseball.
+
+```{r}
+library(Lahman)
+LahmanData
+```
+
+## Lahman database
+
+The Lahman database consists of 24 data frames that are linked by `playerID`. <br>
+This is clean, but not very readable. <br>
+The `Master` table includes names and other attributes for each player. <br>
+*Joining* multiple tables helps us to bring together (pieces of) information from multiple sources.
+
+## Example: Hall of Fame
+
+```{r warning = FALSE, fig.height = 3.5}
+HallOfFame <- HallOfFame %>% group_by(playerID) %>% 
+  mutate(times = order(yearID)) 
+
+HallOfFame %>%
+  ggplot(aes(x = yearID, y = votes/needed, colour = inducted)) + 
+  geom_hline(yintercept = 1, colour = "grey20", size = .1) +
+  geom_line(aes(group = playerID), colour = "black", size = 0.2) +
+  geom_point() 
+```
+
+## Hall of Fame - how many attempts?
+
+We'd like to label all the last attempts
+```{r warning = FALSE, fig.height = 3.5}
+HallOfFame %>% 
+  ggplot(aes(x = times, y = votes/needed, colour = inducted)) + 
+  geom_hline(yintercept = 1, colour = "grey20", size = .1) +
+  geom_line(aes(group = playerID), colour = "black", size = 0.2) +
+  geom_point() 
+```
+
+

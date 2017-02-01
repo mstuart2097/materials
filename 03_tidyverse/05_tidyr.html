@@ -83,7 +83,7 @@
 <p><img src="images/normal-split.png" /></p>
 </section><section id="example-box-office-gross" class="slide level2">
 <h2>Example: Box office gross</h2>
-<p>The-Numbers website publishes <a href="http://www.the-numbers.com/weekend-box-office-chart">weekly charts</a> of the gross income of all movies playing across the US. A set of scraped data with movies for the last two years is available in the repo.</p>
+<p>The-Numbers website publishes <a href="http://www.the-numbers.com/weekend-box-office-chart">weekly charts</a> of the gross income of all movies playing across the US. A set of <a href="../data/boxoffice.csv">scraped data</a> with movies for the last two years is available in the repo.</p>
 <pre><code>##   Rank Rank.Last.Week                        Movie      Distributor
 ## 1    1            (1)                        Split        Universal
 ## 2    2            new              A Dog’s Purpose        Universal
@@ -109,7 +109,8 @@
 </ul>
 </section><section id="taking-care-of-the-split-key" class="slide level2">
 <h2>Taking care of the split key</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if we get an error with a message about the length of a dataset we know we have a problem</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if we get an error with a message about the length of a dataset</span>
+<span class="co"># we know we have a problem</span>
 movie &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
   <span class="dt">Distributor =</span> <span class="kw">unique</span>(Distributor) 
 )</code></pre></div>
@@ -193,8 +194,8 @@ movie &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span cla
 <li>Re-derive derived variables: <code>%Change</code>, <code>Rank last week</code>, <code>Days</code>, <code>Gross Per Theater</code>.<br></li>
 <li>Is <code>Total.Gross</code> strictly increasing? And does <code>Gross</code> match with the differences from one week to the next?</li>
 </ul>
-<p>How much of thic can you do in 10 mins?</p>
-<p><img src="images/tools.jpeg" width=850></p>
+<p>How much of this can you do in 10 mins?</p>
+<p><img src="images/tools.jpeg" width=550></p>
 </section><section id="section-1" class="slide level2">
 <h2></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># days and per theatre gross:</span>
@@ -230,25 +231,19 @@ box &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class
   <span class="dt">Rank.Last.Week_new =</span> <span class="kw">replace</span>(Rank.Last.Week_new, Days_diff !=<span class="st"> </span><span class="dv">7</span>, <span class="ot">NA</span>)
 )
 
-box %&gt;%<span class="st"> </span><span class="kw">filter</span>(Movie==<span class="st">&quot;3 Hearts&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(Days_new) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dv">5</span>)</code></pre></div>
-<pre><code>##   Rank Rank.Last.Week    Movie       Distributor Gross     Change Thtrs.
-## 1   68            new 3 Hearts Cohen Media Group 11336         NA      4
-## 2   70           (68) 3 Hearts Cohen Media Group  4243 -62.570572      4
-## 3   66            new 3 Hearts Cohen Media Group 11794 177.963705      1
-## 4   57           (66) 3 Hearts Cohen Media Group 35664 202.391046     17
-## 5   51           (57) 3 Hearts Cohen Media Group 35268  -1.110363     29
+box %&gt;%<span class="st"> </span><span class="kw">filter</span>(Movie==<span class="st">&quot;3 Hearts&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(Days_new) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dv">3</span>)</code></pre></div>
+<pre><code>##   Rank Rank.Last.Week    Movie       Distributor Gross    Change Thtrs.
+## 1   68            new 3 Hearts Cohen Media Group 11336        NA      4
+## 2   70           (68) 3 Hearts Cohen Media Group  4243 -62.57057      4
+## 3   66            new 3 Hearts Cohen Media Group 11794 177.96370      1
 ##   Per.Thtr. Total.Gross Days       date    Release Days_new Per.Theater
-## 1    $2,834       11336    7 2015-02-13 2015-02-06   7 days    2834.000
-## 2    $1,061       21942   14 2015-02-20 2015-02-06  14 days    1060.750
-## 3   $11,794       33736    3 2015-03-13 2015-02-06  35 days   11794.000
-## 4    $2,098       74768   10 2015-03-20 2015-02-06  42 days    2097.882
-## 5    $1,216      130768   17 2015-03-27 2015-02-06  49 days    1216.138
+## 1    $2,834       11336    7 2015-02-13 2015-02-06   7 days     2834.00
+## 2    $1,061       21942   14 2015-02-20 2015-02-06  14 days     1060.75
+## 3   $11,794       33736    3 2015-03-13 2015-02-06  35 days    11794.00
 ##   Rank.Last.Week_new Days_diff
 ## 1                 NA        NA
 ## 2                 68         7
-## 3                 NA        21
-## 4                 66         7
-## 5                 57         7</code></pre>
+## 3                 NA        21</code></pre>
 </section><section id="section-3" class="slide level2">
 <h2></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box &lt;-<span class="st"> </span>box %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie, Release) %&gt;%<span class="st"> </span>
@@ -279,19 +274,66 @@ box %&gt;%<span class="st"> </span>
 <h2></h2>
 <p>Now we have finally a clean data set and could get started on an analysis!</p>
 <p>Can you predict the Total Gross of a movie based on the opening weekend and the second week?</p>
-</section><section id="section-5" class="slide level2">
-<h2></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">box %&gt;%<span class="st"> </span><span class="kw">filter</span>(Days_new &lt;<span class="st"> </span><span class="dv">100</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days_new, <span class="dt">y =</span> Total.Gross))  +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="kw">interaction</span>(Movie, Release)), <span class="dt">alpha =</span> <span class="fl">0.5</span>) +<span class="st">   </span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">110</span>)) +
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days_new<span class="dv">+7</span>, <span class="dt">label=</span>Movie), 
-            <span class="dt">hjust =</span> <span class="dv">1</span>,
-            <span class="dt">data =</span> box %&gt;%<span class="st"> </span><span class="kw">filter</span>(Total.Gross &gt;<span class="st"> </span><span class="fl">2.5</span>*<span class="dv">10</span>^<span class="dv">8</span>, Days_new &lt;<span class="st"> </span><span class="dv">100</span>) %&gt;%<span class="st"> </span>
-<span class="st">              </span><span class="kw">group_by</span>(Movie) %&gt;%<span class="st"> </span><span class="kw">filter</span>(Days_new ==<span class="st"> </span><span class="kw">max</span>(Days_new))) </code></pre></div>
-<p><img src="05_tidyr_files/figure-revealjs/unnamed-chunk-13-1.png" width="768" /></p>
+<p>This is the dataset we used for lab #2.</p>
 </section>
-<section id="messy-4" class="titleslide slide level1"><h2 class="shout">Messy (4)</h2></section></section>
+<section id="messy-4" class="titleslide slide level1"><h2 class="shout">Messy (4)</h2></section><section id="messy-4-1" class="slide level2">
+<h2>Messy (4)</h2>
+<p>Messy (4): <em>Values for a single observational unit are stored across multiple tables.</em></p>
+<p>After data are normalized by splitting, we want to de-normalize again by <em>joining</em> datasets.</p>
+</section><section id="example-lahman-package" class="slide level2">
+<h2>Example: Lahman package</h2>
+<p>Sean Lahman is a database journalist, who started databases of historical sports statistics, in particular, the Lahman database on baseball.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Lahman)
+LahmanData</code></pre></div>
+<pre><code>##                   file      class   nobs nvar                     title
+## 1          AllstarFull data.frame   4993    8         AllstarFull table
+## 2          Appearances data.frame  99466   21         Appearances table
+## 3       AwardsManagers data.frame    171    6      AwardsManagers table
+## 4        AwardsPlayers data.frame   6026    6       AwardsPlayers table
+## 5  AwardsShareManagers data.frame    401    7 AwardsShareManagers table
+## 6   AwardsSharePlayers data.frame   6705    7  AwardsSharePlayers table
+## 7              Batting data.frame  99846   22             Batting table
+## 8          BattingPost data.frame  11294   22         BattingPost table
+## 9       CollegePlaying data.frame  17350    3      CollegePlaying table
+## 10            Fielding data.frame 167938   18            Fielding table
+## 11          FieldingOF data.frame  12028    6          FieldingOF table
+## 12        FieldingPost data.frame  11924   17         FieldingPost data
+## 13          HallOfFame data.frame   4088    9  Hall of Fame Voting Data
+## 14            Managers data.frame   3370   10            Managers table
+## 15        ManagersHalf data.frame     93   10        ManagersHalf table
+## 16              Master data.frame  18589   26              Master table
+## 17            Pitching data.frame  43330   30            Pitching table
+## 18        PitchingPost data.frame   4945   30        PitchingPost table
+## 19            Salaries data.frame  24758    5            Salaries table
+## 20             Schools data.frame   1207    5             Schools table
+## 21          SeriesPost data.frame    298    9          SeriesPost table
+## 22               Teams data.frame   2775   48               Teams table
+## 23     TeamsFranchises data.frame    120    4      TeamFranchises table
+## 24           TeamsHalf data.frame     52   10           TeamsHalf table</code></pre>
+</section><section id="lahman-database" class="slide level2">
+<h2>Lahman database</h2>
+<p>The Lahman database consists of 24 data frames that are linked by <code>playerID</code>. <br> This is clean, but not very readable. <br> The <code>Master</code> table includes names and other attributes for each player. <br> <em>Joining</em> multiple tables helps us to bring together (pieces of) information from multiple sources.</p>
+</section><section id="example-hall-of-fame" class="slide level2">
+<h2>Example: Hall of Fame</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HallOfFame &lt;-<span class="st"> </span>HallOfFame %&gt;%<span class="st"> </span><span class="kw">group_by</span>(playerID) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">times =</span> <span class="kw">order</span>(yearID)) 
+
+HallOfFame %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> yearID, <span class="dt">y =</span> votes/needed, <span class="dt">colour =</span> inducted)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> .<span class="dv">1</span>) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> playerID), <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) +
+<span class="st">  </span><span class="kw">geom_point</span>() </code></pre></div>
+<p><img src="05_tidyr_files/figure-revealjs/unnamed-chunk-15-1.png" width="768" /></p>
+</section><section id="hall-of-fame---how-many-attempts" class="slide level2">
+<h2>Hall of Fame - how many attempts?</h2>
+<p>We’d like to label all the last attempts</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HallOfFame %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> times, <span class="dt">y =</span> votes/needed, <span class="dt">colour =</span> inducted)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> .<span class="dv">1</span>) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> playerID), <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) +
+<span class="st">  </span><span class="kw">geom_point</span>() </code></pre></div>
+<p><img src="05_tidyr_files/figure-revealjs/unnamed-chunk-16-1.png" width="768" /></p>
+</section>
 
   <!--
   To hide progress bar from entire presentation
