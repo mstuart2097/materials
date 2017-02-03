@@ -71,25 +71,6 @@
 <p>The website <a href="https://data.iowa.gov/Government/Campaign-Expenditures/3adi-mht4/data">Campaign Expenditures</a> provides data on campaign expenditures. The code below reads the data into an R session.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st"> &quot;https://data.iowa.gov/api/views/3adi-mht4/rows.csv&quot;</span>
 campaign &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(url)</code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   `Transaction ID` = col_character(),
-##   Date = col_character(),
-##   `Committee Code` = col_integer(),
-##   `Committee Name` = col_character(),
-##   `Receiving Committee Code` = col_integer(),
-##   `Receiving Organization Name` = col_character(),
-##   `First Name` = col_character(),
-##   `Middle Initial` = col_character(),
-##   `Last Name` = col_character(),
-##   `Address - Line 1` = col_character(),
-##   `Address - Line 2` = col_character(),
-##   City = col_character(),
-##   State = col_character(),
-##   Zip = col_character(),
-##   `Expenditure Amount` = col_character(),
-##   `City Coordinates` = col_character()
-## )</code></pre>
 <p>Assess the ‘messiness’ of the data. List issues that prevent us from working with the data directly. Which of these issues are of type (1) or (2) of messiness?</p>
 </section>
 <section id="your-turn-10-min" class="slide level2">
@@ -108,8 +89,19 @@ campaign &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(u
 <li>Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.</li>
 </ol>
 </section>
-<section id="section" class="slide level2">
-<h2></h2>
+<section id="bit-of-background" class="slide level2">
+<h2>Bit of background …</h2>
+<p>The first half of the Your-Turn is <strong>what</strong> we do to data, but the second half is <strong>why</strong>.</p>
+<p>Any new data set we get, we first have to <em>vet</em>:</p>
+<ul>
+<li>find out about its background,</li>
+<li>get an idea of its quality by checking on (obvious) relationships,</li>
+<li>tidy into some normal form.</li>
+</ul>
+<p>In the answer, we’ll combine elements of the first and second half.</p>
+</section>
+<section id="campaign-expenditures" class="slide level2">
+<h2>Campaign expenditures</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
   <span class="dt">expenditure =</span> readr::<span class="kw">parse_number</span>(<span class="st">`</span><span class="dt">Expenditure Amount</span><span class="st">`</span>)
 )  
@@ -137,8 +129,8 @@ campaign %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span cl
 ## 10 10/15/2010      Strategic Media Services      710644
 ## # ... with 338,811 more rows</code></pre>
 </section>
-<section id="section-1" class="slide level2">
-<h2></h2>
+<section id="time-frame" class="slide level2">
+<h2>Time frame</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">separate</span>(Date, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;Month&quot;</span>, <span class="st">&quot;Day&quot;</span>, <span class="st">&quot;Year&quot;</span>), 
            <span class="dt">remove =</span> <span class="ot">FALSE</span>)  %&gt;%<span class="st"> </span><span class="co"># keep the original column</span>
@@ -166,8 +158,8 @@ campaign %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span cl
 ## 13  2015 16866
 ## 14  2016 36287</code></pre>
 </section>
-<section id="section-2" class="slide level2">
-<h2></h2>
+<section id="geographic-locations" class="slide level2">
+<h2>Geographic Locations</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">City Coordinates</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
 <pre><code>## Observations: 338,821
 ## Variables: 1
@@ -197,8 +189,8 @@ campaign %&gt;%<span class="st"> </span><span class="kw">select</span>(long, lat
 ## 10 -90.20346 41.85439
 ## # ... with 338,811 more rows</code></pre>
 </section>
-<section id="section-3" class="slide level2">
-<h2></h2>
+<section id="money-is-leaving-iowa" class="slide level2">
+<h2>Money is leaving Iowa</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">filter</span>(region ==<span class="st"> &quot;iowa&quot;</span>)
 <span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat), <span class="dt">data =</span> campaign) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">data =</span> iowa) +
@@ -229,7 +221,7 @@ campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, St
 ## 10 Carter Lake, IA 51510\n(41.292079521000062, -95.915059097999972)
 ## # ... with 1,008 more rows</code></pre>
 </section>
-<section id="section-4" class="slide level2">
+<section id="section" class="slide level2">
 <h2></h2>
 <p>There is no Chicago in Iowa - particularly not, with a ZIP code of 60654.</p>
 <p>387 records have a geographic location of (-93.92180955, 44.770556229). This is a location South West of Minneapolis, MN.</p>
@@ -252,10 +244,11 @@ campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, St
 ## 10 -73.93957 42.81424     5
 ## # ... with 82 more rows</code></pre>
 </section>
-<section id="section-5" class="slide level2">
+<section id="section-1" class="slide level2">
 <h2></h2>
-<p>… lots of these mis-located items are on the last day of the year:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>, <span class="kw">round</span>(long,<span class="dv">5</span>)==-<span class="fl">93.92181</span>) %&gt;%<span class="st"> </span><span class="kw">select</span>(Date, <span class="st">`</span><span class="dt">Committee Name</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(<span class="dt">data=</span>., ~<span class="st">`</span><span class="dt">Date</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">sort</span>()</code></pre></div>
+<p>… lots of these mis-located items have a date of the last day of the year:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>, <span class="kw">round</span>(long,<span class="dv">5</span>)==-<span class="fl">93.92181</span>) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(Date, <span class="st">`</span><span class="dt">Committee Name</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(<span class="dt">data=</span>., ~<span class="st">`</span><span class="dt">Date</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">sort</span>()</code></pre></div>
 <pre><code>## Date
 ## 02/10/2009 05/14/2008 05/25/2012 06/12/2006 06/19/2010 06/23/2006 
 ##          1          1          1          1          1          1 
@@ -265,6 +258,7 @@ campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, St
 ##          1          1          1          1          1         48 
 ## 05/14/2006 10/14/2006 12/31/2006 12/31/2007 
 ##         62         84         87         89</code></pre>
+<p>Does anybody have any ideas how to explain this? I’d love to hear from you!</p>
 </section>
 
   <!--

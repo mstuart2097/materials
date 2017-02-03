@@ -23,7 +23,7 @@ The Iowa Data Portal is a wealth of information on and about the State of Iowa.
 The website 
 [Campaign Expenditures](https://data.iowa.gov/Government/Campaign-Expenditures/3adi-mht4/data) provides data on campaign expenditures. The code below reads the data into an R session.
 
-```{r cache = TRUE}
+```{r cache = TRUE, message = FALSE}
 url <- "https://data.iowa.gov/api/views/3adi-mht4/rows.csv"
 campaign <- readr::read_csv(url)
 ```
@@ -44,7 +44,19 @@ Assess the 'messiness' of the data. List issues that prevent us from working wit
   3. What time frame does the campaign expenditure cover?
   4. Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.
 
-##
+## Bit of background ...
+
+The first half of the Your-Turn is **what** we do to data, but the second half is **why**. 
+
+Any new data set we get, we first have to *vet*: 
+
+- find out about its background,
+- get an idea of its quality by checking on (obvious) relationships,
+- tidy into some normal form.
+
+In the answer, we'll combine elements of the first and second half.
+
+## Campaign expenditures
 
 ```{r warning=FALSE}
 campaign <- campaign %>% mutate(
@@ -60,7 +72,7 @@ campaign %>% arrange(desc(expenditure)) %>%
   select(Date, `Receiving Organization Name`, expenditure)
 ```
 
-##
+## Time frame
 
 ```{r}
 campaign <- campaign %>% 
@@ -76,7 +88,7 @@ campaign <- campaign %>%
 ```{r}
 campaign %>% count(Year)
 ```
-## 
+## Geographic Locations
 
 ```{r warning = FALSE}
 campaign %>% select(`City Coordinates`) %>% glimpse()
@@ -93,7 +105,7 @@ campaign <- campaign %>%
 campaign %>% select(long, lat)
 ```
 
-##
+## Money is leaving Iowa
 
 ```{r, message = FALSE, warning = FALSE}
 iowa <- map_data("state") %>% filter(region == "iowa")
@@ -127,8 +139,10 @@ campaign %>% filter(!inIA, State == "IA") %>%
 
 ## 
 
-... lots of these mis-located items are on the last day of the year:
+... lots of these mis-located items have a date of the last day of the year:
 
 ```{r}
-campaign %>% filter(!inIA, State == "IA", round(long,5)==-93.92181) %>% select(Date, `Committee Name`) %>% xtabs(data=., ~`Date`) %>% sort()
+campaign %>% filter(!inIA, State == "IA", round(long,5)==-93.92181) %>%
+  select(Date, `Committee Name`) %>% xtabs(data=., ~`Date`) %>% sort()
 ```
+Does anybody have any ideas how to explain this? I'd love to hear from you!
