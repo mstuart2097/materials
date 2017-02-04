@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Numeric and graphical summaries</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_data-structures_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_data-structures_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_data-structures_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_data-structures_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Numeric and graphical summaries</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="data-structures-in-r" class="titleslide slide level1"><h2 class="shout">Data Structures in R</h2></section><section id="outline" class="slide level2">
+<h2>Outline</h2>
+<ul>
+<li>standard types in R</li>
+<li>object classes</li>
+<li>checking data quality</li>
+</ul>
+</section><section id="basic-r-objects" class="slide level2">
+<h2>Basic R objects</h2>
+<ul>
+<li>Data types: numeric, integer, character, double</li>
+<li>Basic data structures: vector, matrix, character, factor, list</li>
+</ul>
+</section><section id="numeric-values" class="slide level2">
+<h2>Numeric values</h2>
+<p>Numeric objects have double precision, i.e. work with 53 bits</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pi &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>,<span class="st">&quot;3.14159 26535 89793 23846 26433&quot;</span>))
+<span class="co"># digits maximum is 22, last few digits are suspicious</span>
+<span class="kw">print</span>(pi, <span class="dt">digits=</span><span class="dv">22</span>)</code></pre></div>
+<pre><code>## [1] 3.141592653589793115998</code></pre>
+<p>Precision is machine dependent:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span>.Machine$double.eps ==<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span>.Machine$double.eps/<span class="dv">2</span> ==<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.Machine</code></pre></div>
+<pre><code>## $double.eps
+## [1] 2.220446e-16
+## 
+## $double.neg.eps
+## [1] 1.110223e-16
+## 
+## $double.xmin
+## [1] 2.225074e-308
+## 
+## $double.xmax
+## [1] 1.797693e+308
+## 
+## $double.base
+## [1] 2
+## 
+## $double.digits
+## [1] 53
+## 
+## $double.rounding
+## [1] 5
+## 
+## $double.guard
+## [1] 0
+## 
+## $double.ulp.digits
+## [1] -52
+## 
+## $double.neg.ulp.digits
+## [1] -53
+## 
+## $double.exponent
+## [1] 11
+## 
+## $double.min.exp
+## [1] -1022
+## 
+## $double.max.exp
+## [1] 1024
+## 
+## $integer.max
+## [1] 2147483647
+## 
+## $sizeof.long
+## [1] 8
+## 
+## $sizeof.longlong
+## [1] 8
+## 
+## $sizeof.longdouble
+## [1] 16
+## 
+## $sizeof.pointer
+## [1] 8</code></pre>
+</section><section id="characters" class="slide level2">
+<h2>Characters</h2>
+<p>Character covers all text formats.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> &quot;Hello World&quot;</span>
+<span class="kw">class</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.character</span>(x)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>We will be dealing with text in much more detail when we are looking at regular expressions …</p>
+</section><section id="basic-types-in-r" class="slide level2">
+<h2>Basic types in R</h2>
+<ul>
+<li><strong>Vectors</strong>: one-dimensional array of values of the same type; vectors have a length, but no dimension</li>
+<li><strong>Matrix</strong>: two-dimensional array of values of the same type; matrices have a dimension given as (row, column), length returns the number of items (row x column)</li>
+<li><strong>Array</strong>: any higher dimensional array (e.g. output of temperature data from netcdf data)</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;4.5&quot;</span>, <span class="dv">3</span>, <span class="ot">TRUE</span>, <span class="st">&quot;elephant&quot;</span>)
+<span class="co"># The logical value becomes a character</span>
+x</code></pre></div>
+<pre><code>## [1] &quot;4.5&quot;      &quot;3&quot;        &quot;TRUE&quot;     &quot;elephant&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># note that the cast from logical to </span>
+<span class="co"># character doesn&#39;t survive intact</span>
+<span class="kw">as.numeric</span>(x) </code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>## [1] 4.5 3.0  NA  NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>, <span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>), <span class="dt">nrow =</span> <span class="dv">2</span>,
+   <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>, <span class="dt">dimnames =</span> 
+   <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;row1&quot;</span>, <span class="st">&quot;row2&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;C.1&quot;</span>, <span class="st">&quot;C.2&quot;</span>, <span class="st">&quot;C.3&quot;</span>)))
+X</code></pre></div>
+<pre><code>##      C.1 C.2 C.3
+## row1   1   2   3
+## row2  11  12  13</code></pre>
+</section><section id="data-frames" class="slide level2">
+<h2>Data frames</h2>
+<p>Data frame: collection of vectors of same length but possibly different types</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L3 &lt;-<span class="st"> </span>LETTERS[<span class="dv">1</span>:<span class="dv">3</span>]
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">x=</span><span class="dv">1</span>, <span class="dt">y=</span><span class="dv">1</span>:<span class="dv">10</span>), 
+     <span class="dt">fac=</span><span class="kw">sample</span>(L3, <span class="dv">10</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>))
+d %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>## Observations: 10
+## Variables: 3
+## $ x   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+## $ y   &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+## $ fac &lt;fctr&gt; C, C, C, B, A, A, C, A, B, C</code></pre>
+</section><section id="lists" class="slide level2">
+<h2>Lists</h2>
+<ul>
+<li>lists allow the most flexibility, i.e. are not very structured.</li>
+<li>a list element can be anything, including another list</li>
+<li>very useful (and common) as output from analytic methods</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod&lt;-<span class="kw">glm</span>(mpg~cyl+disp+hp+drat+wt, <span class="dt">data=</span>mtcars)
+<span class="kw">head</span>(<span class="kw">str</span>(mod))</code></pre></div>
+<pre><code>## List of 30
+##  $ coefficients     : Named num [1:6] 36.0084 -1.1075 0.0124 -0.024 0.9522 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;(Intercept)&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##  $ residuals        : Named num [1:32] -1.788 -0.852 -3.023 0.367 0.943 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ fitted.values    : Named num [1:32] 22.8 21.9 25.8 21 17.8 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ effects          : Named num [1:32] -113.65 -28.6 6.13 -3.06 -4.06 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;(Intercept)&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##  $ R                : num [1:6, 1:6] -5.66 0 0 0 0 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : chr [1:6] &quot;(Intercept)&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##   .. ..$ : chr [1:6] &quot;(Intercept)&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##  $ rank             : int 6
+##  $ qr               :List of 5
+##   ..$ qr   : num [1:32, 1:6] -5.657 0.177 0.177 0.177 0.177 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##   .. .. ..$ : chr [1:6] &quot;(Intercept)&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##   ..$ rank : int 6
+##   ..$ qraux: num [1:6] 1.18 1.02 1.11 1.17 1.08 ...
+##   ..$ pivot: int [1:6] 1 2 3 4 5 6
+##   ..$ tol  : num 1e-11
+##   ..- attr(*, &quot;class&quot;)= chr &quot;qr&quot;
+##  $ family           :List of 11
+##   ..$ family    : chr &quot;gaussian&quot;
+##   ..$ link      : chr &quot;identity&quot;
+##   ..$ linkfun   :function (mu)  
+##   ..$ linkinv   :function (eta)  
+##   ..$ variance  :function (mu)  
+##   ..$ dev.resids:function (y, mu, wt)  
+##   ..$ aic       :function (y, n, mu, wt, dev)  
+##   ..$ mu.eta    :function (eta)  
+##   ..$ initialize:  expression({     n &lt;- rep.int(1, nobs)     if (is.null(etastart) &amp;&amp; is.null(start) &amp;&amp; is.null(mustart) &amp;&amp;          ((family$link == &quot;inverse&quot; &amp;&amp; any(y == 0)) || (family$link ==              &quot;log&quot; &amp;&amp; any(y &lt;= 0))))          stop(&quot;cannot find valid starting values: please specify some&quot;)     mustart &lt;- y })
+##   ..$ validmu   :function (mu)  
+##   ..$ valideta  :function (eta)  
+##   ..- attr(*, &quot;class&quot;)= chr &quot;family&quot;
+##  $ linear.predictors: Named num [1:32] 22.8 21.9 25.8 21 17.8 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ deviance         : num 167
+##  $ aic              : num 158
+##  $ null.deviance    : num 1126
+##  $ iter             : int 2
+##  $ weights          : Named num [1:32] 1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ prior.weights    : Named num [1:32] 1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ df.residual      : int 26
+##  $ df.null          : int 31
+##  $ y                : Named num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+##  $ converged        : logi TRUE
+##  $ boundary         : logi FALSE
+##  $ model            :&#39;data.frame&#39;:   32 obs. of  6 variables:
+##   ..$ mpg : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##   ..$ cyl : num [1:32] 6 6 4 6 8 6 8 4 4 6 ...
+##   ..$ disp: num [1:32] 160 160 108 258 360 ...
+##   ..$ hp  : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...
+##   ..$ drat: num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##   ..$ wt  : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
+##   ..- attr(*, &quot;terms&quot;)=Classes &#39;terms&#39;, &#39;formula&#39;  language mpg ~ cyl + disp + hp + drat + wt
+##   .. .. ..- attr(*, &quot;variables&quot;)= language list(mpg, cyl, disp, hp, drat, wt)
+##   .. .. ..- attr(*, &quot;factors&quot;)= int [1:6, 1:5] 0 1 0 0 0 0 0 0 1 0 ...
+##   .. .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. .. ..$ : chr [1:6] &quot;mpg&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##   .. .. .. .. ..$ : chr [1:5] &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; &quot;drat&quot; ...
+##   .. .. ..- attr(*, &quot;term.labels&quot;)= chr [1:5] &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; &quot;drat&quot; ...
+##   .. .. ..- attr(*, &quot;order&quot;)= int [1:5] 1 1 1 1 1
+##   .. .. ..- attr(*, &quot;intercept&quot;)= int 1
+##   .. .. ..- attr(*, &quot;response&quot;)= int 1
+##   .. .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##   .. .. ..- attr(*, &quot;predvars&quot;)= language list(mpg, cyl, disp, hp, drat, wt)
+##   .. .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:6] &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; ...
+##   .. .. .. ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;mpg&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##  $ call             : language glm(formula = mpg ~ cyl + disp + hp + drat + wt, data = mtcars)
+##  $ formula          :Class &#39;formula&#39;  language mpg ~ cyl + disp + hp + drat + wt
+##   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##  $ terms            :Classes &#39;terms&#39;, &#39;formula&#39;  language mpg ~ cyl + disp + hp + drat + wt
+##   .. ..- attr(*, &quot;variables&quot;)= language list(mpg, cyl, disp, hp, drat, wt)
+##   .. ..- attr(*, &quot;factors&quot;)= int [1:6, 1:5] 0 1 0 0 0 0 0 0 1 0 ...
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:6] &quot;mpg&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##   .. .. .. ..$ : chr [1:5] &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; &quot;drat&quot; ...
+##   .. ..- attr(*, &quot;term.labels&quot;)= chr [1:5] &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; &quot;drat&quot; ...
+##   .. ..- attr(*, &quot;order&quot;)= int [1:5] 1 1 1 1 1
+##   .. ..- attr(*, &quot;intercept&quot;)= int 1
+##   .. ..- attr(*, &quot;response&quot;)= int 1
+##   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##   .. ..- attr(*, &quot;predvars&quot;)= language list(mpg, cyl, disp, hp, drat, wt)
+##   .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:6] &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; ...
+##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;mpg&quot; &quot;cyl&quot; &quot;disp&quot; &quot;hp&quot; ...
+##  $ data             :&#39;data.frame&#39;:   32 obs. of  11 variables:
+##   ..$ mpg : num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##   ..$ cyl : num [1:32] 6 6 4 6 8 6 8 4 4 6 ...
+##   ..$ disp: num [1:32] 160 160 108 258 360 ...
+##   ..$ hp  : num [1:32] 110 110 93 110 175 105 245 62 95 123 ...
+##   ..$ drat: num [1:32] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##   ..$ wt  : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
+##   ..$ qsec: num [1:32] 16.5 17 18.6 19.4 17 ...
+##   ..$ vs  : num [1:32] 0 0 1 1 0 1 0 1 1 1 ...
+##   ..$ am  : num [1:32] 1 1 1 0 0 0 0 0 0 0 ...
+##   ..$ gear: num [1:32] 4 4 4 3 3 3 3 4 4 4 ...
+##   ..$ carb: num [1:32] 4 4 1 1 2 1 4 2 2 4 ...
+##  $ offset           : NULL
+##  $ control          :List of 3
+##   ..$ epsilon: num 1e-08
+##   ..$ maxit  : num 25
+##   ..$ trace  : logi FALSE
+##  $ method           : chr &quot;glm.fit&quot;
+##  $ contrasts        : NULL
+##  $ xlevels          : Named list()
+##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;glm&quot; &quot;lm&quot;</code></pre>
+<pre><code>## NULL</code></pre>
+</section><section id="working-with-lists" class="slide level2">
+<h2>Working with lists</h2>
+<ul>
+<li>single bracket operator <a href="#/section"></a> returns sub-list</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">8</span>)]</code></pre></div>
+<pre><code>## $coefficients
+## (Intercept)         cyl        disp          hp        drat          wt 
+## 36.00835689 -1.10748650  0.01235733 -0.02401743  0.95220742 -3.67328708 
+## 
+## $rank
+## [1] 6
+## 
+## $family
+## 
+## Family: gaussian 
+## Link function: identity</code></pre>
+</section><section id="working-with-lists-contd" class="slide level2">
+<h2>Working with lists (cont’d)</h2>
+<ul>
+<li>double bracket operator [<a href="#/section"></a>] returns single list element (i.e. only single positive integer is allowed)</li>
+<li>similarly, named objects can be accessed using the <code>$</code> operator</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## (Intercept)         cyl        disp          hp        drat          wt 
+## 36.00835689 -1.10748650  0.01235733 -0.02401743  0.95220742 -3.67328708</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod$rank</code></pre></div>
+<pre><code>## [1] 6</code></pre>
+</section><section id="objects-in-r" class="slide level2">
+<h2>Objects in R</h2>
+<ul>
+<li>S3, S4 objects or reference class objects are used for more advanced and customized objects</li>
+<li>S3 objects are organized like a hybrid between regular data frames and lists</li>
+<li>the @ takes the role of $ in data frames</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(maptools)
+xx &lt;-<span class="st"> </span><span class="kw">readShapeSpatial</span>(<span class="st">&quot;../data/australia/region.shp&quot;</span>)
+<span class="kw">class</span>(xx)</code></pre></div>
+<pre><code>## [1] &quot;SpatialPolygonsDataFrame&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(xx)</code></pre></div>
+<pre><code>## [1] &quot;data&quot;        &quot;polygons&quot;    &quot;plotOrder&quot;   &quot;bbox&quot;        &quot;proj4string&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xx@bbox</code></pre></div>
+<pre><code>##         min        max
+## x  96.81677 159.109219
+## y -43.74051  -9.142176</code></pre>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<ul>
+<li>special functions can be implemented to deal with S3 objects. These are called <strong>methods</strong></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(<span class="dt">class=</span><span class="kw">class</span>(xx))</code></pre></div>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>##  [1] [             [[            [[&lt;-          [&lt;-           $            
+##  [6] $&lt;-           addAttrToGeom bbox          coerce        coerce&lt;-     
+## [11] coordinates   coordinates&lt;- coordnames    coordnames&lt;-  dimensions   
+## [16] disaggregate  fortify       fullgrid      geometry      geometry&lt;-   
+## [21] gridded       is.projected  merge         over          plot         
+## [26] polygons      polygons&lt;-    proj4string   proj4string&lt;- recenter     
+## [31] spChFIDs      spChFIDs&lt;-    split         sppanel       spplot       
+## [36] spsample      spTransform   summary      
+## see &#39;?methods&#39; for accessing help and source code</code></pre>
+</section><section id="extract-data-for-each-spatial-entity" class="slide level2">
+<h2>Extract data for each spatial entity</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(xx)</code></pre></div>
+<pre><code>##           ELECT_DIV STATE NUMCCDS ACTUAL PROJECTED POPULATION OVER_18
+## 0          Lingiari    NT     335      0         0          0       0
+## 1           Solomon    NT     180      0         0          0       0
+## 2          Canberra   ACT     283      0         0          0       0
+## 3            Fraser   ACT     270      0         0          0       0
+## 4             Brand    WA     243      0         0          0       0
+## 5           Canning    WA     268      0         0          0       0
+## 6             Cowan    WA     198      0         0          0       0
+## 7            Curtin    WA     334      0         0          0       0
+## 8            Durack    WA     487      0         0          0       0
+## 9           Forrest    WA     271      0         0          0       0
+## 10        Fremantle    WA     273      0         0          0       0
+## 11          Hasluck    WA     264      0         0          0       0
+## 12            Moore    WA     223      0         0          0       0
+## 13         O&#39;Connor    WA     433      0         0          0       0
+## 14           Pearce    WA     266      0         0          0       0
+## 15            Perth    WA     292      0         0          0       0
+## 16         Stirling    WA     273      0         0          0       0
+## 17             Swan    WA     325      0         0          0       0
+## 18          Tangney    WA     235      0         0          0       0
+## 19             Bass   TAS     208      0         0          0       0
+## 20          Braddon   TAS     226      0         0          0       0
+## 21          Denison   TAS     197      0         0          0       0
+## 22         Franklin   TAS     179      0         0          0       0
+## 23            Lyons   TAS     256      0         0          0       0
+## 24            Banks   NSW     229      0         0          0       0
+## 25           Barton   NSW     234      0         0          0       0
+## 26        Bennelong   NSW     238      0         0          0       0
+## 27          Berowra   NSW     193      0         0          0       0
+## 28         Blaxland   NSW     212      0         0          0       0
+## 29        Bradfield   NSW     210      0         0          0       0
+## 30           Calare   NSW     316      0         0          0       0
+## 31         Charlton   NSW     211      0         0          0       0
+## 32          Chifley   NSW     216      0         0          0       0
+## 33             Cook   NSW     241      0         0          0       0
+## 34           Cowper   NSW     256      0         0          0       0
+## 35       Cunningham   NSW     252      0         0          0       0
+## 36           Dobell   NSW     236      0         0          0       0
+## 37      Eden-Monaro   NSW     308      0         0          0       0
+## 38           Farrer   NSW     349      0         0          0       0
+## 39           Fowler   NSW     191      0         0          0       0
+## 40          Gilmore   NSW     262      0         0          0       0
+## 41        Grayndler   NSW     289      0         0          0       0
+## 42         Greenway   NSW     194      0         0          0       0
+## 43           Hughes   NSW     197      0         0          0       0
+## 44             Hume   NSW     313      0         0          0       0
+## 45           Hunter   NSW     252      0         0          0       0
+## 46  Kingsford Smith   NSW     274      0         0          0       0
+## 47          Lindsay   NSW     213      0         0          0       0
+## 48             Lyne   NSW     240      0         0          0       0
+## 49        Macarthur   NSW     182      0         0          0       0
+## 50        Mackellar   NSW     234      0         0          0       0
+## 51        Macquarie   NSW     248      0         0          0       0
+## 52          McMahon   NSW     192      0         0          0       0
+## 53         Mitchell   NSW     166      0         0          0       0
+## 54      New England   NSW     367      0         0          0       0
+## 55        Newcastle   NSW     264      0         0          0       0
+## 56     North Sydney   NSW     273      0         0          0       0
+## 57             Page   NSW     281      0         0          0       0
+## 58           Parkes   NSW     462      0         0          0       0
+## 59       Parramatta   NSW     237      0         0          0       0
+## 60         Paterson   NSW     243      0         0          0       0
+## 61             Reid   NSW     241      0         0          0       0
+## 62         Richmond   NSW     245      0         0          0       0
+## 63         Riverina   NSW     334      0         0          0       0
+## 64        Robertson   NSW     257      0         0          0       0
+## 65        Shortland   NSW     219      0         0          0       0
+## 66           Sydney   NSW     310      0         0          0       0
+## 67          Throsby   NSW     224      0         0          0       0
+## 68        Warringah   NSW     292      0         0          0       0
+## 69           Watson   NSW     246      0         0          0       0
+## 70        Wentworth   NSW     356      0         0          0       0
+## 71          Werriwa   NSW     188      0         0          0       0
+## 72            Blair   QLD     233      0         0          0       0
+## 73           Bonner   QLD     216      0         0          0       0
+## 74           Bowman   QLD     199      0         0          0       0
+## 75         Brisbane   QLD     305      0         0          0       0
+## 76      Capricornia   QLD     302      0         0          0       0
+## 77           Dawson   QLD     291      0         0          0       0
+## 78          Dickson   QLD     192      0         0          0       0
+## 79           Fadden   QLD     214      0         0          0       0
+## 80          Fairfax   QLD     232      0         0          0       0
+## 81           Fisher   QLD     220      0         0          0       0
+## 82            Flynn   QLD     342      0         0          0       0
+## 83            Forde   QLD     184      0         0          0       0
+## 84         Griffith   QLD     279      0         0          0       0
+## 85            Groom   QLD     251      0         0          0       0
+## 86          Herbert   QLD     242      0         0          0       0
+## 87          Hinkler   QLD     239      0         0          0       0
+## 88          Kennedy   QLD     410      0         0          0       0
+## 89       Leichhardt   QLD     332      0         0          0       0
+## 90           Lilley   QLD     254      0         0          0       0
+## 91          Longman   QLD     192      0         0          0       0
+## 92          Maranoa   QLD     428      0         0          0       0
+## 93        Mcpherson   QLD     237      0         0          0       0
+## 94        Moncrieff   QLD     291      0         0          0       0
+## 95          Moreton   QLD     237      0         0          0       0
+## 96            Oxley   QLD     193      0         0          0       0
+## 97           Petrie   QLD     198      0         0          0       0
+## 98           Rankin   QLD     225      0         0          0       0
+## 99             Ryan   QLD     244      0         0          0       0
+## 100        Wide Bay   QLD     310      0         0          0       0
+## 101          Wright   QLD     250      0         0          0       0
+## 102           Aston   VIC     191      0         0          0       0
+## 103        Ballarat   VIC     274      0         0          0       0
+## 104          Batman   VIC     265      0         0          0       0
+## 105         Bendigo   VIC     284      0         0          0       0
+## 106           Bruce   VIC     226      0         0          0       0
+## 107         Calwell   VIC     214      0         0          0       0
+## 108           Casey   VIC     236      0         0          0       0
+## 109        Chisholm   VIC     245      0         0          0       0
+## 110     Corangamite   VIC     264      0         0          0       0
+## 111           Corio   VIC     250      0         0          0       0
+## 112          Deakin   VIC     240      0         0          0       0
+## 113         Dunkley   VIC     241      0         0          0       0
+## 114        Flinders   VIC     328      0         0          0       0
+## 115      Gellibrand   VIC     270      0         0          0       0
+## 116       Gippsland   VIC     286      0         0          0       0
+## 117       Goldstein   VIC     232      0         0          0       0
+## 118          Gorton   VIC     186      0         0          0       0
+## 119         Higgins   VIC     279      0         0          0       0
+## 120            Holt   VIC     209      0         0          0       0
+## 121          Hotham   VIC     221      0         0          0       0
+## 122            Indi   VIC     328      0         0          0       0
+## 123          Isaacs   VIC     224      0         0          0       0
+## 124        Jagajaga   VIC     238      0         0          0       0
+## 125         Kooyong   VIC     253      0         0          0       0
+## 126        La Trobe   VIC     228      0         0          0       0
+## 127           Lalor   VIC     206      0         0          0       0
+## 128          Mallee   VIC     355      0         0          0       0
+## 129     Maribyrnong   VIC     248      0         0          0       0
+## 130          McEwen   VIC     207      0         0          0       0
+## 131        Mcmillan   VIC     278      0         0          0       0
+## 132       Melbourne   VIC     344      0         0          0       0
+## 133 Melbourne Ports   VIC     316      0         0          0       0
+## 134         Menzies   VIC     200      0         0          0       0
+## 135          Murray   VIC     298      0         0          0       0
+## 136         Scullin   VIC     202      0         0          0       0
+## 137          Wannon   VIC     320      0         0          0       0
+## 138           Wills   VIC     276      0         0          0       0
+## 139        Adelaide    SA     318      0         0          0       0
+## 140          Barker    SA     343      0         0          0       0
+## 141         Boothby    SA     281      0         0          0       0
+## 142            Grey    SA     429      0         0          0       0
+## 143       Hindmarsh    SA     322      0         0          0       0
+## 144        Kingston    SA     229      0         0          0       0
+## 145           Makin    SA     232      0         0          0       0
+## 146            Mayo    SA     276      0         0          0       0
+## 147   Port Adelaide    SA     299      0         0          0       0
+## 148           Sturt    SA     255      0         0          0       0
+## 149       Wakefield    SA     277      0         0          0       0
+##        AREA_SQKM        SORTNAME
+## 0   1352034.0500        Lingiari
+## 1       336.6860         Solomon
+## 2      1920.4800        Canberra
+## 3       505.2460          Fraser
+## 4       410.5300           Brand
+## 5      6178.0400         Canning
+## 6       179.6210           Cowan
+## 7       104.1460          Curtin
+## 8   1587757.9500          Durack
+## 9     12781.4000         Forrest
+## 10      201.3630       Fremantle
+## 11      244.5320         Hasluck
+## 12      133.2290           Moore
+## 13   908954.1100        O&#39;Connor
+## 14    14401.4000          Pearce
+## 15       78.4488           Perth
+## 16       77.3032        Stirling
+## 17      126.3050            Swan
+## 18       96.2293         Tangney
+## 19     7378.7500            Bass
+## 20    20826.1800         Braddon
+## 21      288.7180         Denison
+## 22     6514.2100        Franklin
+## 23    32910.6200           Lyons
+## 24       49.3189           Banks
+## 25       44.1112          Barton
+## 26       58.3775       Bennelong
+## 27      782.3660         Berowra
+## 28       62.1464        Blaxland
+## 29       99.0623       Bradfield
+## 30    30526.2700          Calare
+## 31      688.1180        Charlton
+## 32      135.0250         Chifley
+## 33      100.0730            Cook
+## 34     7860.6500          Cowper
+## 35      721.1000      Cunningham
+## 36      774.7040          Dobell
+## 37    29499.3200     Eden-Monaro
+## 38   247096.5100          Farrer
+## 39       69.3533          Fowler
+## 40     4877.7800         Gilmore
+## 41       32.3086       Grayndler
+## 42       84.0739        Greenway
+## 43      178.2960          Hughes
+## 44    33636.8400            Hume
+## 45    20110.6300          Hunter
+## 46      126.9670 Kingsford Smith
+## 47      339.0580         Lindsay
+## 48    11991.2000            Lyne
+## 49      798.0870       Macarthur
+## 50      233.3590       Mackellar
+## 51     4374.0000       Macquarie
+## 52      160.5560         McMahon
+## 53      101.1940        Mitchell
+## 54    59344.2600     New England
+## 55      354.4350       Newcastle
+## 56       47.7005    North Sydney
+## 57    16142.9400            Page
+## 58   256643.1700          Parkes
+## 59       55.8604      Parramatta
+## 60     6652.0100        Paterson
+## 61       65.8119            Reid
+## 62     2768.2600        Richmond
+## 63    61435.4800        Riverina
+## 64      978.2190       Robertson
+## 65      205.0200       Shortland
+## 66       91.2251          Sydney
+## 67     1422.3800         Throsby
+## 68       72.6744       Warringah
+## 69       42.1760          Watson
+## 70       29.6311       Wentworth
+## 71      158.5020         Werriwa
+## 72     6409.2700           BLAIR
+## 73      360.0610          BONNER
+## 74      537.1130          BOWMAN
+## 75       58.2288        BRISBANE
+## 76    91048.9300     CAPRICORNIA
+## 77    14945.3600          DAWSON
+## 78      722.4760         DICKSON
+## 79      395.4430          FADDEN
+## 80     1035.9500         FAIRFAX
+## 81     1169.8800          FISHER
+## 82   133063.4300           FLYNN
+## 83      418.5660           FORDE
+## 84       59.7682        GRIFFITH
+## 85     5594.4000           GROOM
+## 86      945.7040         HERBERT
+## 87     3503.9200         HINKLER
+## 88   568992.5200         KENNEDY
+## 89   148988.0800      LEICHHARDT
+## 90      147.2850          LILLEY
+## 91     1239.3000         LONGMAN
+## 92   731297.2700         MARANOA
+## 93      229.7320       MCPHERSON
+## 94       92.3257       MONCRIEFF
+## 95      110.8710         MORETON
+## 96      155.3490           OXLEY
+## 97      152.0190          PETRIE
+## 98      131.1500          RANKIN
+## 99      440.9560            RYAN
+## 100   14572.6200        WIDE BAY
+## 101    7589.1000          Wright
+## 102      99.0122           Aston
+## 103    4651.5400        Ballarat
+## 104      65.6887          Batman
+## 105    6255.0000         Bendigo
+## 106      72.6115           Bruce
+## 107     174.7130         Calwell
+## 108    2337.3400           Casey
+## 109      64.9781        Chisholm
+## 110    7623.9500     Corangamite
+## 111     989.4480           Corio
+## 112      69.8003          Deakin
+## 113     139.9960         Dunkley
+## 114    1952.0900        Flinders
+## 115     101.6390      Gellibrand
+## 116   33053.5300       Gippsland
+## 117      50.4044       Goldstein
+## 118     561.5420          Gorton
+## 119      39.8680         Higgins
+## 120     131.2150            Holt
+## 121      75.0985          Hotham
+## 122   28567.0100            Indi
+## 123     165.8920          Isaacs
+## 124     127.9160        Jagajaga
+## 125      52.3950         Kooyong
+## 126     561.9950        La Trobe
+## 127     545.6380           Lalor
+## 128   73878.6800          Mallee
+## 129      72.5144     Maribyrnong
+## 130    4592.0800          McEwen
+## 131    8357.8600        Mcmillan
+## 132      46.3801       Melbourne
+## 133      40.1226 Melbourne Ports
+## 134     124.7230         Menzies
+## 135   19500.2700          Murray
+## 136     169.0810         Scullin
+## 137   32046.7700          Wannon
+## 138      56.8234           Wills
+## 139      76.0074        Adelaide
+## 140   63885.7100          Barker
+## 141     129.6820         Boothby
+## 142  904881.2300            Grey
+## 143      77.5908       Hindmarsh
+## 144     170.5720        Kingston
+## 145     130.0800           Makin
+## 146    9314.6500            Mayo
+## 147     180.6450   Port Adelaide
+## 148      85.3432           Sturt
+## 149    6407.1200       Wakefield</code></pre>
+</section><section id="extract-data-for-each-spatial-outline" class="slide level2">
+<h2>Extract data for each spatial outline</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">map &lt;-<span class="st"> </span><span class="kw">fortify</span>(xx)</code></pre></div>
+<pre><code>## Regions defined for each Polygons</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(map)</code></pre></div>
+<pre><code>##       long       lat order  hole piece id group
+## 1 138.0012 -18.62066     1 FALSE     1  0   0.1
+## 2 138.0012 -18.64651     2 FALSE     1  0   0.1
+## 3 137.9966 -18.86822     3 FALSE     1  0   0.1
+## 4 137.9960 -18.99851     4 FALSE     1  0   0.1
+## 5 137.9960 -19.01883     5 FALSE     1  0   0.1
+## 6 137.9960 -19.10216     6 FALSE     1  0   0.1</code></pre>
+</section><section id="plot-the-map" class="slide level2">
+<h2>Plot the map</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">map %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) +<span class="st"> </span><span class="kw">geom_path</span>()</code></pre></div>
+<p><img src="01_data-structures_files/figure-revealjs/unnamed-chunk-14-1.png" width="768" /></p>
+</section><section id="your-turn-10-min" class="slide level2">
+<h2>Your Turn (10 min)</h2>
+<p><img src="images/earth.jpg" width="1200" class="cover"></p>
+<ul>
+<li><span style="color:white">Download the shapefile for a country of your choice from <a href="http://www.gadm.org/country">GADM - Boundaries without limits</a>. (Make sure to select the shapefiles version of the boundary set) </span></li>
+<li><span style="color:white">Unzip the document and move the resulting folder into your working directory (or somewhere close to it).</span></li>
+<li><span style="color:white">Read the shapefile (there are usually shapefiles at different administrative levels - pick one), export the polygons and plot in <code>ggplot2</code>.</span></li>
+</ul>
+</section><section id="your-turn---solution" class="slide level2">
+<h2>Your Turn - Solution</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shape &lt;-<span class="st"> </span>maptools::<span class="kw">readShapeSpatial</span>(<span class="st">&quot;../data/DEU_adm_shp/DEU_adm1.shp&quot;</span>)
+<span class="kw">head</span>(<span class="kw">as.data.frame</span>(shape))</code></pre></div>
+<pre><code>##   ID_0 ISO  NAME_0 ID_1            NAME_1 HASC_1 CCN_1 CCA_1
+## 0   86 DEU Germany    1 Baden-Württemberg  DE.BW     0    08
+## 1   86 DEU Germany    2            Bayern  DE.BY     0    09
+## 2   86 DEU Germany    3            Berlin  DE.BE     0    11
+## 3   86 DEU Germany    4       Brandenburg  DE.BR     0    12
+## 4   86 DEU Germany    5            Bremen  DE.HB     0    04
+## 5   86 DEU Germany    6           Hamburg  DE.HH     0    02
+##                 TYPE_1 ENGTYPE_1 NL_NAME_1 VARNAME_1
+## 0                 Land     State      &lt;NA&gt;      &lt;NA&gt;
+## 1            Freistaat      &lt;NA&gt;      &lt;NA&gt;   Bavaria
+## 2                 Land     State      &lt;NA&gt;      &lt;NA&gt;
+## 3                 Land     State      &lt;NA&gt;      &lt;NA&gt;
+## 4     Freie Hansestadt     State      &lt;NA&gt;    &lt;Null&gt;
+## 5 Freie und Hansestadt     State      &lt;NA&gt;      &lt;NA&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">de1 &lt;-<span class="st"> </span><span class="kw">fortify</span>(shape)</code></pre></div>
+<pre><code>## Regions defined for each Polygons</code></pre>
+</section><section id="your-turn---plot-the-map" class="slide level2">
+<h2>Your Turn - plot the map</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">de1 %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) +<span class="st"> </span><span class="kw">geom_path</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">aspect.ratio=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="01_data-structures_files/figure-revealjs/unnamed-chunk-16-1.png" width="768" /></p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_data-structures_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

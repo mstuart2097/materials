@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Date and Time</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="02_date-and-time_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="02_date-and-time_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="02_date-and-time_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="02_date-and-time_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Date and Time</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="working-with-date-and-time" class="titleslide slide level1"><h2 class="shout">Working with date and time</h2></section><section id="lubridate-package" class="slide level2">
+<h2><code>lubridate</code> package</h2>
+<ul>
+<li>package for working with dates and times</li>
+<li>defines different classes of time: instants, periods, intervals, durations</li>
+<li>defines converter and accessor functions, enables time calculus</li>
+</ul>
+</section><section id="converter-functions-and-instants-in-time" class="slide level2">
+<h2>Converter functions and instants in time</h2>
+<ul>
+<li>time instants: one (absolute) moment in time, e.g. <code>now()</code>, <code>Jan-1-2000</code></li>
+<li>easy-to-use converter functions:
+<ul>
+<li>date: <code>ymd</code>, <code>mdy</code>, <code>dmy</code>, …</li>
+<li>time: <code>hm</code>, <code>hms</code>, …</li>
+<li>date &amp; time: <code>ymd_hms</code>, <code>mdy_hm</code>, …</li>
+</ul></li>
+<li>order of letters determines how strings are parsed</li>
+<li>separators are automatically determined, then assumed to be the same</li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mdy</span>(<span class="st">&quot;03-01-2017&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;2017-03-01&quot;</code></pre>
+</section><section id="accessor-functions" class="slide level2">
+<h2>Accessor functions</h2>
+<ul>
+<li>accessor functions: <code>year</code>, <code>month</code>, <code>week</code>, <code>wday</code>, <code>mday</code>, <code>yday</code>, <code>hour</code>, <code>minute</code>, …</li>
+<li>accessor functions can also be used for setting elements of date and time, e.g. <code>hour(x) &lt;- 12</code></li>
+</ul>
+<p>Examples:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(<span class="kw">now</span>())</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wday</span>(<span class="kw">now</span>(), <span class="dt">label =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] Sat
+## Levels: Sun &lt; Mon &lt; Tues &lt; Wed &lt; Thurs &lt; Fri &lt; Sat</code></pre>
+</section><section id="intervals-and-durations" class="slide level2">
+<h2>Intervals and Durations</h2>
+<ul>
+<li>Intervals have a <em>start</em> and an <em>end</em> date/time: absolute difference</li>
+<li>Durations are potentially of relative length (months, leap year, leap second, …)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_date &lt;-<span class="st"> </span><span class="kw">now</span>()
+<span class="co"># span is interval, years(1) is duration</span>
+span &lt;-<span class="st"> </span>end_date -<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)
+span</code></pre></div>
+<pre><code>## [1] &quot;2016-02-04 11:22:30 CET&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_date -<span class="st"> </span><span class="kw">days</span>(<span class="dv">10</span>)</code></pre></div>
+<pre><code>## [1] &quot;2017-01-25 11:22:30 CET&quot;</code></pre>
+</section><section id="example-movies" class="slide level2">
+<h2>Example: Movies</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/movies.csv&quot;</span>)
+<span class="kw">summary</span>(movies$Date) <span class="co"># factor variable: number of movies in theaters</span></code></pre></div>
+<pre><code>## 2016-09-23 2016-10-21 2016-09-16 2016-09-30 2016-10-07 2016-10-14 
+##        126        125        124        123        120        119 
+## 2016-11-04 2016-12-02 2015-10-02 2016-05-20 2015-04-24 2016-11-18 
+##        119        119        117        116        115        115 
+## 2016-11-11 2016-09-09 2016-10-28 2015-09-25 2015-10-09 2016-03-18 
+##        114        113        113        112        112        112 
+## 2016-04-22 2015-09-18 2016-09-02 2016-04-01 2016-04-08 2016-08-19 
+##        110        108        108        107        107        107 
+## 2016-11-25 2015-11-06 2016-05-06 2015-07-24 2016-08-26 2015-07-10 
+##        107        106        106        105        105        104 
+## 2015-07-17 2015-11-13 2016-03-11 2016-04-15 2016-08-12 2015-04-10 
+##        104        104        104        104        104        103 
+## 2015-04-17 2015-09-11 2015-10-16 2015-10-23 2016-02-19 2016-06-24 
+##        103        103        103        103        103        103 
+## 2016-07-15 2016-07-29 2016-06-10 2016-07-22 2016-12-09 2015-06-26 
+##        103        103        102        101        101        100 
+## 2015-11-20 2016-05-13 2016-05-27 2015-08-07 2015-10-30 2016-12-16 
+##        100        100        100         99         99         99 
+## 2015-06-12 2015-08-21 2015-08-28 2016-03-04 2016-06-17 2015-05-22 
+##         98         98         98         98         98         97 
+## 2015-06-19 2015-08-14 2016-03-25 2016-04-29 2016-07-08 2015-02-06 
+##         97         97         97         97         97         96 
+## 2015-02-27 2015-03-27 2015-09-04 2015-04-03 2015-05-01 2015-05-08 
+##         95         95         95         94         94         94 
+## 2015-05-15 2015-07-31 2015-02-13 2015-03-06 2016-02-12 2016-06-03 
+##         94         94         93         93         93         93 
+## 2015-05-29 2015-06-05 2015-07-03 2015-03-20 2016-08-05 2015-01-30 
+##         91         91         91         90         90         89 
+## 2015-02-20 2016-01-08 2016-02-26 2016-07-01 2015-03-13 2015-12-04 
+##         89         88         88         88         87         86 
+## 2015-12-11 2016-02-05 2015-12-18 2015-11-27 2016-01-29 2016-01-15 
+##         85         85         83         82         82         81 
+## 2016-01-01 2016-01-22 2017-01-06    (Other) 
+##         79         78         75        392</code></pre>
+</section><section id="example-movies-contd" class="slide level2">
+<h2>Example: Movies (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
+movies$Date &lt;-<span class="st"> </span><span class="kw">ymd</span>(movies$Date)
+<span class="kw">summary</span>(movies$Date) <span class="co"># makes more sense</span></code></pre></div>
+<pre><code>##         Min.      1st Qu.       Median         Mean      3rd Qu. 
+## &quot;2015-01-30&quot; &quot;2015-07-31&quot; &quot;2016-02-12&quot; &quot;2016-01-31&quot; &quot;2016-08-05&quot; 
+##         Max. 
+## &quot;2017-01-27&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Date)) +<span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">7</span>)</code></pre></div>
+<p><img src="02_date-and-time_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section><section id="your-turn-10-min" class="slide level2">
+<h2>Your Turn (10 min)</h2>
+<ul>
+<li>load the <code>movies</code> data set,</li>
+<li>convert the variable <code>release</code> to a date format,</li>
+<li>plot a histogram of the variable.</li>
+<li>Check whether the time between the release of a movie and the date is equal to the number of days in theaters.</li>
+<li>How should we interpret the result of <code>as.numeric(months(1))</code>?</li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="02_date-and-time_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,37 @@
+---
+title: "Stat 585 - Date and Time"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Working with date and time
+
+
+## `lubridate` package
+
+easy-to-use converter functions: 
+
+* date: ymd, mdy, dmy, ...
+* time: hm, hms, ...
+* date & time: ymd_hms, mdy_hm, ...
+
+lots of convenient extractor functions: year, month, week, wday, mday, yday, hour, minute, ...<br>
+extractor functions can also be used for setting elements of date and time, e.g. `hour(x) <- 12`
+
+
+## Example
+
+```
+summary(x)
+y <- ymd(x)
+summary(y)
+```

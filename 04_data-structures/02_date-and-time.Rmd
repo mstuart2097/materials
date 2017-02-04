@@ -1,0 +1,92 @@
+---
+title: "Stat 585 - Date and Time"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+```
+
+# Working with date and time
+
+
+## `lubridate` package
+
+- package for working with dates and times
+- defines different classes of time: instants, periods, intervals, durations
+- defines converter and accessor functions, enables time calculus
+
+## Converter functions and instants in time
+
+- time instants: one (absolute) moment in time, e.g. `now()`, `Jan-1-2000`
+- easy-to-use converter functions: 
+    - date: `ymd`, `mdy`, `dmy`, ...
+    - time: `hm`, `hms`, ...
+    - date & time: `ymd_hms`, `mdy_hm`, ...
+- order of letters determines how strings are parsed
+- separators are automatically determined, then assumed to be the same
+
+Example:
+```{r message=FALSE}
+mdy("03-01-2017")
+```
+
+## Accessor functions
+
+
+- accessor functions: `year`, `month`, `week`, `wday`, `mday`, `yday`, `hour`, `minute`, ...
+- accessor functions can also be used for setting elements of date and time, e.g. `hour(x) <- 12`
+
+Examples:
+
+```{r}
+month(now())
+wday(now(), label = TRUE)
+```
+
+## Intervals and Durations
+
+- Intervals have a *start* and an *end* date/time: absolute difference
+- Durations are potentially of relative length (months, leap year, leap second, ...)
+
+```{r}
+end_date <- now()
+# span is interval, years(1) is duration
+span <- end_date - years(1)
+span
+end_date - days(10)
+```
+
+
+## Example: Movies
+
+```{r}
+movies <- read.csv("../data/movies.csv")
+summary(movies$Date) # factor variable: number of movies in theaters
+```
+
+
+## Example: Movies (cont'd)
+
+```{r, fig.height = 3.25}
+library(lubridate)
+movies$Date <- ymd(movies$Date)
+summary(movies$Date) # makes more sense
+
+movies %>% ggplot(aes(x = Date)) + geom_histogram(binwidth=7)
+```
+
+## Your Turn (10 min)
+
+- load the `movies` data set,
+- convert the variable `release` to a date format,
+- plot a histogram of the variable.
+- Check whether the time between the release of a movie and the date is equal to the number of days in theaters. 
+- How should we interpret the result of `as.numeric(months(1))`?
