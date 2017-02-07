@@ -97,6 +97,6 @@ movies %>% filter(Days < 100) %>%
 
 - do not use absolute file paths (see discussion of the [last lab](01_lab-solution.html) for more details on file paths)
 - stick to the questions:
-    - use `dplyr` and `ggplot2` to answer *all* the questions (they all had some solution - so look a bit closer in case you don't see the solution right away)
+    - use `dplyr` and `ggplot2` to answer *all* the questions: the questions all had some solution using `dplyr` functionality - so look a bit closer in case you don't see the solution right away, because that was a bit of the point for this lab: recognizing situations where we can successfully apply new functionality rather than using what we always use.
     - find successful movies, not just top movie
-    - label trajectories with names of movies
+    - directly label trajectories with names of movies: work with layers in ggplot! 
