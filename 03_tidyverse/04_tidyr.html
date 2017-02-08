@@ -5430,6 +5430,1219 @@ campaign &lt;- readr::read_csv(url)</code></pre>
 <li>What time frame does the campaign expenditure cover?</li>
 <li>Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.</li>
 </ol>
+</section><section id="another-your-turn-10-mins" class="slide level2">
+<h2>Another Your-Turn (10 mins)</h2>
+<p><img src="images/census-occupation.png" width=1100 class="cover" style="opacity:0.4"></p>
+<p>During the 1870 census data on people’s occupation was collected. The data <a href="../data/occupation-1870.csv">occupation-1870</a> contains state-level aggregates of occupation by gender.</p>
+<ul>
+<li>Use <code>tidyr</code> to get the data into a long format.</li>
+<li>Separate the <code>occupation.gender</code> type variable into two variables.</li>
+<li>Spread the data such that you can draw scatterplots of values for men against women facetted by occupation.</li>
+</ul>
+</section><section id="your-turn---sample-solution" class="slide level2">
+<h2>Your Turn - Sample Solution</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">occupation &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/occupation-1870.csv&quot;</span>)
+
+<span class="co"># combine all of the variables (except for State) </span>
+<span class="co"># into a single variable</span>
+occupation &lt;-<span class="st"> </span>occupation %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;Occ.gender&quot;</span>, <span class="dt">value=</span><span class="st">&quot;Number&quot;</span>, <span class="dv">2</span>:<span class="dv">11</span>)
+occupation</code></pre></div>
+<pre><code>##                Area.name           Occ.gender Number
+## 1                Alabama     Agriculture.Male 226768
+## 2      Arizona Territory     Agriculture.Male   1284
+## 3               Arkansas     Agriculture.Male 100669
+## 4             California     Agriculture.Male  47580
+## 5     Colorado Territory     Agriculture.Male   6462
+## 6            Connecticut     Agriculture.Male  43523
+## 7       Dakota Territory     Agriculture.Male   2522
+## 8               Delaware     Agriculture.Male  15907
+## 9   District of Columbia     Agriculture.Male   1350
+## 10               Florida     Agriculture.Male  36944
+## 11               Georgia     Agriculture.Male 262152
+## 12       Idaho Territory     Agriculture.Male   1462
+## 13              Illinois     Agriculture.Male 375407
+## 14               Indiana     Agriculture.Male 266349
+## 15                  Iowa     Agriculture.Male 209907
+## 16                Kansas     Agriculture.Male  72918
+## 17              Kentucky     Agriculture.Male 257426
+## 18            Louisianna     Agriculture.Male 114530
+## 19                 Maine     Agriculture.Male  81956
+## 20              Maryland     Agriculture.Male  79197
+## 21         Massachusetts     Agriculture.Male  72756
+## 22              Michigan     Agriculture.Male 187036
+## 23             Minnesota     Agriculture.Male  74663
+## 24           Mississippi     Agriculture.Male 193725
+## 25              Missouri     Agriculture.Male 262595
+## 26     Montana Territory     Agriculture.Male   2110
+## 27              Nebraska     Agriculture.Male  23083
+## 28                Nevada     Agriculture.Male   2063
+## 29         New Hampshire     Agriculture.Male  46562
+## 30            New Jersey     Agriculture.Male  62943
+## 31  New Mexico Territory     Agriculture.Male  18432
+## 32              New York     Agriculture.Male 373455
+## 33        North Carolina     Agriculture.Male 241010
+## 34                  Ohio     Agriculture.Male 396267
+## 35                Oregon     Agriculture.Male  13232
+## 36          Pennsylvania     Agriculture.Male 258772
+## 37          Rhode Island     Agriculture.Male  11767
+## 38        South Carolina     Agriculture.Male 147708
+## 39             Tennessee     Agriculture.Male 247953
+## 40                 Texas     Agriculture.Male 152722
+## 41        Utah Territory     Agriculture.Male  10417
+## 42               Vermont     Agriculture.Male  57889
+## 43              Virginia     Agriculture.Male 228082
+## 44  Washington Territory     Agriculture.Male   3759
+## 45         West Virginia     Agriculture.Male  73725
+## 46             Wisconsin     Agriculture.Male 158300
+## 47     Wyoming Territory     Agriculture.Male    164
+## 48               Alabama   Agriculture.Female  64860
+## 49     Arizona Territory   Agriculture.Female      1
+## 50              Arkansas   Agriculture.Female   8641
+## 51            California   Agriculture.Female    283
+## 52    Colorado Territory   Agriculture.Female      0
+## 53           Connecticut   Agriculture.Female    130
+## 54      Dakota Territory   Agriculture.Female      0
+## 55              Delaware   Agriculture.Female     66
+## 56  District of Columbia   Agriculture.Female     15
+## 57               Florida   Agriculture.Female   5548
+## 58               Georgia   Agriculture.Female  73993
+## 59       Idaho Territory   Agriculture.Female      0
+## 60              Illinois   Agriculture.Female   1034
+## 61               Indiana   Agriculture.Female    428
+## 62                  Iowa   Agriculture.Female    356
+## 63                Kansas   Agriculture.Female    310
+## 64              Kentucky   Agriculture.Female   3654
+## 65            Louisianna   Agriculture.Female  26937
+## 66                 Maine   Agriculture.Female     55
+## 67              Maryland   Agriculture.Female   1252
+## 68         Massachusetts   Agriculture.Female     54
+## 69              Michigan   Agriculture.Female    175
+## 70             Minnesota   Agriculture.Female    494
+## 71           Mississippi   Agriculture.Female  65474
+## 72              Missouri   Agriculture.Female   1323
+## 73     Montana Territory   Agriculture.Female      1
+## 74              Nebraska   Agriculture.Female     32
+## 75                Nevada   Agriculture.Female      7
+## 76         New Hampshire   Agriculture.Female     11
+## 77            New Jersey   Agriculture.Female    185
+## 78  New Mexico Territory   Agriculture.Female    236
+## 79              New York   Agriculture.Female    868
+## 80        North Carolina   Agriculture.Female  28228
+## 81                  Ohio   Agriculture.Female    757
+## 82                Oregon   Agriculture.Female     16
+## 83          Pennsylvania   Agriculture.Female   1279
+## 84          Rhode Island   Agriculture.Female     13
+## 85        South Carolina   Agriculture.Female  58946
+## 86             Tennessee   Agriculture.Female  19067
+## 87                 Texas   Agriculture.Female  14031
+## 88        Utah Territory   Agriculture.Female     11
+## 89               Vermont   Agriculture.Female     94
+## 90              Virginia   Agriculture.Female  16468
+## 91  Washington Territory   Agriculture.Female     12
+## 92         West Virginia   Agriculture.Female    235
+## 93             Wisconsin   Agriculture.Female   1387
+## 94     Wyoming Territory   Agriculture.Female      1
+## 95               Alabama   Manufacturing.Male  15078
+## 96     Arizona Territory   Manufacturing.Male    883
+## 97              Arkansas   Manufacturing.Male   5992
+## 98            California   Manufacturing.Male  79100
+## 99    Colorado Territory   Manufacturing.Male   4627
+## 100          Connecticut   Manufacturing.Male  70276
+## 101     Dakota Territory   Manufacturing.Male    439
+## 102             Delaware   Manufacturing.Male   8437
+## 103 District of Columbia   Manufacturing.Male  10071
+## 104              Florida   Manufacturing.Male   4025
+## 105              Georgia   Manufacturing.Male  22262
+## 106      Idaho Territory   Manufacturing.Male   7262
+## 107             Illinois   Manufacturing.Male 124112
+## 108              Indiana   Manufacturing.Male  72073
+## 109                 Iowa   Manufacturing.Male  44561
+## 110               Kansas   Manufacturing.Male  17403
+## 111             Kentucky   Manufacturing.Male  39939
+## 112           Louisianna   Manufacturing.Male  23259
+## 113                Maine   Manufacturing.Male  49265
+## 114             Maryland   Manufacturing.Male  56649
+## 115        Massachusetts   Manufacturing.Male 221793
+## 116             Michigan   Manufacturing.Male  77434
+## 117            Minnesota   Manufacturing.Male  17655
+## 118          Mississippi   Manufacturing.Male   9118
+## 119             Missouri   Manufacturing.Male  74588
+## 120    Montana Territory   Manufacturing.Male   8020
+## 121             Nebraska   Manufacturing.Male   5570
+## 122               Nevada   Manufacturing.Male  13632
+## 123        New Hampshire   Manufacturing.Male  32524
+## 124           New Jersey   Manufacturing.Male  89165
+## 125 New Mexico Territory   Manufacturing.Male   1444
+## 126             New York   Manufacturing.Male 397166
+## 127       North Carolina   Manufacturing.Male  18262
+## 128                 Ohio   Manufacturing.Male 179394
+## 129               Oregon   Manufacturing.Male   8603
+## 130         Pennsylvania   Manufacturing.Male 318049
+## 131         Rhode Island   Manufacturing.Male  32865
+## 132       South Carolina   Manufacturing.Male  10871
+## 133            Tennessee   Manufacturing.Male  27138
+## 134                Texas   Manufacturing.Male  15063
+## 135       Utah Territory   Manufacturing.Male   3993
+## 136              Vermont   Manufacturing.Male  20593
+## 137             Virginia   Manufacturing.Male  43983
+## 138 Washington Territory   Manufacturing.Male   2638
+## 139        West Virginia   Manufacturing.Male  16827
+## 140            Wisconsin   Manufacturing.Male  49733
+## 141    Wyoming Territory   Manufacturing.Male   1637
+## 142              Alabama Manufacturing.Female   1992
+## 143    Arizona Territory Manufacturing.Female    156
+## 144             Arkansas Manufacturing.Female    279
+## 145           California Manufacturing.Female   2408
+## 146   Colorado Territory Manufacturing.Female     54
+## 147          Connecticut Manufacturing.Female  16068
+## 148     Dakota Territory Manufacturing.Female     18
+## 149             Delaware Manufacturing.Female   1077
+## 150 District of Columbia Manufacturing.Female   1634
+## 151              Florida Manufacturing.Female    266
+## 152              Georgia Manufacturing.Female   4778
+## 153      Idaho Territory Manufacturing.Female     11
+## 154             Illinois Manufacturing.Female   9109
+## 155              Indiana Manufacturing.Female   3984
+## 156                 Iowa Manufacturing.Female   2758
+## 157               Kansas Manufacturing.Female    723
+## 158             Kentucky Manufacturing.Female   4258
+## 159           Louisianna Manufacturing.Female   2548
+## 160                Maine Manufacturing.Female  12742
+## 161             Maryland Manufacturing.Female   6677
+## 162        Massachusetts Manufacturing.Female  70872
+## 163             Michigan Manufacturing.Female   5203
+## 164            Minnesota Manufacturing.Female    933
+## 165          Mississippi Manufacturing.Female    863
+## 166             Missouri Manufacturing.Female   5262
+## 167    Montana Territory Manufacturing.Female     10
+## 168             Nebraska Manufacturing.Female    193
+## 169               Nevada Manufacturing.Female    157
+## 170        New Hampshire Manufacturing.Female  14029
+## 171           New Jersey Manufacturing.Female  14157
+## 172 New Mexico Territory Manufacturing.Female    851
+## 173             New York Manufacturing.Female  79609
+## 174       North Carolina Manufacturing.Female   2330
+## 175                 Ohio Manufacturing.Female  17616
+## 176               Oregon Manufacturing.Female     91
+## 177         Pennsylvania Manufacturing.Female  38191
+## 178         Rhode Island Manufacturing.Female  14142
+## 179       South Carolina Manufacturing.Female   2923
+## 180            Tennessee Manufacturing.Female   1923
+## 181                Texas Manufacturing.Female    816
+## 182       Utah Territory Manufacturing.Female    114
+## 183              Vermont Manufacturing.Female   2023
+## 184             Virginia Manufacturing.Female   5430
+## 185 Washington Territory Manufacturing.Female     15
+## 186        West Virginia Manufacturing.Female    846
+## 187            Wisconsin Manufacturing.Female   3784
+## 188    Wyoming Territory Manufacturing.Female     27
+## 189              Alabama           Trade.Male  14345
+## 190    Arizona Territory           Trade.Male    588
+## 191             Arkansas           Trade.Male   5474
+## 192           California           Trade.Male  33038
+## 193   Colorado Territory           Trade.Male   2813
+## 194          Connecticut           Trade.Male  24511
+## 195     Dakota Territory           Trade.Male    204
+## 196             Delaware           Trade.Male   3347
+## 197 District of Columbia           Trade.Male   5852
+## 198              Florida           Trade.Male   3016
+## 199              Georgia           Trade.Male  17336
+## 200      Idaho Territory           Trade.Male    720
+## 201             Illinois           Trade.Male  79876
+## 202              Indiana           Trade.Male  36371
+## 203                 Iowa           Trade.Male  28151
+## 204               Kansas           Trade.Male  11736
+## 205             Kentucky           Trade.Male  24961
+## 206           Louisianna           Trade.Male  23496
+## 207                Maine           Trade.Male  27880
+## 208             Maryland           Trade.Male  34567
+## 209        Massachusetts           Trade.Male  81077
+## 210             Michigan           Trade.Male  29493
+## 211            Minnesota           Trade.Male  10559
+## 212          Mississippi           Trade.Male   9076
+## 213             Missouri           Trade.Male  54583
+## 214    Montana Territory           Trade.Male   1232
+## 215             Nebraska           Trade.Male   4623
+## 216               Nevada           Trade.Male   3621
+## 217        New Hampshire           Trade.Male   8126
+## 218           New Jersey           Trade.Male  45242
+## 219 New Mexico Territory           Trade.Male    863
+## 220             New York           Trade.Male 229789
+## 221       North Carolina           Trade.Male  10094
+## 222                 Ohio           Trade.Male  77690
+## 223               Oregon           Trade.Male   2611
+## 224         Pennsylvania           Trade.Male 116714
+## 225         Rhode Island           Trade.Male   9878
+## 226       South Carolina           Trade.Male   8250
+## 227            Tennessee           Trade.Male  17417
+## 228                Texas           Trade.Male  13576
+## 229       Utah Territory           Trade.Male   1648
+## 230              Vermont           Trade.Male   7101
+## 231             Virginia           Trade.Male  19992
+## 232 Washington Territory           Trade.Male   1127
+## 233        West Virginia           Trade.Male   6888
+## 234            Wisconsin           Trade.Male  21342
+## 235    Wyoming Territory           Trade.Male   1646
+## 236              Alabama         Trade.Female     90
+## 237    Arizona Territory         Trade.Female      3
+## 238             Arkansas         Trade.Female     17
+## 239           California         Trade.Female    127
+## 240   Colorado Territory         Trade.Female      2
+## 241          Connecticut         Trade.Female    209
+## 242     Dakota Territory         Trade.Female      0
+## 243             Delaware         Trade.Female     90
+## 244 District of Columbia         Trade.Female    274
+## 245              Florida         Trade.Female      7
+## 246              Georgia         Trade.Female     74
+## 247      Idaho Territory         Trade.Female      1
+## 248             Illinois         Trade.Female    546
+## 249              Indiana         Trade.Female    146
+## 250                 Iowa         Trade.Female     59
+## 251               Kansas         Trade.Female     26
+## 252             Kentucky         Trade.Female    331
+## 253           Louisianna         Trade.Female    335
+## 254                Maine         Trade.Female    235
+## 255             Maryland         Trade.Female    975
+## 256        Massachusetts         Trade.Female   2001
+## 257             Michigan         Trade.Female     95
+## 258            Minnesota         Trade.Female     23
+## 259          Mississippi         Trade.Female     72
+## 260             Missouri         Trade.Female    302
+## 261    Montana Territory         Trade.Female      1
+## 262             Nebraska         Trade.Female      5
+## 263               Nevada         Trade.Female      0
+## 264        New Hampshire         Trade.Female    388
+## 265           New Jersey         Trade.Female    964
+## 266 New Mexico Territory         Trade.Female      0
+## 267             New York         Trade.Female   4792
+## 268       North Carolina         Trade.Female     85
+## 269                 Ohio         Trade.Female    857
+## 270               Oregon         Trade.Female      8
+## 271         Pennsylvania         Trade.Female   4539
+## 272         Rhode Island         Trade.Female    230
+## 273       South Carolina         Trade.Female    220
+## 274            Tennessee         Trade.Female     93
+## 275                Texas         Trade.Female     36
+## 276       Utah Territory         Trade.Female     17
+## 277              Vermont         Trade.Female     31
+## 278             Virginia         Trade.Female    189
+## 279 Washington Territory         Trade.Female      2
+## 280        West Virginia         Trade.Female      9
+## 281            Wisconsin         Trade.Female    192
+## 282    Wyoming Territory         Trade.Female      0
+## 283              Alabama         Service.Male  19449
+## 284    Arizona Territory         Service.Male   2979
+## 285             Arkansas         Service.Male   8018
+## 286           California         Service.Male  65150
+## 287   Colorado Territory         Service.Male   3245
+## 288          Connecticut         Service.Male  21150
+## 289     Dakota Territory         Service.Male   2562
+## 290             Delaware         Service.Male   6615
+## 291 District of Columbia         Service.Male  17927
+## 292              Florida         Service.Male   6892
+## 293              Georgia         Service.Male  27435
+## 294      Idaho Territory         Service.Male   1310
+## 295             Illinois         Service.Male  99337
+## 296              Indiana         Service.Male  53466
+## 297                 Iowa         Service.Male  38531
+## 298               Kansas         Service.Male  15286
+## 299             Kentucky         Service.Male  41974
+## 300           Louisianna         Service.Male  36883
+## 301                Maine         Service.Male  20683
+## 302             Maryland         Service.Male  43278
+## 303        Massachusetts         Service.Male  75917
+## 304             Michigan         Service.Male  52754
+## 305            Minnesota         Service.Male  18920
+## 306          Mississippi         Service.Male  20430
+## 307             Missouri         Service.Male  75079
+## 308    Montana Territory         Service.Male   2515
+## 309             Nebraska         Service.Male   8667
+## 310               Nevada         Service.Male   7152
+## 311        New Hampshire         Service.Male   8821
+## 312           New Jersey         Service.Male  54275
+## 313 New Mexico Territory         Service.Male   5542
+## 314             New York         Service.Male 233569
+## 315       North Carolina         Service.Male  23073
+## 316                 Ohio         Service.Male 104018
+## 317               Oregon         Service.Male   5522
+## 318         Pennsylvania         Service.Male 192674
+## 319         Rhode Island         Service.Male  12349
+## 320       South Carolina         Service.Male  15526
+## 321            Tennessee         Service.Male  30077
+## 322                Texas         Service.Male  27168
+## 323       Utah Territory         Service.Male   4384
+## 324              Vermont         Service.Male   9680
+## 325             Virginia         Service.Male  45407
+## 326 Washington Territory         Service.Male   2000
+## 327        West Virginia         Service.Male   9636
+## 328            Wisconsin         Service.Male  37898
+## 329    Wyoming Territory         Service.Male   2898
+## 330              Alabama       Service.Female  22676
+## 331    Arizona Territory       Service.Female    136
+## 332             Arkansas       Service.Female   6859
+## 333           California       Service.Female  10962
+## 334   Colorado Territory       Service.Female    380
+## 335          Connecticut       Service.Female  17554
+## 336     Dakota Territory       Service.Female    142
+## 337             Delaware       Service.Female   4774
+## 338 District of Columbia       Service.Female  11918
+## 339              Florida       Service.Female   4005
+## 340              Georgia       Service.Female  36648
+## 341      Idaho Territory       Service.Female    113
+## 342             Illinois       Service.Female  52594
+## 343              Indiana       Service.Female  26552
+## 344                 Iowa       Service.Female  19953
+## 345               Kansas       Service.Female   5450
+## 346             Kentucky       Service.Female  42050
+## 347           Louisianna       Service.Female  28464
+## 348                Maine       Service.Female  15409
+## 349             Maryland       Service.Female  35948
+## 350        Massachusetts       Service.Female  55374
+## 351             Michigan       Service.Female  51974
+## 352            Minnesota       Service.Female   9410
+## 353          Mississippi       Service.Female  20092
+## 354             Missouri       Service.Female  31824
+## 355    Montana Territory       Service.Female    159
+## 356             Nebraska       Service.Female   1664
+## 357               Nevada       Service.Female    279
+## 358        New Hampshire       Service.Female   9707
+## 359           New Jersey       Service.Female  29105
+## 360 New Mexico Territory       Service.Female   1993
+## 361             New York       Service.Female 171770
+## 362       North Carolina       Service.Female  28217
+## 363                 Ohio       Service.Female  64290
+## 364               Oregon       Service.Female    568
+## 365         Pennsylvania       Service.Female  90326
+## 366         Rhode Island       Service.Female   7330
+## 367       South Carolina       Service.Female  18857
+## 368            Tennessee       Service.Female  24319
+## 369                Texas       Service.Female  13714
+## 370       Utah Territory       Service.Female    933
+## 371              Vermont       Service.Female  11352
+## 372             Virginia       Service.Female  53114
+## 373 Washington Territory       Service.Female    207
+## 374        West Virginia       Service.Female   7063
+## 375            Wisconsin       Service.Female  20172
+## 376    Wyoming Territory       Service.Female    272
+## 377              Alabama          School.Male  38600
+## 378    Arizona Territory          School.Male     79
+## 379             Arkansas          School.Male  33068
+## 380           California          School.Male  46742
+## 381   Colorado Territory          School.Male   1388
+## 382          Connecticut          School.Male  51276
+## 383     Dakota Territory          School.Male    606
+## 384             Delaware          School.Male  10525
+## 385 District of Columbia          School.Male  10004
+## 386              Florida          School.Male   6436
+## 387              Georgia          School.Male  38694
+## 388      Idaho Territory          School.Male    244
+## 389             Illinois          School.Male 285253
+## 390              Indiana          School.Male 207983
+## 391                 Iowa          School.Male 160615
+## 392               Kansas          School.Male  32579
+## 393             Kentucky          School.Male  94745
+## 394           Louisianna          School.Male  26009
+## 395                Maine          School.Male  80739
+## 396             Maryland          School.Male  55476
+## 397        Massachusetts          School.Male 144720
+## 398             Michigan          School.Male 137376
+## 399            Minnesota          School.Male  50193
+## 400          Mississippi          School.Male  19907
+## 401             Missouri          School.Male 170349
+## 402    Montana Territory          School.Male    499
+## 403             Nebraska          School.Male   9467
+## 404               Nevada          School.Male   1457
+## 405        New Hampshire          School.Male  34378
+## 406           New Jersey          School.Male  81104
+## 407 New Mexico Territory          School.Male   1097
+## 408             New York          School.Male 433566
+## 409       North Carolina          School.Male  33848
+## 410                 Ohio          School.Male 334464
+## 411               Oregon          School.Male   9594
+## 412         Pennsylvania          School.Male 373697
+## 413         Rhode Island          School.Male  17952
+## 414       South Carolina          School.Male  21070
+## 415            Tennessee          School.Male  63462
+## 416                Texas          School.Male  33643
+## 417       Utah Territory          School.Male   7622
+## 418              Vermont          School.Male  36813
+## 419             Virginia          School.Male  36888
+## 420 Washington Territory          School.Male   1878
+## 421        West Virginia          School.Male  43912
+## 422            Wisconsin          School.Male 135195
+## 423    Wyoming Territory          School.Male    179
+## 424              Alabama        School.Female  38539
+## 425    Arizona Territory        School.Female     70
+## 426             Arkansas        School.Female  29504
+## 427           California        School.Female  44261
+## 428   Colorado Territory        School.Female   1228
+## 429          Connecticut        School.Female  48356
+## 430     Dakota Territory        School.Female    522
+## 431             Delaware        School.Female   9440
+## 432 District of Columbia        School.Female   9937
+## 433              Florida        School.Female   6342
+## 434              Georgia        School.Female  38799
+## 435      Idaho Territory        School.Female    222
+## 436             Illinois        School.Female 262968
+## 437              Indiana        School.Female 187246
+## 438                 Iowa        School.Female 145736
+## 439               Kansas        School.Female  30339
+## 440             Kentucky        School.Female  86460
+## 441           Louisianna        School.Female  25250
+## 442                Maine        School.Female  74391
+## 443             Maryland        School.Female  49959
+## 444        Massachusetts        School.Female 142662
+## 445             Michigan        School.Female 126468
+## 446            Minnesota        School.Female  46568
+## 447          Mississippi        School.Female  19234
+## 448             Missouri        School.Female 153991
+## 449    Montana Territory        School.Female    420
+## 450             Nebraska        School.Female   8481
+## 451               Nevada        School.Female   1435
+## 452        New Hampshire        School.Female  31446
+## 453           New Jersey        School.Female  76981
+## 454 New Mexico Territory        School.Female    783
+## 455             New York        School.Female 413179
+## 456       North Carolina        School.Female  31439
+## 457                 Ohio        School.Female 311160
+## 458               Oregon        School.Female   8483
+## 459         Pennsylvania        School.Female 351302
+## 460         Rhode Island        School.Female  16958
+## 461       South Carolina        School.Female  20495
+## 462            Tennessee        School.Female  57243
+## 463                Texas        School.Female  31556
+## 464       Utah Territory        School.Female   7003
+## 465              Vermont        School.Female  33386
+## 466             Virginia        School.Female  33952
+## 467 Washington Territory        School.Female   1654
+## 468        West Virginia        School.Female  38281
+## 469            Wisconsin        School.Female 125407
+## 470    Wyoming Territory        School.Female    185</code></pre>
+</section><section id="your-turn---sample-solution-contd" class="slide level2">
+<h2>Your Turn - Sample Solution (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># split Occ.gender into two variables</span>
+occupation &lt;-<span class="st"> </span>occupation %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(Occ.gender, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;Occupation&quot;</span>, <span class="st">&quot;Gender&quot;</span>))
+occupation</code></pre></div>
+<pre><code>##                Area.name    Occupation Gender Number
+## 1                Alabama   Agriculture   Male 226768
+## 2      Arizona Territory   Agriculture   Male   1284
+## 3               Arkansas   Agriculture   Male 100669
+## 4             California   Agriculture   Male  47580
+## 5     Colorado Territory   Agriculture   Male   6462
+## 6            Connecticut   Agriculture   Male  43523
+## 7       Dakota Territory   Agriculture   Male   2522
+## 8               Delaware   Agriculture   Male  15907
+## 9   District of Columbia   Agriculture   Male   1350
+## 10               Florida   Agriculture   Male  36944
+## 11               Georgia   Agriculture   Male 262152
+## 12       Idaho Territory   Agriculture   Male   1462
+## 13              Illinois   Agriculture   Male 375407
+## 14               Indiana   Agriculture   Male 266349
+## 15                  Iowa   Agriculture   Male 209907
+## 16                Kansas   Agriculture   Male  72918
+## 17              Kentucky   Agriculture   Male 257426
+## 18            Louisianna   Agriculture   Male 114530
+## 19                 Maine   Agriculture   Male  81956
+## 20              Maryland   Agriculture   Male  79197
+## 21         Massachusetts   Agriculture   Male  72756
+## 22              Michigan   Agriculture   Male 187036
+## 23             Minnesota   Agriculture   Male  74663
+## 24           Mississippi   Agriculture   Male 193725
+## 25              Missouri   Agriculture   Male 262595
+## 26     Montana Territory   Agriculture   Male   2110
+## 27              Nebraska   Agriculture   Male  23083
+## 28                Nevada   Agriculture   Male   2063
+## 29         New Hampshire   Agriculture   Male  46562
+## 30            New Jersey   Agriculture   Male  62943
+## 31  New Mexico Territory   Agriculture   Male  18432
+## 32              New York   Agriculture   Male 373455
+## 33        North Carolina   Agriculture   Male 241010
+## 34                  Ohio   Agriculture   Male 396267
+## 35                Oregon   Agriculture   Male  13232
+## 36          Pennsylvania   Agriculture   Male 258772
+## 37          Rhode Island   Agriculture   Male  11767
+## 38        South Carolina   Agriculture   Male 147708
+## 39             Tennessee   Agriculture   Male 247953
+## 40                 Texas   Agriculture   Male 152722
+## 41        Utah Territory   Agriculture   Male  10417
+## 42               Vermont   Agriculture   Male  57889
+## 43              Virginia   Agriculture   Male 228082
+## 44  Washington Territory   Agriculture   Male   3759
+## 45         West Virginia   Agriculture   Male  73725
+## 46             Wisconsin   Agriculture   Male 158300
+## 47     Wyoming Territory   Agriculture   Male    164
+## 48               Alabama   Agriculture Female  64860
+## 49     Arizona Territory   Agriculture Female      1
+## 50              Arkansas   Agriculture Female   8641
+## 51            California   Agriculture Female    283
+## 52    Colorado Territory   Agriculture Female      0
+## 53           Connecticut   Agriculture Female    130
+## 54      Dakota Territory   Agriculture Female      0
+## 55              Delaware   Agriculture Female     66
+## 56  District of Columbia   Agriculture Female     15
+## 57               Florida   Agriculture Female   5548
+## 58               Georgia   Agriculture Female  73993
+## 59       Idaho Territory   Agriculture Female      0
+## 60              Illinois   Agriculture Female   1034
+## 61               Indiana   Agriculture Female    428
+## 62                  Iowa   Agriculture Female    356
+## 63                Kansas   Agriculture Female    310
+## 64              Kentucky   Agriculture Female   3654
+## 65            Louisianna   Agriculture Female  26937
+## 66                 Maine   Agriculture Female     55
+## 67              Maryland   Agriculture Female   1252
+## 68         Massachusetts   Agriculture Female     54
+## 69              Michigan   Agriculture Female    175
+## 70             Minnesota   Agriculture Female    494
+## 71           Mississippi   Agriculture Female  65474
+## 72              Missouri   Agriculture Female   1323
+## 73     Montana Territory   Agriculture Female      1
+## 74              Nebraska   Agriculture Female     32
+## 75                Nevada   Agriculture Female      7
+## 76         New Hampshire   Agriculture Female     11
+## 77            New Jersey   Agriculture Female    185
+## 78  New Mexico Territory   Agriculture Female    236
+## 79              New York   Agriculture Female    868
+## 80        North Carolina   Agriculture Female  28228
+## 81                  Ohio   Agriculture Female    757
+## 82                Oregon   Agriculture Female     16
+## 83          Pennsylvania   Agriculture Female   1279
+## 84          Rhode Island   Agriculture Female     13
+## 85        South Carolina   Agriculture Female  58946
+## 86             Tennessee   Agriculture Female  19067
+## 87                 Texas   Agriculture Female  14031
+## 88        Utah Territory   Agriculture Female     11
+## 89               Vermont   Agriculture Female     94
+## 90              Virginia   Agriculture Female  16468
+## 91  Washington Territory   Agriculture Female     12
+## 92         West Virginia   Agriculture Female    235
+## 93             Wisconsin   Agriculture Female   1387
+## 94     Wyoming Territory   Agriculture Female      1
+## 95               Alabama Manufacturing   Male  15078
+## 96     Arizona Territory Manufacturing   Male    883
+## 97              Arkansas Manufacturing   Male   5992
+## 98            California Manufacturing   Male  79100
+## 99    Colorado Territory Manufacturing   Male   4627
+## 100          Connecticut Manufacturing   Male  70276
+## 101     Dakota Territory Manufacturing   Male    439
+## 102             Delaware Manufacturing   Male   8437
+## 103 District of Columbia Manufacturing   Male  10071
+## 104              Florida Manufacturing   Male   4025
+## 105              Georgia Manufacturing   Male  22262
+## 106      Idaho Territory Manufacturing   Male   7262
+## 107             Illinois Manufacturing   Male 124112
+## 108              Indiana Manufacturing   Male  72073
+## 109                 Iowa Manufacturing   Male  44561
+## 110               Kansas Manufacturing   Male  17403
+## 111             Kentucky Manufacturing   Male  39939
+## 112           Louisianna Manufacturing   Male  23259
+## 113                Maine Manufacturing   Male  49265
+## 114             Maryland Manufacturing   Male  56649
+## 115        Massachusetts Manufacturing   Male 221793
+## 116             Michigan Manufacturing   Male  77434
+## 117            Minnesota Manufacturing   Male  17655
+## 118          Mississippi Manufacturing   Male   9118
+## 119             Missouri Manufacturing   Male  74588
+## 120    Montana Territory Manufacturing   Male   8020
+## 121             Nebraska Manufacturing   Male   5570
+## 122               Nevada Manufacturing   Male  13632
+## 123        New Hampshire Manufacturing   Male  32524
+## 124           New Jersey Manufacturing   Male  89165
+## 125 New Mexico Territory Manufacturing   Male   1444
+## 126             New York Manufacturing   Male 397166
+## 127       North Carolina Manufacturing   Male  18262
+## 128                 Ohio Manufacturing   Male 179394
+## 129               Oregon Manufacturing   Male   8603
+## 130         Pennsylvania Manufacturing   Male 318049
+## 131         Rhode Island Manufacturing   Male  32865
+## 132       South Carolina Manufacturing   Male  10871
+## 133            Tennessee Manufacturing   Male  27138
+## 134                Texas Manufacturing   Male  15063
+## 135       Utah Territory Manufacturing   Male   3993
+## 136              Vermont Manufacturing   Male  20593
+## 137             Virginia Manufacturing   Male  43983
+## 138 Washington Territory Manufacturing   Male   2638
+## 139        West Virginia Manufacturing   Male  16827
+## 140            Wisconsin Manufacturing   Male  49733
+## 141    Wyoming Territory Manufacturing   Male   1637
+## 142              Alabama Manufacturing Female   1992
+## 143    Arizona Territory Manufacturing Female    156
+## 144             Arkansas Manufacturing Female    279
+## 145           California Manufacturing Female   2408
+## 146   Colorado Territory Manufacturing Female     54
+## 147          Connecticut Manufacturing Female  16068
+## 148     Dakota Territory Manufacturing Female     18
+## 149             Delaware Manufacturing Female   1077
+## 150 District of Columbia Manufacturing Female   1634
+## 151              Florida Manufacturing Female    266
+## 152              Georgia Manufacturing Female   4778
+## 153      Idaho Territory Manufacturing Female     11
+## 154             Illinois Manufacturing Female   9109
+## 155              Indiana Manufacturing Female   3984
+## 156                 Iowa Manufacturing Female   2758
+## 157               Kansas Manufacturing Female    723
+## 158             Kentucky Manufacturing Female   4258
+## 159           Louisianna Manufacturing Female   2548
+## 160                Maine Manufacturing Female  12742
+## 161             Maryland Manufacturing Female   6677
+## 162        Massachusetts Manufacturing Female  70872
+## 163             Michigan Manufacturing Female   5203
+## 164            Minnesota Manufacturing Female    933
+## 165          Mississippi Manufacturing Female    863
+## 166             Missouri Manufacturing Female   5262
+## 167    Montana Territory Manufacturing Female     10
+## 168             Nebraska Manufacturing Female    193
+## 169               Nevada Manufacturing Female    157
+## 170        New Hampshire Manufacturing Female  14029
+## 171           New Jersey Manufacturing Female  14157
+## 172 New Mexico Territory Manufacturing Female    851
+## 173             New York Manufacturing Female  79609
+## 174       North Carolina Manufacturing Female   2330
+## 175                 Ohio Manufacturing Female  17616
+## 176               Oregon Manufacturing Female     91
+## 177         Pennsylvania Manufacturing Female  38191
+## 178         Rhode Island Manufacturing Female  14142
+## 179       South Carolina Manufacturing Female   2923
+## 180            Tennessee Manufacturing Female   1923
+## 181                Texas Manufacturing Female    816
+## 182       Utah Territory Manufacturing Female    114
+## 183              Vermont Manufacturing Female   2023
+## 184             Virginia Manufacturing Female   5430
+## 185 Washington Territory Manufacturing Female     15
+## 186        West Virginia Manufacturing Female    846
+## 187            Wisconsin Manufacturing Female   3784
+## 188    Wyoming Territory Manufacturing Female     27
+## 189              Alabama         Trade   Male  14345
+## 190    Arizona Territory         Trade   Male    588
+## 191             Arkansas         Trade   Male   5474
+## 192           California         Trade   Male  33038
+## 193   Colorado Territory         Trade   Male   2813
+## 194          Connecticut         Trade   Male  24511
+## 195     Dakota Territory         Trade   Male    204
+## 196             Delaware         Trade   Male   3347
+## 197 District of Columbia         Trade   Male   5852
+## 198              Florida         Trade   Male   3016
+## 199              Georgia         Trade   Male  17336
+## 200      Idaho Territory         Trade   Male    720
+## 201             Illinois         Trade   Male  79876
+## 202              Indiana         Trade   Male  36371
+## 203                 Iowa         Trade   Male  28151
+## 204               Kansas         Trade   Male  11736
+## 205             Kentucky         Trade   Male  24961
+## 206           Louisianna         Trade   Male  23496
+## 207                Maine         Trade   Male  27880
+## 208             Maryland         Trade   Male  34567
+## 209        Massachusetts         Trade   Male  81077
+## 210             Michigan         Trade   Male  29493
+## 211            Minnesota         Trade   Male  10559
+## 212          Mississippi         Trade   Male   9076
+## 213             Missouri         Trade   Male  54583
+## 214    Montana Territory         Trade   Male   1232
+## 215             Nebraska         Trade   Male   4623
+## 216               Nevada         Trade   Male   3621
+## 217        New Hampshire         Trade   Male   8126
+## 218           New Jersey         Trade   Male  45242
+## 219 New Mexico Territory         Trade   Male    863
+## 220             New York         Trade   Male 229789
+## 221       North Carolina         Trade   Male  10094
+## 222                 Ohio         Trade   Male  77690
+## 223               Oregon         Trade   Male   2611
+## 224         Pennsylvania         Trade   Male 116714
+## 225         Rhode Island         Trade   Male   9878
+## 226       South Carolina         Trade   Male   8250
+## 227            Tennessee         Trade   Male  17417
+## 228                Texas         Trade   Male  13576
+## 229       Utah Territory         Trade   Male   1648
+## 230              Vermont         Trade   Male   7101
+## 231             Virginia         Trade   Male  19992
+## 232 Washington Territory         Trade   Male   1127
+## 233        West Virginia         Trade   Male   6888
+## 234            Wisconsin         Trade   Male  21342
+## 235    Wyoming Territory         Trade   Male   1646
+## 236              Alabama         Trade Female     90
+## 237    Arizona Territory         Trade Female      3
+## 238             Arkansas         Trade Female     17
+## 239           California         Trade Female    127
+## 240   Colorado Territory         Trade Female      2
+## 241          Connecticut         Trade Female    209
+## 242     Dakota Territory         Trade Female      0
+## 243             Delaware         Trade Female     90
+## 244 District of Columbia         Trade Female    274
+## 245              Florida         Trade Female      7
+## 246              Georgia         Trade Female     74
+## 247      Idaho Territory         Trade Female      1
+## 248             Illinois         Trade Female    546
+## 249              Indiana         Trade Female    146
+## 250                 Iowa         Trade Female     59
+## 251               Kansas         Trade Female     26
+## 252             Kentucky         Trade Female    331
+## 253           Louisianna         Trade Female    335
+## 254                Maine         Trade Female    235
+## 255             Maryland         Trade Female    975
+## 256        Massachusetts         Trade Female   2001
+## 257             Michigan         Trade Female     95
+## 258            Minnesota         Trade Female     23
+## 259          Mississippi         Trade Female     72
+## 260             Missouri         Trade Female    302
+## 261    Montana Territory         Trade Female      1
+## 262             Nebraska         Trade Female      5
+## 263               Nevada         Trade Female      0
+## 264        New Hampshire         Trade Female    388
+## 265           New Jersey         Trade Female    964
+## 266 New Mexico Territory         Trade Female      0
+## 267             New York         Trade Female   4792
+## 268       North Carolina         Trade Female     85
+## 269                 Ohio         Trade Female    857
+## 270               Oregon         Trade Female      8
+## 271         Pennsylvania         Trade Female   4539
+## 272         Rhode Island         Trade Female    230
+## 273       South Carolina         Trade Female    220
+## 274            Tennessee         Trade Female     93
+## 275                Texas         Trade Female     36
+## 276       Utah Territory         Trade Female     17
+## 277              Vermont         Trade Female     31
+## 278             Virginia         Trade Female    189
+## 279 Washington Territory         Trade Female      2
+## 280        West Virginia         Trade Female      9
+## 281            Wisconsin         Trade Female    192
+## 282    Wyoming Territory         Trade Female      0
+## 283              Alabama       Service   Male  19449
+## 284    Arizona Territory       Service   Male   2979
+## 285             Arkansas       Service   Male   8018
+## 286           California       Service   Male  65150
+## 287   Colorado Territory       Service   Male   3245
+## 288          Connecticut       Service   Male  21150
+## 289     Dakota Territory       Service   Male   2562
+## 290             Delaware       Service   Male   6615
+## 291 District of Columbia       Service   Male  17927
+## 292              Florida       Service   Male   6892
+## 293              Georgia       Service   Male  27435
+## 294      Idaho Territory       Service   Male   1310
+## 295             Illinois       Service   Male  99337
+## 296              Indiana       Service   Male  53466
+## 297                 Iowa       Service   Male  38531
+## 298               Kansas       Service   Male  15286
+## 299             Kentucky       Service   Male  41974
+## 300           Louisianna       Service   Male  36883
+## 301                Maine       Service   Male  20683
+## 302             Maryland       Service   Male  43278
+## 303        Massachusetts       Service   Male  75917
+## 304             Michigan       Service   Male  52754
+## 305            Minnesota       Service   Male  18920
+## 306          Mississippi       Service   Male  20430
+## 307             Missouri       Service   Male  75079
+## 308    Montana Territory       Service   Male   2515
+## 309             Nebraska       Service   Male   8667
+## 310               Nevada       Service   Male   7152
+## 311        New Hampshire       Service   Male   8821
+## 312           New Jersey       Service   Male  54275
+## 313 New Mexico Territory       Service   Male   5542
+## 314             New York       Service   Male 233569
+## 315       North Carolina       Service   Male  23073
+## 316                 Ohio       Service   Male 104018
+## 317               Oregon       Service   Male   5522
+## 318         Pennsylvania       Service   Male 192674
+## 319         Rhode Island       Service   Male  12349
+## 320       South Carolina       Service   Male  15526
+## 321            Tennessee       Service   Male  30077
+## 322                Texas       Service   Male  27168
+## 323       Utah Territory       Service   Male   4384
+## 324              Vermont       Service   Male   9680
+## 325             Virginia       Service   Male  45407
+## 326 Washington Territory       Service   Male   2000
+## 327        West Virginia       Service   Male   9636
+## 328            Wisconsin       Service   Male  37898
+## 329    Wyoming Territory       Service   Male   2898
+## 330              Alabama       Service Female  22676
+## 331    Arizona Territory       Service Female    136
+## 332             Arkansas       Service Female   6859
+## 333           California       Service Female  10962
+## 334   Colorado Territory       Service Female    380
+## 335          Connecticut       Service Female  17554
+## 336     Dakota Territory       Service Female    142
+## 337             Delaware       Service Female   4774
+## 338 District of Columbia       Service Female  11918
+## 339              Florida       Service Female   4005
+## 340              Georgia       Service Female  36648
+## 341      Idaho Territory       Service Female    113
+## 342             Illinois       Service Female  52594
+## 343              Indiana       Service Female  26552
+## 344                 Iowa       Service Female  19953
+## 345               Kansas       Service Female   5450
+## 346             Kentucky       Service Female  42050
+## 347           Louisianna       Service Female  28464
+## 348                Maine       Service Female  15409
+## 349             Maryland       Service Female  35948
+## 350        Massachusetts       Service Female  55374
+## 351             Michigan       Service Female  51974
+## 352            Minnesota       Service Female   9410
+## 353          Mississippi       Service Female  20092
+## 354             Missouri       Service Female  31824
+## 355    Montana Territory       Service Female    159
+## 356             Nebraska       Service Female   1664
+## 357               Nevada       Service Female    279
+## 358        New Hampshire       Service Female   9707
+## 359           New Jersey       Service Female  29105
+## 360 New Mexico Territory       Service Female   1993
+## 361             New York       Service Female 171770
+## 362       North Carolina       Service Female  28217
+## 363                 Ohio       Service Female  64290
+## 364               Oregon       Service Female    568
+## 365         Pennsylvania       Service Female  90326
+## 366         Rhode Island       Service Female   7330
+## 367       South Carolina       Service Female  18857
+## 368            Tennessee       Service Female  24319
+## 369                Texas       Service Female  13714
+## 370       Utah Territory       Service Female    933
+## 371              Vermont       Service Female  11352
+## 372             Virginia       Service Female  53114
+## 373 Washington Territory       Service Female    207
+## 374        West Virginia       Service Female   7063
+## 375            Wisconsin       Service Female  20172
+## 376    Wyoming Territory       Service Female    272
+## 377              Alabama        School   Male  38600
+## 378    Arizona Territory        School   Male     79
+## 379             Arkansas        School   Male  33068
+## 380           California        School   Male  46742
+## 381   Colorado Territory        School   Male   1388
+## 382          Connecticut        School   Male  51276
+## 383     Dakota Territory        School   Male    606
+## 384             Delaware        School   Male  10525
+## 385 District of Columbia        School   Male  10004
+## 386              Florida        School   Male   6436
+## 387              Georgia        School   Male  38694
+## 388      Idaho Territory        School   Male    244
+## 389             Illinois        School   Male 285253
+## 390              Indiana        School   Male 207983
+## 391                 Iowa        School   Male 160615
+## 392               Kansas        School   Male  32579
+## 393             Kentucky        School   Male  94745
+## 394           Louisianna        School   Male  26009
+## 395                Maine        School   Male  80739
+## 396             Maryland        School   Male  55476
+## 397        Massachusetts        School   Male 144720
+## 398             Michigan        School   Male 137376
+## 399            Minnesota        School   Male  50193
+## 400          Mississippi        School   Male  19907
+## 401             Missouri        School   Male 170349
+## 402    Montana Territory        School   Male    499
+## 403             Nebraska        School   Male   9467
+## 404               Nevada        School   Male   1457
+## 405        New Hampshire        School   Male  34378
+## 406           New Jersey        School   Male  81104
+## 407 New Mexico Territory        School   Male   1097
+## 408             New York        School   Male 433566
+## 409       North Carolina        School   Male  33848
+## 410                 Ohio        School   Male 334464
+## 411               Oregon        School   Male   9594
+## 412         Pennsylvania        School   Male 373697
+## 413         Rhode Island        School   Male  17952
+## 414       South Carolina        School   Male  21070
+## 415            Tennessee        School   Male  63462
+## 416                Texas        School   Male  33643
+## 417       Utah Territory        School   Male   7622
+## 418              Vermont        School   Male  36813
+## 419             Virginia        School   Male  36888
+## 420 Washington Territory        School   Male   1878
+## 421        West Virginia        School   Male  43912
+## 422            Wisconsin        School   Male 135195
+## 423    Wyoming Territory        School   Male    179
+## 424              Alabama        School Female  38539
+## 425    Arizona Territory        School Female     70
+## 426             Arkansas        School Female  29504
+## 427           California        School Female  44261
+## 428   Colorado Territory        School Female   1228
+## 429          Connecticut        School Female  48356
+## 430     Dakota Territory        School Female    522
+## 431             Delaware        School Female   9440
+## 432 District of Columbia        School Female   9937
+## 433              Florida        School Female   6342
+## 434              Georgia        School Female  38799
+## 435      Idaho Territory        School Female    222
+## 436             Illinois        School Female 262968
+## 437              Indiana        School Female 187246
+## 438                 Iowa        School Female 145736
+## 439               Kansas        School Female  30339
+## 440             Kentucky        School Female  86460
+## 441           Louisianna        School Female  25250
+## 442                Maine        School Female  74391
+## 443             Maryland        School Female  49959
+## 444        Massachusetts        School Female 142662
+## 445             Michigan        School Female 126468
+## 446            Minnesota        School Female  46568
+## 447          Mississippi        School Female  19234
+## 448             Missouri        School Female 153991
+## 449    Montana Territory        School Female    420
+## 450             Nebraska        School Female   8481
+## 451               Nevada        School Female   1435
+## 452        New Hampshire        School Female  31446
+## 453           New Jersey        School Female  76981
+## 454 New Mexico Territory        School Female    783
+## 455             New York        School Female 413179
+## 456       North Carolina        School Female  31439
+## 457                 Ohio        School Female 311160
+## 458               Oregon        School Female   8483
+## 459         Pennsylvania        School Female 351302
+## 460         Rhode Island        School Female  16958
+## 461       South Carolina        School Female  20495
+## 462            Tennessee        School Female  57243
+## 463                Texas        School Female  31556
+## 464       Utah Territory        School Female   7003
+## 465              Vermont        School Female  33386
+## 466             Virginia        School Female  33952
+## 467 Washington Territory        School Female   1654
+## 468        West Virginia        School Female  38281
+## 469            Wisconsin        School Female 125407
+## 470    Wyoming Territory        School Female    185</code></pre>
+</section><section id="your-turn---sample-solution-contd-1" class="slide level2">
+<h2>Your Turn - Sample Solution (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># now spread the data again</span>
+occ2 &lt;-<span class="st"> </span>occupation %&gt;%<span class="st"> </span><span class="kw">spread</span>(Gender, Number)
+occ2</code></pre></div>
+<pre><code>##                Area.name    Occupation Female   Male
+## 1                Alabama   Agriculture  64860 226768
+## 2                Alabama Manufacturing   1992  15078
+## 3                Alabama        School  38539  38600
+## 4                Alabama       Service  22676  19449
+## 5                Alabama         Trade     90  14345
+## 6      Arizona Territory   Agriculture      1   1284
+## 7      Arizona Territory Manufacturing    156    883
+## 8      Arizona Territory        School     70     79
+## 9      Arizona Territory       Service    136   2979
+## 10     Arizona Territory         Trade      3    588
+## 11              Arkansas   Agriculture   8641 100669
+## 12              Arkansas Manufacturing    279   5992
+## 13              Arkansas        School  29504  33068
+## 14              Arkansas       Service   6859   8018
+## 15              Arkansas         Trade     17   5474
+## 16            California   Agriculture    283  47580
+## 17            California Manufacturing   2408  79100
+## 18            California        School  44261  46742
+## 19            California       Service  10962  65150
+## 20            California         Trade    127  33038
+## 21    Colorado Territory   Agriculture      0   6462
+## 22    Colorado Territory Manufacturing     54   4627
+## 23    Colorado Territory        School   1228   1388
+## 24    Colorado Territory       Service    380   3245
+## 25    Colorado Territory         Trade      2   2813
+## 26           Connecticut   Agriculture    130  43523
+## 27           Connecticut Manufacturing  16068  70276
+## 28           Connecticut        School  48356  51276
+## 29           Connecticut       Service  17554  21150
+## 30           Connecticut         Trade    209  24511
+## 31      Dakota Territory   Agriculture      0   2522
+## 32      Dakota Territory Manufacturing     18    439
+## 33      Dakota Territory        School    522    606
+## 34      Dakota Territory       Service    142   2562
+## 35      Dakota Territory         Trade      0    204
+## 36              Delaware   Agriculture     66  15907
+## 37              Delaware Manufacturing   1077   8437
+## 38              Delaware        School   9440  10525
+## 39              Delaware       Service   4774   6615
+## 40              Delaware         Trade     90   3347
+## 41  District of Columbia   Agriculture     15   1350
+## 42  District of Columbia Manufacturing   1634  10071
+## 43  District of Columbia        School   9937  10004
+## 44  District of Columbia       Service  11918  17927
+## 45  District of Columbia         Trade    274   5852
+## 46               Florida   Agriculture   5548  36944
+## 47               Florida Manufacturing    266   4025
+## 48               Florida        School   6342   6436
+## 49               Florida       Service   4005   6892
+## 50               Florida         Trade      7   3016
+## 51               Georgia   Agriculture  73993 262152
+## 52               Georgia Manufacturing   4778  22262
+## 53               Georgia        School  38799  38694
+## 54               Georgia       Service  36648  27435
+## 55               Georgia         Trade     74  17336
+## 56       Idaho Territory   Agriculture      0   1462
+## 57       Idaho Territory Manufacturing     11   7262
+## 58       Idaho Territory        School    222    244
+## 59       Idaho Territory       Service    113   1310
+## 60       Idaho Territory         Trade      1    720
+## 61              Illinois   Agriculture   1034 375407
+## 62              Illinois Manufacturing   9109 124112
+## 63              Illinois        School 262968 285253
+## 64              Illinois       Service  52594  99337
+## 65              Illinois         Trade    546  79876
+## 66               Indiana   Agriculture    428 266349
+## 67               Indiana Manufacturing   3984  72073
+## 68               Indiana        School 187246 207983
+## 69               Indiana       Service  26552  53466
+## 70               Indiana         Trade    146  36371
+## 71                  Iowa   Agriculture    356 209907
+## 72                  Iowa Manufacturing   2758  44561
+## 73                  Iowa        School 145736 160615
+## 74                  Iowa       Service  19953  38531
+## 75                  Iowa         Trade     59  28151
+## 76                Kansas   Agriculture    310  72918
+## 77                Kansas Manufacturing    723  17403
+## 78                Kansas        School  30339  32579
+## 79                Kansas       Service   5450  15286
+## 80                Kansas         Trade     26  11736
+## 81              Kentucky   Agriculture   3654 257426
+## 82              Kentucky Manufacturing   4258  39939
+## 83              Kentucky        School  86460  94745
+## 84              Kentucky       Service  42050  41974
+## 85              Kentucky         Trade    331  24961
+## 86            Louisianna   Agriculture  26937 114530
+## 87            Louisianna Manufacturing   2548  23259
+## 88            Louisianna        School  25250  26009
+## 89            Louisianna       Service  28464  36883
+## 90            Louisianna         Trade    335  23496
+## 91                 Maine   Agriculture     55  81956
+## 92                 Maine Manufacturing  12742  49265
+## 93                 Maine        School  74391  80739
+## 94                 Maine       Service  15409  20683
+## 95                 Maine         Trade    235  27880
+## 96              Maryland   Agriculture   1252  79197
+## 97              Maryland Manufacturing   6677  56649
+## 98              Maryland        School  49959  55476
+## 99              Maryland       Service  35948  43278
+## 100             Maryland         Trade    975  34567
+## 101        Massachusetts   Agriculture     54  72756
+## 102        Massachusetts Manufacturing  70872 221793
+## 103        Massachusetts        School 142662 144720
+## 104        Massachusetts       Service  55374  75917
+## 105        Massachusetts         Trade   2001  81077
+## 106             Michigan   Agriculture    175 187036
+## 107             Michigan Manufacturing   5203  77434
+## 108             Michigan        School 126468 137376
+## 109             Michigan       Service  51974  52754
+## 110             Michigan         Trade     95  29493
+## 111            Minnesota   Agriculture    494  74663
+## 112            Minnesota Manufacturing    933  17655
+## 113            Minnesota        School  46568  50193
+## 114            Minnesota       Service   9410  18920
+## 115            Minnesota         Trade     23  10559
+## 116          Mississippi   Agriculture  65474 193725
+## 117          Mississippi Manufacturing    863   9118
+## 118          Mississippi        School  19234  19907
+## 119          Mississippi       Service  20092  20430
+## 120          Mississippi         Trade     72   9076
+## 121             Missouri   Agriculture   1323 262595
+## 122             Missouri Manufacturing   5262  74588
+## 123             Missouri        School 153991 170349
+## 124             Missouri       Service  31824  75079
+## 125             Missouri         Trade    302  54583
+## 126    Montana Territory   Agriculture      1   2110
+## 127    Montana Territory Manufacturing     10   8020
+## 128    Montana Territory        School    420    499
+## 129    Montana Territory       Service    159   2515
+## 130    Montana Territory         Trade      1   1232
+## 131             Nebraska   Agriculture     32  23083
+## 132             Nebraska Manufacturing    193   5570
+## 133             Nebraska        School   8481   9467
+## 134             Nebraska       Service   1664   8667
+## 135             Nebraska         Trade      5   4623
+## 136               Nevada   Agriculture      7   2063
+## 137               Nevada Manufacturing    157  13632
+## 138               Nevada        School   1435   1457
+## 139               Nevada       Service    279   7152
+## 140               Nevada         Trade      0   3621
+## 141        New Hampshire   Agriculture     11  46562
+## 142        New Hampshire Manufacturing  14029  32524
+## 143        New Hampshire        School  31446  34378
+## 144        New Hampshire       Service   9707   8821
+## 145        New Hampshire         Trade    388   8126
+## 146           New Jersey   Agriculture    185  62943
+## 147           New Jersey Manufacturing  14157  89165
+## 148           New Jersey        School  76981  81104
+## 149           New Jersey       Service  29105  54275
+## 150           New Jersey         Trade    964  45242
+## 151 New Mexico Territory   Agriculture    236  18432
+## 152 New Mexico Territory Manufacturing    851   1444
+## 153 New Mexico Territory        School    783   1097
+## 154 New Mexico Territory       Service   1993   5542
+## 155 New Mexico Territory         Trade      0    863
+## 156             New York   Agriculture    868 373455
+## 157             New York Manufacturing  79609 397166
+## 158             New York        School 413179 433566
+## 159             New York       Service 171770 233569
+## 160             New York         Trade   4792 229789
+## 161       North Carolina   Agriculture  28228 241010
+## 162       North Carolina Manufacturing   2330  18262
+## 163       North Carolina        School  31439  33848
+## 164       North Carolina       Service  28217  23073
+## 165       North Carolina         Trade     85  10094
+## 166                 Ohio   Agriculture    757 396267
+## 167                 Ohio Manufacturing  17616 179394
+## 168                 Ohio        School 311160 334464
+## 169                 Ohio       Service  64290 104018
+## 170                 Ohio         Trade    857  77690
+## 171               Oregon   Agriculture     16  13232
+## 172               Oregon Manufacturing     91   8603
+## 173               Oregon        School   8483   9594
+## 174               Oregon       Service    568   5522
+## 175               Oregon         Trade      8   2611
+## 176         Pennsylvania   Agriculture   1279 258772
+## 177         Pennsylvania Manufacturing  38191 318049
+## 178         Pennsylvania        School 351302 373697
+## 179         Pennsylvania       Service  90326 192674
+## 180         Pennsylvania         Trade   4539 116714
+## 181         Rhode Island   Agriculture     13  11767
+## 182         Rhode Island Manufacturing  14142  32865
+## 183         Rhode Island        School  16958  17952
+## 184         Rhode Island       Service   7330  12349
+## 185         Rhode Island         Trade    230   9878
+## 186       South Carolina   Agriculture  58946 147708
+## 187       South Carolina Manufacturing   2923  10871
+## 188       South Carolina        School  20495  21070
+## 189       South Carolina       Service  18857  15526
+## 190       South Carolina         Trade    220   8250
+## 191            Tennessee   Agriculture  19067 247953
+## 192            Tennessee Manufacturing   1923  27138
+## 193            Tennessee        School  57243  63462
+## 194            Tennessee       Service  24319  30077
+## 195            Tennessee         Trade     93  17417
+## 196                Texas   Agriculture  14031 152722
+## 197                Texas Manufacturing    816  15063
+## 198                Texas        School  31556  33643
+## 199                Texas       Service  13714  27168
+## 200                Texas         Trade     36  13576
+## 201       Utah Territory   Agriculture     11  10417
+## 202       Utah Territory Manufacturing    114   3993
+## 203       Utah Territory        School   7003   7622
+## 204       Utah Territory       Service    933   4384
+## 205       Utah Territory         Trade     17   1648
+## 206              Vermont   Agriculture     94  57889
+## 207              Vermont Manufacturing   2023  20593
+## 208              Vermont        School  33386  36813
+## 209              Vermont       Service  11352   9680
+## 210              Vermont         Trade     31   7101
+## 211             Virginia   Agriculture  16468 228082
+## 212             Virginia Manufacturing   5430  43983
+## 213             Virginia        School  33952  36888
+## 214             Virginia       Service  53114  45407
+## 215             Virginia         Trade    189  19992
+## 216 Washington Territory   Agriculture     12   3759
+## 217 Washington Territory Manufacturing     15   2638
+## 218 Washington Territory        School   1654   1878
+## 219 Washington Territory       Service    207   2000
+## 220 Washington Territory         Trade      2   1127
+## 221        West Virginia   Agriculture    235  73725
+## 222        West Virginia Manufacturing    846  16827
+## 223        West Virginia        School  38281  43912
+## 224        West Virginia       Service   7063   9636
+## 225        West Virginia         Trade      9   6888
+## 226            Wisconsin   Agriculture   1387 158300
+## 227            Wisconsin Manufacturing   3784  49733
+## 228            Wisconsin        School 125407 135195
+## 229            Wisconsin       Service  20172  37898
+## 230            Wisconsin         Trade    192  21342
+## 231    Wyoming Territory   Agriculture      1    164
+## 232    Wyoming Territory Manufacturing     27   1637
+## 233    Wyoming Territory        School    185    179
+## 234    Wyoming Territory       Service    272   2898
+## 235    Wyoming Territory         Trade      0   1646</code></pre>
+</section><section id="your-turn---sample-solution-contd-2" class="slide level2">
+<h2>Your Turn - Sample Solution (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">occ2 %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Male, <span class="dt">y =</span> Female)) +<span class="st"> </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(~Occupation)</code></pre></div>
+<p><img src="04_tidyr_files/figure-revealjs/unnamed-chunk-11-1.png" width="768" /></p>
 </section>
 
   <!--

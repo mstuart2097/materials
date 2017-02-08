@@ -173,3 +173,49 @@ no Messy 1? - problems of type Messy 1 are typically hard to detect and often up
   3. What time frame does the campaign expenditure cover?
   4. Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.
 
+## Another Your-Turn (10 mins)
+
+<img src="images/census-occupation.png" width=1100 class="cover" style="opacity:0.4">
+
+During the 1870 census data on people's occupation was collected. The data [occupation-1870](../data/occupation-1870.csv) contains state-level aggregates of occupation by gender.
+
+- Use `tidyr` to get the data into a long format. 
+- Separate the `occupation.gender` type variable into two variables.
+- Spread the data such that you can draw scatterplots of values for men against women facetted by occupation.
+
+## Your Turn - Sample Solution
+
+```{r}
+occupation <- read.csv("../data/occupation-1870.csv")
+
+# combine all of the variables (except for State) 
+# into a single variable
+occupation <- occupation %>% 
+  gather(key="Occ.gender", value="Number", 2:11)
+occupation
+```
+
+## Your Turn - Sample Solution (cont'd)
+
+```{r}
+# split Occ.gender into two variables
+occupation <- occupation %>% 
+  separate(Occ.gender, into = c("Occupation", "Gender"))
+occupation
+```
+
+## Your Turn - Sample Solution (cont'd)
+
+```{r}
+# now spread the data again
+occ2 <- occupation %>% spread(Gender, Number)
+occ2
+```
+
+## Your Turn - Sample Solution (cont'd)
+
+```{r}
+occ2 %>% 
+  ggplot(aes(x = Male, y = Female)) + geom_point() + 
+  facet_wrap(~Occupation)
+```
