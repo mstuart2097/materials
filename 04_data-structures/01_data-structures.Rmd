@@ -115,7 +115,7 @@ mod[c(1,6,8)]
 
 ## Working with lists (cont'd)
 
-* double bracket operator [[ ]] returns single list element (i.e. only single positive integer is allowed)
+* double bracket operator `[[ ]]` returns single list element (i.e. only single positive integer is allowed as index)
 * similarly, named objects can be accessed using the `$` operator
 
 ```{r}
@@ -183,8 +183,13 @@ de1 <- fortify(shape)
 
 ## Your Turn - plot the map
 
+```{r echo =FALSE}
+df=data.frame(long = c(12.0807, 10.8978), lat=c(50.8851, 48.3705), label=c("Genschel", "Hofmann"))
+```
+
 ```{r}
 de1 %>% 
-  ggplot(aes(x = long, y = lat, group = group)) + geom_path() +
-  theme(aspect.ratio=1)
+  ggplot(aes(x = long, y = lat)) + geom_path(aes(group = group)) + 
+  coord_equal() + ggthemes::theme_map() + geom_point(data=df) + 
+  ggrepel::geom_label_repel(aes(label = label), data = df)
 ```

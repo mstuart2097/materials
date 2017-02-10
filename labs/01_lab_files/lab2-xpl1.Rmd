@@ -1,0 +1,105 @@
+---
+title: "Lab 2"
+author: "Stat 585 Team"
+date: "February 2, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(curl)
+```
+
+***
+
+Using tools from `dplyr` and `ggplot2` answer the following questions:
+
+- What were the most successful movies over the past two years? Make sure to define how you measure success. What can you say about movies that only came out recently?
+- How long, on average, are movies in theaters? Also look at the median time. Try to figure out what contributes to the big difference.
+- What is the standard trajectory of a movie's total gross? Draw a plot and label some of the trajectories. <br>
+If you feel ambitious, you could try to model this trajectory - but if you do, make sure to detail all assumptions that you make.
+
+
+```{r, message=FALSE, warning=FALSE}
+
+movies <- read_csv(curl("https://raw.githubusercontent.com/Stat585-at-ISU/materials/master/data/movies.csv"))
+
+head(movies)
+```
+
+***
+
+#### 1. What were the most successful movies over the past two years? Make sure to define how you measure success. What can you say about movies that only came out recently?
+
+Our first measure of success is the total gross of the movie. To find the total gross for a film, we found the maximum total gross recorded for each film. Below is a snippet of the top grossing films over the past two years.
+
+```{r}
+
+top <- movies %>% group_by(Movie) %>% filter(Days < 365*2)  %>% summarize(max.gross=max(Total.Gross)) %>% arrange(desc(max.gross))
+head(top)
+
+```
+
+To allow film released recently a chance to be considered a top film, we defined a second measure of success based on the total gross within the first 14 days of being released. The results from this second measure of success are slightly different from the first, but the top two films remain the same.
+
+```{r}
+
+movies %>% group_by(Movie) %>% filter(Days < 14)  %>% summarize(max.gross=max(Total.Gross)) %>% arrange(desc(max.gross)) %>% head()
+
+```
+
+We could also define success as the greatest number of weeks in the top ten. However, this would again neglect movies that have recently been released. Interestingly, the results of this measure of success differ from both measures using total gross.
+
+```{r}
+
+movies %>% filter(Rank < 11) %>% group_by(Movie) %>% tally() %>% arrange(desc(n)) %>% head()
+
+```
+
+***
+
+#### 2. How long, on average, are movies in theaters? Also look at the median time. Try to figure out what contributes to the big difference.
+
+Calculate mean and median time spent in theaters:
+
+```{r}
+
+movies %>% group_by(Movie) %>% summarise(DaysInTheaters = max(Days)) %>% summarise(MeanDaysInTheaters = mean(DaysInTheaters), MedianDaysInTheaters = median(DaysInTheaters))
+
+```
+
+Explore why the differences are so large:
+
+```{r}
+
+time <- movies %>% group_by(Movie) %>% summarize(DaysInTheaters=max(Days), release=Release[1]) %>% arrange(desc(DaysInTheaters))
+head(time)
+```
+
+After sorting the movies based on the number of days it has been in theaters, we can see that the large difference is due to films released as early as 1949 being included in the dataset. We could look at a histogram of the the number of days spent in theaters and see that the distribution is very right skewed. 
+
+```{r}
+time %>% ggplot(aes(DaysInTheaters)) + geom_histogram() 
+
+```
+
+***
+
+#### 3. What is the standard trajectory of a movie's total gross? Draw a plot and label some of the trajectories. If you feel ambitious, you could try to model this trajectory - but if you do, make sure to detail all assumptions that you make.
+
+Below is a plot displaying how each movie's total gross accumulated in the first 300 days since it was released. The top five grossing films are labeled. It appears that standard trajectory of a movie's total gross resembles a logistic growth curve with most movies accumulating the majority of their growth within the first 30 days of being released. 
+
+```{r}
+movies %>% group_by(Movie) %>% 
+  mutate(appear.count = rank(Days)) %>% 
+  ggplot(aes(x=Days, y=Total.Gross, color=Movie)) + 
+  geom_line(aes(group=Movie), size=.4, alpha=.8) + 
+  theme(legend.position = "none") + xlim(0,300) + ylim(0,10^9)+
+  geom_text(data = movies %>% group_by(Movie) %>% mutate(Total=max(Total.Gross)) %>% filter(Total.Gross == Total, Movie %in% head(top$Movie, n=5)), aes(label=Movie), vjust=-.6, hjust=-.1)
+```
+
+
+
+
+***

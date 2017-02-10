@@ -190,7 +190,7 @@ d %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre><
 ## Variables: 3
 ## $ x   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ## $ y   &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-## $ fac &lt;fctr&gt; C, C, C, B, A, A, C, A, B, C</code></pre>
+## $ fac &lt;fctr&gt; C, A, B, C, C, A, A, A, B, C</code></pre>
 </section><section id="lists" class="slide level2">
 <h2>Lists</h2>
 <ul>
@@ -333,7 +333,7 @@ d %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre><
 </section><section id="working-with-lists-contd" class="slide level2">
 <h2>Working with lists (cont’d)</h2>
 <ul>
-<li>double bracket operator [<a href="#/section"></a>] returns single list element (i.e. only single positive integer is allowed)</li>
+<li>double bracket operator <code>[[ ]]</code> returns single list element (i.e. only single positive integer is allowed as index)</li>
 <li>similarly, named objects can be accessed using the <code>$</code> operator</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod[[<span class="dv">1</span>]]</code></pre></div>
@@ -729,9 +729,10 @@ xx &lt;-<span class="st"> </span><span class="kw">readShapeSpatial</span>(<span 
 </section><section id="your-turn---plot-the-map" class="slide level2">
 <h2>Your Turn - plot the map</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">de1 %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) +<span class="st"> </span><span class="kw">geom_path</span>() +
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">aspect.ratio=</span><span class="dv">1</span>)</code></pre></div>
-<p><img src="01_data-structures_files/figure-revealjs/unnamed-chunk-16-1.png" width="768" /></p>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat)) +<span class="st"> </span><span class="kw">geom_path</span>(<span class="kw">aes</span>(<span class="dt">group =</span> group)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">coord_equal</span>() +<span class="st"> </span>ggthemes::<span class="kw">theme_map</span>() +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data=</span>df) +<span class="st"> </span>
+<span class="st">  </span>ggrepel::<span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label =</span> label), <span class="dt">data =</span> df)</code></pre></div>
+<p><img src="01_data-structures_files/figure-revealjs/unnamed-chunk-17-1.png" width="768" /></p>
 </section>
 
   <!--
