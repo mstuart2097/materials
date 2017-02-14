@@ -64,7 +64,49 @@
 
     
   
-<section id="dealing-with-messy-3-and-4" class="titleslide slide level1"><h2 class="shout">Dealing with Messy (3) and (4)</h2></section><section id="messy-3" class="slide level2">
+<section id="dealing-with-messy-3-and-4" class="titleslide slide level1"><h2 class="shout">Dealing with Messy (3) and (4)</h2></section></section>
+<section id="keys-and-measurements" class="titleslide slide level1"><h2 class="shout">Keys and Measurements</h2></section><section id="finding-your-keys---example-1" class="slide level2">
+<h2>Finding your keys - Example (1)</h2>
+<p>100 are patients randomly assigned to a treatment for heart attack, measured 5 different clinical outcomes.</p>
+</section><section id="finding-your-keys---example-1-1" class="slide level2">
+<h2>Finding your keys - Example (1)</h2>
+<p>100 are patients randomly assigned to a treatment for heart attack, measured 5 different clinical outcomes.</p>
+<ul>
+<li>key: patient ID</li>
+<li>factor variable (design): treatment</li>
+<li>measured variale: 5 clinical outcomes</li>
+</ul>
+</section><section id="finding-your-keys---example-2" class="slide level2">
+<h2>Finding your keys - Example (2)</h2>
+<p>Randomized complete block trial with four fields, four different types of fertilizer, over four years. Recorded total corn yield, and fertilizer run off</p>
+</section><section id="finding-your-keys---example-2-1" class="slide level2">
+<h2>Finding your keys - Example (2)</h2>
+<p>Randomized complete block trial with four fields, four different types of fertilizer, over four years. Recorded total corn yield, and fertilizer run off</p>
+<ul>
+<li>key: fields, types of fertilizer, year</li>
+<li>measurement: total corn yield, fertilizer run off</li>
+</ul>
+</section><section id="finding-your-keys---example-3" class="slide level2">
+<h2>Finding your keys - Example (3)</h2>
+<p>Cluster sample of twenty students in thirty different schools. For each school, recorded distance from ice rink. For each student, asked how often they go ice skating, and whether or not their parents like ice skating</p>
+</section><section id="finding-your-keys---example-3-1" class="slide level2">
+<h2>Finding your keys - Example (3)</h2>
+<p>Cluster sample of twenty students in thirty different schools. For each school, recorded distance from ice rink. For each student, asked how often they go ice skating, and whether or not their parents like ice skating</p>
+<ul>
+<li>key: student ID, school ID</li>
+<li>measurement: distance to rink, #times ice skating, parents’</li>
+</ul>
+</section><section id="finding-your-keys---example-4" class="slide level2">
+<h2>Finding your keys - Example (4)</h2>
+<p>For each person, recorded age, sex, height and target weight, and then at multiple times recorded their weight</p>
+</section><section id="finding-your-keys---example-4-1" class="slide level2">
+<h2>Finding your keys - Example (4)</h2>
+<p>For each person, recorded age, sex, height and target weight, and then at multiple times recorded their weight</p>
+<ul>
+<li>key: <em>patient ID</em>, date</li>
+<li>measurement: <em>age, sex, height, target weight</em>, current weight</li>
+</ul>
+</section><section id="messy-3" class="slide level2">
 <h2>Messy (3)</h2>
 <p>Messy (3): <em>Multiple observational units are stored in the same table.</em></p>
 <p>What does that mean? The <em>key is split</em>, i.e. for some values all key variables are necessary, while other values only need some key variables.</p>
@@ -437,8 +479,8 @@ df2</code></pre></div>
 <h2>Your turn (10 mins)</h2>
 <p><img src="images/baseball.jpeg" width="1200" class="cover"></p>
 <ul>
-<li><span style="color:white">Load the <code>Lahman</code> package into your R session</span></li>
-<li><span style="color:white">Join (relevant pieces of) the <code>Master</code> data set and <code>HallOfFame</code></span></li>
+<li><span style="color:white">Load the <code>Lahman</code> package into your R session.</span></li>
+<li><span style="color:white">Join (relevant pieces of) the <code>Master</code> data set and the <code>HallOfFame</code> data.</span></li>
 <li><span style="color:white">For the <code>ggplot2</code> chart label all last attempts of individuals with 15 or more attempts. Make sure to deal with missing values appropriately.</span></li>
 </ul>
 </section><section id="solution" class="slide level2">

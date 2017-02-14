@@ -15,6 +15,56 @@ library(tidyverse)
 ```
 # Dealing with Messy (3) and (4)
 
+# Keys and Measurements
+
+## Finding your keys - Example (1)
+
+100 are patients randomly assigned to a treatment for heart attack, measured 5 different clinical outcomes.
+
+## Finding your keys - Example (1)
+
+100 are patients randomly assigned to a treatment for heart attack, measured 5 different clinical outcomes.
+
+- key: patient ID
+- factor variable (design): treatment
+- measured variale: 5 clinical outcomes
+
+## Finding your keys - Example (2)
+
+Randomized complete block trial with four fields, four different types of fertilizer, over four years.  Recorded total corn yield, and fertilizer run off
+
+## Finding your keys - Example (2)
+
+Randomized complete block trial with four fields, four different types of fertilizer, over four years.  Recorded total corn yield, and fertilizer run off
+
+- key: fields, types of fertilizer, year
+- measurement: total corn yield, fertilizer run off
+
+
+## Finding your keys - Example (3)
+
+Cluster sample of twenty students in thirty different schools.  For each school, recorded distance from ice rink.  For each student, asked how often they go ice skating, and whether or not their parents like ice skating
+
+
+## Finding your keys - Example (3)
+
+Cluster sample of twenty students in thirty different schools.  For each school, recorded distance from ice rink.  For each student, asked how often they go ice skating, and whether or not their parents like ice skating
+
+- key: student ID, school ID
+- measurement: distance to rink, #times ice skating, parents' 
+
+
+## Finding your keys - Example (4)
+
+For each person, recorded age, sex, height and target weight, and then at multiple times recorded their weight
+
+## Finding your keys - Example (4)
+
+For each person, recorded age, sex, height and target weight, and then at multiple times recorded their weight
+
+- key: *patient ID*, date
+- measurement: *age, sex, height, target weight*, current weight
+
 ## Messy (3)
 
 Messy (3): *Multiple observational units are stored in the same table.*
