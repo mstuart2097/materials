@@ -1,0 +1,44 @@
+---
+title: 'Lab Assignment #3'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab #3:<br>Spreadsheeting the joy
+
+## 
+
+<img src="images/spreadsheet.jpeg" width=2500 class="cover">
+
+
+## Selfefficacy measures and pitfalls
+
+Two Excel spreadsheets are available for our lab today: [SUSSI](Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx) and [Self efficacy](Spreadsheets/Self efficacy compilation_FINAL_DataInconsistencies.xlsx).
+
+1. Download the files and save them in a folder called "Spreadsheets". Place that folder into the same folder as your Rmd file for the lab report.
+2. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation).
+3. The goal for this lab is to (a) come up with one combined dataset for each of the Excel files, (b) check for inconsistencies, and (c) come up with a visual summary comparing pre and post-test scores facetted by semester.
+
+## Quick view
+
+
+```{r message = FALSE}
+library(tidyverse)
+readxl::excel_sheets("Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx")
+readxl::read_excel("Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx", sheet=1) %>% glimpse()
+```
+
+## Deliverable 
+
+Submit a write-up containing code, plots, and descriptions in form of an RMarkdown file to Blackboard. 
+
+

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab Assignment #3</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="03_lab_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="03_lab_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="03_lab_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="03_lab_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Lab Assignment #3</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="lab-3-spreadsheeting-the-joy" class="titleslide slide level1"><h2 class="shout">Lab #3:<br>Spreadsheeting the joy</h2></section><section id="section" class="slide level2">
+<h2></h2>
+<p><img src="images/spreadsheet.jpeg" width=2500 class="cover"></p>
+</section><section id="selfefficacy-measures-and-pitfalls" class="slide level2">
+<h2>Selfefficacy measures and pitfalls</h2>
+<p>Two Excel spreadsheets are available for our lab today: <a href="Spreadsheets/SUSSI%20compilation_FINAL_DataInconsistencies.xlsx">SUSSI</a> and <a href="Spreadsheets/Self%20efficacy%20compilation_FINAL_DataInconsistencies.xlsx">Self efficacy</a>.</p>
+<ol type="1">
+<li>Download the files and save them in a folder called “Spreadsheets”. Place that folder into the same folder as your Rmd file for the lab report.</li>
+<li>Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation).</li>
+<li>The goal for this lab is to (a) come up with one combined dataset for each of the Excel files, (b) check for inconsistencies, and (c) come up with a visual summary comparing pre and post-test scores facetted by semester.</li>
+</ol>
+</section><section id="quick-view" class="slide level2">
+<h2>Quick view</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+readxl::<span class="kw">excel_sheets</span>(<span class="st">&quot;Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Spring 2011&quot; &quot;Fall 2011&quot;   &quot;Spring 2012&quot; &quot;Fall 2012&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readxl::<span class="kw">read_excel</span>(<span class="st">&quot;Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx&quot;</span>, <span class="dt">sheet=</span><span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>## Observations: 94
+## Variables: 39
+## $ ID                   &lt;dbl&gt; 1, 2, 3, 4, 8, 12, 13, 14, 16, 17, 18, 19...
+## $                      &lt;chr&gt; &quot;PRE&quot;, &quot;PRE&quot;, &quot;PRE&quot;, &quot;PRE&quot;, &quot;PRE&quot;, &quot;PRE&quot;,...
+## $ SO 1                 &lt;dbl&gt; 4, 4, 4, 4, 4, 5, 5, 4, 5, 5, 4, 5, 4, 4,...
+## $ SO 2                 &lt;dbl&gt; 4, 5, 4, 4, 4, 5, 4, 5, 4, 4, 4, 4, 1, 5,...
+## $ SO 3                 &lt;dbl&gt; 5, 3, 5, 5, 3, 5, 3, 5, 4, 5, 3, 5, 5, 4,...
+## $ SO 4                 &lt;dbl&gt; 5, 5, 5, 5, 4, 5, 5, 5, 4, 5, 5, 5, 5, 5,...
+## $ CI 1                 &lt;dbl&gt; 5, 4, 2, 5, 3, 3, 4, 3, 4, 4, 4, 4, 1, 4,...
+## $ CI 2                 &lt;dbl&gt; 4, 3, 2, 5, 4, 4, 3, 3, 4, 3, 4, 3, 3, 4,...
+## $ CI 3                 &lt;dbl&gt; 4, 4, 3, 5, 4, 4, 5, 2, 4, 4, 4, 3, 5, 4,...
+## $ CI 4                 &lt;dbl&gt; 4, 4, 4, 4, 4, 4, 3, 4, 4, 5, 2, 3, 4, 5,...
+## $ IMG 1                &lt;dbl&gt; 4, 2, 3, 3, 2, 2, 4, 1, 2, 2, 4, 2, 5, 4,...
+## $ IMG 2                &lt;dbl&gt; 2, 2, 4, 2, 2, 2, 4, 1, 2, 2, 4, 2, 5, 4,...
+## $ IMG 3                &lt;dbl&gt; 3, 2, 4, 2, 2, 2, 5, 2, 2, 2, 4, 1, 4, 4,...
+## $ IMG 4                &lt;dbl&gt; 4, 2, 4, 2, 2, 2, 5, 2, 2, 2, 4, 1, 4, 4,...
+## $ MTH 1                &lt;dbl&gt; 2, 2, 2, 3, 2, 2, 1, 3, 2, 2, 4, 1, 5, 3,...
+## $ MTH 2                &lt;dbl&gt; 2, 3, 3, 4, 4, 4, 4, 4, 2, 3, 4, 1, 5, 4,...
+## $ MTH 4                &lt;dbl&gt; 2, 2, 2, 4, 3, 2, 3, 2, 2, 3, 4, 1, 1, 2,...
+## $ SI 1                 &lt;dbl&gt; 4, 3, 4, 5, 3, 4, 4, 4, 4, 3, 4, 4, 5, 4,...
+## $ SI 2                 &lt;dbl&gt; 4, 3, 4, 4, 4, 4, 2, 4, 4, 3, 4, 4, 3, 4,...
+## $ SI 3                 &lt;dbl&gt; 4, 2, 5, 5, 4, 4, 4, 4, 4, 3, 4, 4, 3, 4,...
+## $ SI 4                 &lt;dbl&gt; 4, 4, 3, 5, 2, 4, 4, 4, 4, 3, 3, 3, 4, 4,...
+## $ DA 1                 &lt;dbl&gt; 5, 5, 4, 5, 2, 3, 5, 2, 4, 5, 4, 4, 3, 3,...
+## $ DA 2                 &lt;dbl&gt; 5, 5, 4, 5, 4, 4, 4, 4, 4, 5, 4, 5, 3, 4,...
+## $ DA 3                 &lt;dbl&gt; 5, 5, 4, 5, 4, 4, 5, 5, 4, 3, 4, 5, 4, 5,...
+## $ DA 4                 &lt;dbl&gt; 4, 5, 4, 5, 4, 4, 4, 4, 4, 3, 4, 5, 4, 4,...
+## $ SK 1                 &lt;dbl&gt; 5, 5, 4, 5, 4, 4, 5, 4, 4, 5, 4, 5, 5, 3,...
+## $ SK 2                 &lt;dbl&gt; 3, 3, 4, 5, 3, 4, 4, 5, 4, 5, 4, 5, 5, 4,...
+## $ SK 3                 &lt;dbl&gt; 4, 4, 4, 5, 3, 4, 3, 4, 4, 4, 4, 2, 5, 4,...
+## $ SK 4                 &lt;dbl&gt; 4, 3, 3, 5, 3, 4, 2, 4, 4, 5, 4, 5, 1, 4,...
+## $ DI 1                 &lt;dbl&gt; 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 4, 5, 5, 4,...
+## $ DI 2                 &lt;dbl&gt; 2, 3, 2, 2, 3, 2, 3, 2, 2, 3, 2, 5, 4, 4,...
+## $ DI 3                 &lt;dbl&gt; 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 4, 1, 4, 2,...
+## $ DI 4                 &lt;dbl&gt; 2, 3, 3, 3, 3, 2, 3, 3, 2, 3, 2, 5, 4, 4,...
+## $ TOTAL                &lt;dbl&gt; 116, 106, 110, 127, 99, 110, 116, 105, 10...
+## $ Normalized Change    &lt;dbl&gt; -0.077586207, 0.055555556, -0.036363636, ...
+## $ GENDER               &lt;chr&gt; &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Fe...
+## $ STEM?                &lt;chr&gt; &quot;No&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;N...
+## $ Reflection Questions &lt;chr&gt; &quot;Reflection &quot;, &quot;Reflection &quot;, &quot;Reflection...
+## $ Research Project     &lt;chr&gt; &quot;No Research Project&quot;, &quot;No Research Proje...</code></pre>
+</section><section id="deliverable" class="slide level2">
+<h2>Deliverable</h2>
+<p>Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard.</p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="03_lab_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
