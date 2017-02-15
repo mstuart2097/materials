@@ -25,8 +25,18 @@ knitr::opts_chunk$set(echo = TRUE)
 Two Excel spreadsheets are available for our lab today: [SUSSI](Spreadsheets/SUSSI compilation_FINAL_DataInconsistencies.xlsx) and [Self efficacy](Spreadsheets/Self efficacy compilation_FINAL_DataInconsistencies.xlsx).
 
 1. Download the files and save them in a folder called "Spreadsheets". Place that folder into the same folder as your Rmd file for the lab report.
-2. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation).
-3. The goal for this lab is to (a) come up with one combined dataset for each of the Excel files, (b) check for inconsistencies, and (c) come up with a visual summary comparing pre and post-test scores facetted by semester.
+2. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation). 3. The two Excel files track scores from two different tests for the same students (same id means the same student).
+
+## Goals of the lab
+
+The big goal for this lab is to come up with a single data set consisting of measurement, student id, semester, and pre- and post-test score. 
+
+The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to the final data set. 
+
+Document in the report 
+
+(b) your approach to check for inconsistencies, and 
+(c) come up with a visual summary comparing pre and post-test scores from the two tests facetted by semester.
 
 ## Quick view
 

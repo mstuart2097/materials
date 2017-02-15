@@ -72,8 +72,16 @@
 <p>Two Excel spreadsheets are available for our lab today: <a href="Spreadsheets/SUSSI%20compilation_FINAL_DataInconsistencies.xlsx">SUSSI</a> and <a href="Spreadsheets/Self%20efficacy%20compilation_FINAL_DataInconsistencies.xlsx">Self efficacy</a>.</p>
 <ol type="1">
 <li>Download the files and save them in a folder called “Spreadsheets”. Place that folder into the same folder as your Rmd file for the lab report.</li>
-<li>Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation).</li>
-<li>The goal for this lab is to (a) come up with one combined dataset for each of the Excel files, (b) check for inconsistencies, and (c) come up with a visual summary comparing pre and post-test scores facetted by semester.</li>
+<li>Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, STEM affiliation). 3. The two Excel files track scores from two different tests for the same students (same id means the same student).</li>
+</ol>
+</section><section id="goals-of-the-lab" class="slide level2">
+<h2>Goals of the lab</h2>
+<p>The big goal for this lab is to come up with a single data set consisting of measurement, student id, semester, and pre- and post-test score.</p>
+<p>The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to the final data set.</p>
+<p>Document in the report</p>
+<ol start="2" type="a">
+<li>your approach to check for inconsistencies, and</li>
+<li>come up with a visual summary comparing pre and post-test scores from the two tests facetted by semester.</li>
 </ol>
 </section><section id="quick-view" class="slide level2">
 <h2>Quick view</h2>
@@ -124,7 +132,7 @@ readxl::<span class="kw">excel_sheets</span>(<span class="st">&quot;Spreadsheets
 ## $ Research Project     &lt;chr&gt; &quot;No Research Project&quot;, &quot;No Research Proje...</code></pre>
 </section><section id="deliverable" class="slide level2">
 <h2>Deliverable</h2>
-<p>Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard.</p>
+<p>Submit a write-up containing code, plots, and descriptions in form of an RMarkdown file to Blackboard.</p>
 </section>
 
   <!--
