@@ -72,12 +72,13 @@
 <p>Two Excel spreadsheets are available for our lab today: <a href="Spreadsheets/FileOne.xlsx">FileOne</a> and <a href="Spreadsheets/FileTwo.xlsx">FileTwo</a>.</p>
 <ol type="1">
 <li>Download the files and save them in a folder called “Spreadsheets”. Place that folder into the same folder as your Rmd file for the lab report.</li>
-<li>The two files are two different measures of self efficacy of the same students. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, Characteristic). 3. The two Excel files track scores from two different tests for the same students (same id (in first column) means the same student).</li>
+<li>The two files are two different measures of self efficacy of the same students. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender and Characteristic).</li>
+<li>The two Excel files track scores from two different tests for the same students (same id (in first column) means the same student).</li>
 </ol>
 </section><section id="goals-of-the-lab" class="slide level2">
 <h2>Goals of the lab</h2>
-<p>The big goal for this lab is to come up with a single data set consisting of measurement, student id, semester, and pre- and post-test score.</p>
-<p>The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to the final data set.</p>
+<p>The big goal for this lab is to come up with a single data set consisting of (type of) measure, semester, student id, student demographics, and pre- and post-test score.</p>
+<p>The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to checking data quality to the final data.</p>
 <p>Document in the report</p>
 <ol start="2" type="a">
 <li>your approach to check for inconsistencies, and</li>
@@ -85,8 +86,10 @@
 </ol>
 </section><section id="quick-view" class="slide level2">
 <h2>Quick view</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-readxl::<span class="kw">excel_sheets</span>(<span class="st">&quot;Spreadsheets/FileOne.xlsx&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 3.3.2</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readxl::<span class="kw">excel_sheets</span>(<span class="st">&quot;Spreadsheets/FileOne.xlsx&quot;</span>)</code></pre></div>
 <pre><code>## [1] &quot;Sem1&quot; &quot;Sem2&quot; &quot;Sem3&quot; &quot;Sem4&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readxl::<span class="kw">read_excel</span>(<span class="st">&quot;Spreadsheets/FileOne.xlsx&quot;</span>, <span class="dt">sheet=</span><span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
 <pre><code>## Observations: 94

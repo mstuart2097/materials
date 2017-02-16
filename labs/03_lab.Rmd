@@ -25,13 +25,14 @@ knitr::opts_chunk$set(echo = TRUE)
 Two Excel spreadsheets are available for our lab today: [FileOne](Spreadsheets/FileOne.xlsx) and [FileTwo](Spreadsheets/FileTwo.xlsx).
 
 1. Download the files and save them in a folder called "Spreadsheets". Place that folder into the same folder as your Rmd file for the lab report.
-2. The two files are two different measures of self efficacy of the same students. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender, Characteristic). 3. The two Excel files track scores from two different tests for the same students (same id (in first column) means the same student).
+2. The two files are two different measures of self efficacy of the same students. Each of the Excel files consist of four sheets, one for each semester between Spring 2011 and Fall 2012. In each semester, a score of a pre- and a post-test is recorded, together with some demographic information (gender and Characteristic). 
+3. The two Excel files track scores from two different tests for the same students (same id (in first column) means the same student).
 
 ## Goals of the lab
 
-The big goal for this lab is to come up with a single data set consisting of measurement, student id, semester, and pre- and post-test score. 
+The big goal for this lab is to come up with a single data set consisting of (type of) measure, semester, student id, student demographics, and pre- and post-test score. 
 
-The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to the final data set. 
+The lab report is supposed to document all steps you take from reading the data out of the Excel spread sheets to checking data quality to the final data. 
 
 Document in the report 
 
