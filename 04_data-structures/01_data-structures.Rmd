@@ -24,8 +24,8 @@ library(tidyverse)
 
 ## Basic R objects
 
-* Data types: numeric, integer, character, double
-* Basic data structures: vector, matrix, character, factor, list
+* Data types: numeric, integer, character, logical
+* Basic data structures: vector,  matrix, array, factor, list
 
 ## Numeric values
 

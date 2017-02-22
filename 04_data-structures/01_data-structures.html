@@ -74,8 +74,8 @@
 </section><section id="basic-r-objects" class="slide level2">
 <h2>Basic R objects</h2>
 <ul>
-<li>Data types: numeric, integer, character, double</li>
-<li>Basic data structures: vector, matrix, character, factor, list</li>
+<li>Data types: numeric, integer, character, logical</li>
+<li>Basic data structures: vector, matrix, array, factor, list</li>
 </ul>
 </section><section id="numeric-values" class="slide level2">
 <h2>Numeric values</h2>
@@ -190,7 +190,7 @@ d %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre><
 ## Variables: 3
 ## $ x   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ## $ y   &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-## $ fac &lt;fctr&gt; C, A, B, C, C, A, A, A, B, C</code></pre>
+## $ fac &lt;fctr&gt; B, A, C, A, C, A, A, C, B, A</code></pre>
 </section><section id="lists" class="slide level2">
 <h2>Lists</h2>
 <ul>
@@ -367,6 +367,7 @@ xx &lt;-<span class="st"> </span><span class="kw">readShapeSpatial</span>(<span 
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(<span class="dt">class=</span><span class="kw">class</span>(xx))</code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
+<pre><code>## Warning: package &#39;sp&#39; was built under R version 3.3.2</code></pre>
 <pre><code>##  [1] [             [[            [[&lt;-          [&lt;-           $            
 ##  [6] $&lt;-           addAttrToGeom bbox          coerce        coerce&lt;-     
 ## [11] coordinates   coordinates&lt;- coordnames    coordnames&lt;-  dimensions   
