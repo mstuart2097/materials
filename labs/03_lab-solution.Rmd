@@ -46,7 +46,7 @@ Document in the report
   - no problem identifying the data problems
 
 
-```{r message = FALSE, echo =FALSE}
+```{r message = FALSE, echo =FALSE, warning = FALSE}
 library(tidyverse)
 ```
 
@@ -126,9 +126,9 @@ xls %>% filter(is.na(GENDER))
 ```
 ## Inconsistencies
 
-All students should show up four times in the data:
+All students should show up twice in the data (once in FileOne, once in FileTwo):
 ```{r}
-xls %>% count(StudentID) %>% filter(n != 4)
+xls %>% count(StudentID) %>% filter(n != 2)
 
 xls %>% filter(StudentID == 20033)
 ```
