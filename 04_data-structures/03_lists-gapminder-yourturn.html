@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Working with lists - Your Turn solution</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="03_lists-gapminder-yourturn_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="03_lists-gapminder-yourturn_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="03_lists-gapminder-yourturn_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="03_lists-gapminder-yourturn_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Working with lists - Your Turn solution</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="your-turn-10-mins" class="slide level2">
+<h2>Your turn (10 mins)</h2>
+<ul>
+<li>Extract other model diagnostics: find the R square value for each model. Draw a visualization of R square by country - can you see a pattern? What does the pattern mean?</li>
+<li>Extract residuals and fitted values for each of the models and store them in a dataset together with country and continent information.</li>
+<li>Plot residuals across the years and fit a smooth. What does the pattern mean?</li>
+<li>Draw a scatterplot of predicted Life Expectancy in 2017 versus slope. Compare this to the scatterplot of Intercept versus slope.</li>
+</ul>
+</section>
+<section id="extract-r-square-for-each-model" class="slide level2">
+<h2>Extract R square for each model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryList &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span><span class="kw">unnest</span>(model %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(broom::glance))
+countryList$country &lt;-<span class="st"> </span><span class="kw">reorder</span>(countryList$country, countryList$r.squared)
+
+countryList %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> country, <span class="dt">y =</span> r.squared, <span class="dt">colour=</span>continent)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span>-<span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">0</span>)) +
+<span class="st">  </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>)</code></pre></div>
+<p><img src="03_lists-gapminder-yourturn_files/figure-revealjs/unnamed-chunk-2-1.png" width="768" /></p>
+</section>
+<section id="extract-residuals-and-fitted-values" class="slide level2">
+<h2>Extract residuals and fitted values</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryFit &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span><span class="kw">select</span>(country, continent, data, model) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">fitted =</span> model %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(broom::augment)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(-model) %&gt;%<span class="st"> </span><span class="kw">unnest</span>()
+
+countryFit</code></pre></div>
+<pre><code>## # A tibble: 1,704 × 15
+##        country continent  year lifeExp      pop gdpPercap lifeExp  year
+##         &lt;fctr&gt;    &lt;fctr&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1  Afghanistan      Asia     2  28.801  8425333  779.4453  28.801     2
+## 2  Afghanistan      Asia     7  30.332  9240934  820.8530  30.332     7
+## 3  Afghanistan      Asia    12  31.997 10267083  853.1007  31.997    12
+## 4  Afghanistan      Asia    17  34.020 11537966  836.1971  34.020    17
+## 5  Afghanistan      Asia    22  36.088 13079460  739.9811  36.088    22
+## 6  Afghanistan      Asia    27  38.438 14880372  786.1134  38.438    27
+## 7  Afghanistan      Asia    32  39.854 12881816  978.0114  39.854    32
+## 8  Afghanistan      Asia    37  40.822 13867957  852.3959  40.822    37
+## 9  Afghanistan      Asia    42  41.674 16317921  649.3414  41.674    42
+## 10 Afghanistan      Asia    47  41.763 22227415  635.3414  41.763    47
+## # ... with 1,694 more rows, and 7 more variables: .fitted &lt;dbl&gt;,
+## #   .se.fit &lt;dbl&gt;, .resid &lt;dbl&gt;, .hat &lt;dbl&gt;, .sigma &lt;dbl&gt;, .cooksd &lt;dbl&gt;,
+## #   .std.resid &lt;dbl&gt;</code></pre>
+</section>
+<section id="plot-residuals-across-the-years" class="slide level2">
+<h2>Plot residuals across the years</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryFit %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> .resid)) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> country, <span class="dt">colour =</span> continent)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;loess&quot;</span>) +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~continent)</code></pre></div>
+<p><img src="03_lists-gapminder-yourturn_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
+</section>
+<section id="predicted-life-expectancy-in-2017" class="slide level2">
+<h2>predicted Life Expectancy in 2017</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryList &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(country, continent, data, model) %&gt;%<span class="st">  </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+  <span class="dt">le2017 =</span> model %&gt;%<span class="st"> </span>
+<span class="st">    </span>purrr::<span class="kw">map_dbl</span>(function(m) <span class="kw">predict</span>(m, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">year=</span><span class="dv">67</span>)))
+)
+countryList &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+  <span class="dt">coefs =</span> model %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(broom::tidy)
+)
+countryCoefs &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span><span class="kw">unnest</span>(coefs) %&gt;%<span class="st"> </span><span class="kw">select</span>(country, continent, le2017, term, estimate) %&gt;%<span class="st"> </span><span class="kw">spread</span>(<span class="dt">key=</span>term, <span class="dt">value=</span>estimate)</code></pre></div>
+</section>
+<section id="predicted-life-expectancy-in-2017-and-1950" class="slide level2">
+<h2>predicted Life Expectancy in 2017 and 1950</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryCoefs %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">y =</span> le2017, <span class="dt">colour=</span>continent)) +
+<span class="st">  </span><span class="kw">geom_abline</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Predicted Life Expectancy in 1950&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Predicted Life Expectancy in 2017&quot;</span>) +
+<span class="st">  </span>ggrepel::<span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label =</span> country),
+    <span class="dt">data =</span> countryCoefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span> &gt;<span class="st"> </span>le2017))</code></pre></div>
+<p><img src="03_lists-gapminder-yourturn_files/figure-revealjs/unnamed-chunk-6-1.png" width="480" /></p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="03_lists-gapminder-yourturn_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
