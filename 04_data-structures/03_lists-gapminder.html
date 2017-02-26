@@ -113,7 +113,7 @@ gapminder %&gt;%<span class="st"> </span><span class="kw">filter</span>(country 
 <p><img src="03_lists-gapminder_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
 </section><section id="using-models-as-exploratory-tools" class="slide level2">
 <h2>Using models as exploratory tools</h2>
-<p>Now we would like to repeat this modelling approach to all countries, i.e. <em>split</em> by movie, <em>apply</em> the model, <em>combine</em> the results.</p>
+<p>Now we would like to repeat this modelling approach to all countries, i.e. <em>split</em> by country, <em>apply</em> the model, <em>combine</em> the results.</p>
 <p>But we certainly don’t want to subset the data for every country …</p>
 </section><section id="split-apply-combine-for-lists" class="slide level2">
 <h2>Split-Apply-Combine for lists</h2>
@@ -364,16 +364,6 @@ coefsTerm %&gt;%<span class="st"> </span><span class="kw">filter</span>(Statisti
 <li>Extract residuals and fitted values for each of the models and store them in a dataset together with country and continent information. Draw a scatterplot of predicted Life Expectancy in 2017 versus slope. Compare this to the scatterplot of Intercept versus slope.</li>
 <li>Plot residuals across the years and fit a smooth. What does the pattern mean?</li>
 </ul>
-</section><section id="your-turn---solution" class="slide level2">
-<h2>Your Turn - Solution</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryList &lt;-<span class="st"> </span>countryList %&gt;%<span class="st"> </span><span class="kw">unnest</span>(model %&gt;%<span class="st"> </span>purrr::<span class="kw">map</span>(broom::glance))
-countryList$country &lt;-<span class="st"> </span><span class="kw">reorder</span>(countryList$country, countryList$r.squared)
-
-countryList %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> country, <span class="dt">y =</span> r.squared, <span class="dt">colour=</span>continent)) +
-<span class="st">  </span><span class="kw">geom_point</span>() +
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span>-<span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">0</span>)) +
-<span class="st">  </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>)</code></pre></div>
 </section>
 
   <!--

@@ -109,9 +109,9 @@
 <span class="co"># span is interval, years(1) is duration</span>
 span &lt;-<span class="st"> </span>end_date -<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)
 span</code></pre></div>
-<pre><code>## [1] &quot;2016-02-04 11:22:30 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-25 16:32:13 CST&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_date -<span class="st"> </span><span class="kw">days</span>(<span class="dv">10</span>)</code></pre></div>
-<pre><code>## [1] &quot;2017-01-25 11:22:30 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2017-02-15 16:32:13 CST&quot;</code></pre>
 </section><section id="example-movies" class="slide level2">
 <h2>Example: Movies</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/movies.csv&quot;</span>)
@@ -170,6 +170,19 @@ movies$Date &lt;-<span class="st"> </span><span class="kw">ymd</span>(movies$Dat
 <li>Check whether the time between the release of a movie and the date is equal to the number of days in theaters.</li>
 <li>How should we interpret the result of <code>as.numeric(months(1))</code>?</li>
 </ul>
+</section><section id="your-turn---solution" class="slide level2">
+<h2>Your Turn - solution</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies$Release &lt;-<span class="st"> </span><span class="kw">ymd</span>(movies$Release)
+movies$Days2 &lt;-<span class="st"> </span>movies$Date -<span class="st"> </span>movies$Release
+movies %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Release)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">90</span>)</code></pre></div>
+<p><img src="02_date-and-time_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" /></p>
+</section><section id="your-turn---solution-contd" class="slide level2">
+<h2>Your Turn - solution (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(movies$Release)</code></pre></div>
+<pre><code>##  Date[1:10327], format: &quot;2017-01-17&quot; &quot;2017-01-24&quot; &quot;2016-12-22&quot; &quot;2017-01-24&quot; ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(<span class="kw">months</span>(<span class="dv">1</span>))/(<span class="dv">60</span>*<span class="dv">60</span>*<span class="dv">24</span>) <span class="co"># that&#39;s the average number of days in a month</span></code></pre></div>
+<pre><code>## [1] 30.4375</code></pre>
 </section>
 
   <!--

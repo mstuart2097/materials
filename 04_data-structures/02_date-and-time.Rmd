@@ -90,3 +90,20 @@ movies %>% ggplot(aes(x = Date)) + geom_histogram(binwidth=7)
 - plot a histogram of the variable.
 - Check whether the time between the release of a movie and the date is equal to the number of days in theaters. 
 - How should we interpret the result of `as.numeric(months(1))`?
+
+## Your Turn - solution
+
+```{r fig.height=4.5}
+movies$Release <- ymd(movies$Release)
+movies$Days2 <- movies$Date - movies$Release
+movies %>% ggplot(aes(x = Release)) + 
+  geom_histogram(binwidth = 90)
+```
+
+## Your Turn - solution (cont'd)
+
+```{r}
+str(movies$Release)
+
+as.numeric(months(1))/(60*60*24) # that's the average number of days in a month
+```

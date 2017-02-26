@@ -66,7 +66,7 @@ gapminder %>%
 
 ##Using models as exploratory tools
 
-Now we would like to repeat this modelling approach to all countries, i.e. *split* by movie, *apply* the model, *combine* the results. 
+Now we would like to repeat this modelling approach to all countries, i.e. *split* by country, *apply* the model, *combine* the results. 
 
 But we certainly don't want to subset the data for every country ... 
 
@@ -216,7 +216,7 @@ coefs
 
 ## Reshaping
 
-```{r}
+```{r fig.width=4.5, fig.height = 4.5}
 coefsLong <- coefs %>% gather(key="Statistic", value = "Value", 4:7)
 coefsTerm <- coefsLong %>% spread(key="term", value="Value")
 coefsTerm %>% filter(Statistic == "estimate") %>% 
@@ -231,19 +231,5 @@ coefsTerm %>% filter(Statistic == "estimate") %>%
 - Extract other model diagnostics: find the R square value for each model. Draw a visualization of R square by country - can you see a pattern? What does the pattern mean?
 - Extract residuals and fitted values for each of the models and store them in a dataset together with country and continent information. Draw a scatterplot of predicted Life Expectancy in 2017 versus slope. Compare this to the scatterplot of Intercept versus slope.
 - Plot residuals across the years and fit a smooth. What does the pattern mean?
-
-
-## Your Turn - Solution
-
-```{r eval=FALSE}
-countryList <- countryList %>% unnest(model %>% purrr::map(broom::glance))
-countryList$country <- reorder(countryList$country, countryList$r.squared)
-
-countryList %>% 
-  ggplot(aes(x = country, y = r.squared, colour=continent)) +
-  geom_point() +
-  theme(axis.text.x=element_text(angle=-90, hjust=0)) +
-  scale_colour_brewer(palette="Dark2")
-```
 
 
