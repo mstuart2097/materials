@@ -1,5 +1,5 @@
 ---
-title: "Stat 585 - Case Studies in Failed Reproducibility"
+title: "Stat 585 - File Organizations"
 author: "Heike Hofmann"
 ratio: 16x10
 output:

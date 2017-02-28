@@ -356,13 +356,14 @@ coefsTerm &lt;-<span class="st"> </span>coefsLong %&gt;%<span class="st"> </span
 coefsTerm %&gt;%<span class="st"> </span><span class="kw">filter</span>(Statistic ==<span class="st"> &quot;estimate&quot;</span>) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">y =</span> year)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> continent)) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Slope (year)&quot;</span>)</code></pre></div>
-<p><img src="03_lists-gapminder_files/figure-revealjs/unnamed-chunk-15-1.png" width="768" /></p>
+<p><img src="03_lists-gapminder_files/figure-revealjs/unnamed-chunk-15-1.png" width="432" /></p>
 </section><section id="your-turn-10-mins" class="slide level2">
 <h2>Your turn (10 mins)</h2>
 <ul>
 <li>Extract other model diagnostics: find the R square value for each model. Draw a visualization of R square by country - can you see a pattern? What does the pattern mean?</li>
-<li>Extract residuals and fitted values for each of the models and store them in a dataset together with country and continent information. Draw a scatterplot of predicted Life Expectancy in 2017 versus slope. Compare this to the scatterplot of Intercept versus slope.</li>
+<li>Extract residuals and fitted values for each of the models and store them in a dataset together with country and continent information.</li>
 <li>Plot residuals across the years and fit a smooth. What does the pattern mean?</li>
+<li>Include predicted Life Expectancy for 2017 into the data set. Then compare predicted life expectancy in 2017 with that in 1950.</li>
 </ul>
 </section>
 
