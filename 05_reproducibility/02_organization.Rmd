@@ -64,6 +64,14 @@ fig02_histogram-talk-attendance.png
     + Avoid spaces, punctuation, accented characters, case sensitivity
 - Easy to compute on
     + Deliberate use of delimiters
+
+## Globbing
+
+> Globbing is the process of expanding a non-specific file name containing a wildcard character into a set of specific file names that exist in storage on a computer, server, or network. A wildcard is a symbol that can stand for one or more characters.
+
+WhatIs.com
+
+We'll deal with regular expressions later - right now think of them as search terms.
     
 ## Globbing
 
@@ -84,11 +92,6 @@ fig02_histogram-talk-attendance.png
 ![plasmid_mac_os_search](img/01-naming/plasmid_mac_os_search.png)
 </center>
 
-## Same using regex in R
-
-<center>
-![plasmid_regex](img/01-naming/plasmid_regex.png)
-</center>
 
 ## Punctuation {.smaller}
 
