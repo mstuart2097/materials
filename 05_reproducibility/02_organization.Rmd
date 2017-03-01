@@ -219,21 +219,10 @@ which is just sad :(
 2. Human readable
 3. Plays well with default ordering
 
-## Pros
+Pros
 
 - Easy to implement NOW
 - Payoffs accumulate as your skills evolve and projects get more complex
 
-## Go forth and use awesome file names :)
-
-![chronological_order](img/01-naming/chronological_order.png)
-
-<br>
-
-![logical_order](img/01-naming/logical_order.png)
-
-
-
-
-
+# Go forth and use awesome file names :)
 
