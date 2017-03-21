@@ -1,0 +1,90 @@
+---
+title: "Assignment 4: Web Scraping"
+author: "Team Awesome"
+date: "Due March 20, 2017"
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: no
+  html_document: default
+geometry: margin=0.5in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.pos = 'h')
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, comment=F, cache=F, include=F, results='hide'}
+pkg=c("tidyverse", "rvest", "magrittr", "pander", "ggplot2", "stringr")
+sapply(pkg, require, character.only = TRUE)
+panderOptions('table.alignment.default', 'left')
+```
+
+# Data Collection
+## Step 1: Scraping list of active baseball player names and url links
+```{r}
+# letter: Starting alphabet of last name
+# number: Number of players to be extracted
+
+baseball <- function(letter, number){
+  html <- paste0("http://www.baseball-reference.com/players/", letter) %>% read_html
+  names<- html %>% html_nodes("b a") %>% html_text()
+  urls<- html %>% html_nodes("b a") %>% 
+  html_attr(name="href") %>% paste0("http://www.baseball-reference.com",.)
+  players <- data.frame(name = names, link = urls, stringsAsFactors = FALSE)[1:number,]
+return(players)
+} 
+name <- baseball("t", 10)
+```
+
+In this assignment, we are interested in scraping statistics and bio information of professional baseball players via [www.baseball-reference.com](www.baseball-reference.com). On the website, one could easily retrieve all baseball players registered on the website with last names starting with certain alphabet by adding "/players/alphabet" after the base url. For example, "http://www.baseball-reference.com/players/t" would generate a list of baseball players with last names starting with T. Also, the web page is written that currently active players are displayed in bold prints. Using the "SelectorGadget" tool on the browser, CSS selector for these bold fonts had <a> element with <b> tag for bold, i.e. "b a".  Therefore, using the \textit{read\_html}, \textit{html\_nodes}, \textit{html\_text}, and \textit{html\_attr} function from the 'rvest' package, data frame that consists player's name and url address for their bio page was constructed. Example output of 10 baseball players with last names starting with T is provided in \autoref{tab:players_link}.
+
+```{r, echo=F}
+pander(name, split.table = 160, style = 'rmarkdown', caption = "\\label{tab:players_link}10 baseball players with last names starting with T")
+```
+
+\pagebreak
+
+## Step 2: Scraping statistic and bio information of a given baseball player
+```{r}
+player_info=function(url){
+  html <- read_html(url)
+  dat_path=c(player="h1", position="h1+p", BnT="p:nth-child(3)", WnH="p:nth-child(4)", type=".stats_pullout .poptip", value=".stats_pullout .p1 p, .stats_pullout .p2 p, .stats_pullout .p3 p", what=".stats_pullout strong")
+  dat=lapply(dat_path, function(x) html_nodes(html, x) %>% html_text)
+  stats=matrix(c(dat$value), nrow=length(dat$what), byrow=F) %>% 
+    cbind(dat$what,.) %>% data.frame(stringsAsFactors=F)
+  names(stats)<-c("summary", dat$type)
+  dat2=cbind.data.frame(player=dat[[1]], position=gsub(".*:\n {2,}(.*?)\n.*", "\\1",dat[[2]]), bats=gsub(".*?: (.*?)\n.*", "\\1", dat[[3]][1]), throws=gsub(".*: (.*)\n$", "\\1", dat[[3]][1]), height=gsub(".*?\\((.*?)cm.*","\\1",dat[[4]][1]), weight=gsub(".*cm,(.*?)kg.*","\\1",dat[[4]][1]),stats, stringsAsFactors=F)
+  return(dat2)
+}
+```
+Basic bio information such as position, bats, throws, weight, height and statistics such as wins, losses, hits, runs and etc. are available for individual players web page. The second step is to scrape information and statistics for each players obtained from step 1. Each CSS selectors for player's bio and statistics were gathered via "SelectorGadget". 'rvest' package was again applied in to extract items of interest. A few players had career statistics and statistics for 2016 season separately.  Thus, a 'summary' column was introduced to identify the type of statistics.  Moreover, variables displayed on the web were different depending on the player's position. Thus, variables with no entries were left as 'NA's.
+
+```{r}
+lapply(name$link, function(x) player_info(x))%>% do.call("bind_rows",.)->check
+```
+The result of 10 baseball players with last names starting with T is provided in \autoref{tab:bio_stat} in the Appendix section.
+
+
+\pagebreak
+
+# Visualization
+
+```{r WAR, fig.align="center", fig.cap="\\label{WAR}Wins Above Replacements vs. different Positions"}
+ggplot(data=check, aes(position, as.numeric(WAR)))+
+  geom_boxplot(aes(colour = summary))+
+  labs(y = "WAR", x="Position")+
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+```
+
+WAR (Wins Above Replacement) is a value that summarizes a player's total contributions to their team in one statistic. WAR is the only statistic that pitcher and non-pitcher positions both share. A simple box-plot was constructed to display WAR against positions per summary in \autoref{WAR}. As illustraited in \autoref{WAR}, pitchers tend to have higher WAR than other positions and career summary had higher WAR than 2016 for most positions.
+
+
+\pagebreak
+
+# Appendix
+
+```{r, echo=F}
+pander(check, split.table = 160, style = 'rmarkdown', caption = "\\label{tab:bio_stat}Information of 10 baseball players with last names starting with T")
+```
