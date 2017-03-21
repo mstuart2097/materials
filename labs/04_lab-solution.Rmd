@@ -100,7 +100,7 @@ bb$position <- bb$links %>% purrr::map_chr(getPosition)
 
 The warnings are not problematic:
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, fig.height = 4}
 bb <- bb %>% unnest() 
 bb <- bb %>% mutate(values = as.numeric(values))
 bb %>% filter(what == "Career") %>%

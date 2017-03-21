@@ -139,9 +139,9 @@ courses %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code><
 <section id="example" class="slide level2">
 <h2>Example</h2>
 <p>We don’t care about the casing, we also do not want to distinguish between <code>computing</code>, <code>computer</code>, and <code>computational</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[cC]omput*&quot;</span>, description)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[cC]omput&quot;</span>, description)</code></pre></div>
 <pre><code>##  [1]  6 11 12 27 29 34 42 45 52 59 67 69 83 94</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">indx &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;[cC]omput*&quot;</span>, description)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">indx &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;[cC]omput&quot;</span>, description)
 courses[indx]</code></pre></div>
 <pre><code>##  [1] &quot;STAT 226: Introduction to Business Statistics I&quot;           
 ##  [2] &quot;STAT 326: Introduction to Business Statistics II&quot;          
@@ -245,16 +245,16 @@ courses[indx]</code></pre></div>
 <h2>Advanced Patterns</h2>
 <p>see <code>?regex</code></p>
 <ul>
-<li>[:alpha:] Any alphabetic character</li>
-<li>[:lower:] Any lowercase character</li>
-<li>[:upper:] Any uppercase character</li>
-<li>[:digit:] Any digit</li>
-<li>[:alnum:] Any alphanumeric character (alphabetic or digit)</li>
-<li>[:blank:] Any white space character (space, tab, vertical tab)</li>
-<li>[:graph:] Any printable character, except space</li>
-<li>[:print:] Any printable character, including the space</li>
-<li>[:punct:] Any punctuation (i.e., a printable character that is not white space or alphanumeric)</li>
-<li>[:cntrl:] Any nonprintable character</li>
+<li><code>[:alpha:]</code> Any alphabetic character</li>
+<li><code>[:lower:]</code> Any lowercase character</li>
+<li><code>[:upper:]</code> Any uppercase character</li>
+<li><code>[:digit:]</code> Any digit</li>
+<li><code>[:alnum:]</code> Any alphanumeric character (alphabetic or digit)</li>
+<li><code>[:blank:]</code> Any white space character (space, tab, vertical tab)</li>
+<li><code>[:graph:]</code> Any printable character, except space</li>
+<li><code>[:print:]</code> Any printable character, including the space</li>
+<li><code>[:punct:]</code> Any punctuation (i.e., a printable character that is not white space or alphanumeric)</li>
+<li><code>[:cntrl:]</code> Any nonprintable character</li>
 </ul>
 </section>
 <section id="examples" class="slide level2">

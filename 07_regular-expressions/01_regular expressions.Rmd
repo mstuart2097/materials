@@ -72,8 +72,8 @@ description[34]
 We don't care about the casing, we also do not want to distinguish between `computing`, `computer`, and `computational`. 
 
 ```{r}
-grep("[cC]omput*", description)
-indx <- grep("[cC]omput*", description)
+grep("[cC]omput", description)
+indx <- grep("[cC]omput", description)
 courses[indx]
 ```
 
@@ -110,16 +110,16 @@ courses[indx]
 
 see `?regex`
 
-* [:alpha:] Any alphabetic character
-* [:lower:] Any lowercase character
-* [:upper:] Any uppercase character
-* [:digit:] Any digit
-* [:alnum:] Any alphanumeric character (alphabetic or digit)
-* [:blank:] Any white space character (space, tab, vertical tab)
-* [:graph:] Any printable character, except space
-* [:print:] Any printable character, including the space
-* [:punct:] Any punctuation (i.e., a printable character that is not white space or alphanumeric)
-* [:cntrl:] Any nonprintable character
+* `[:alpha:]` Any alphabetic character
+* `[:lower:]` Any lowercase character
+* `[:upper:]` Any uppercase character
+* `[:digit:]` Any digit
+* `[:alnum:]` Any alphanumeric character (alphabetic or digit)
+* `[:blank:]` Any white space character (space, tab, vertical tab)
+* `[:graph:]` Any printable character, except space
+* `[:print:]` Any printable character, including the space
+* `[:punct:]` Any punctuation (i.e., a printable character that is not white space or alphanumeric)
+* `[:cntrl:]` Any nonprintable character
 
 ## Examples
 

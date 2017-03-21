@@ -178,13 +178,8 @@ bb$position &lt;-<span class="st"> </span>bb$links %&gt;%<span class="st"> </spa
 <section id="create-a-visualization" class="slide level2">
 <h2>Create a visualization</h2>
 <p>The warnings are not problematic:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bb &lt;-<span class="st"> </span>bb %&gt;%<span class="st"> </span><span class="kw">unnest</span>() </code></pre></div>
-<pre><code>## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character
-
-## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character
-
-## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bb &lt;-<span class="st"> </span>bb %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">values =</span> <span class="kw">as.numeric</span>(values))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bb &lt;-<span class="st"> </span>bb %&gt;%<span class="st"> </span><span class="kw">unnest</span>() 
+bb &lt;-<span class="st"> </span>bb %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">values =</span> <span class="kw">as.numeric</span>(values))
 bb %&gt;%<span class="st"> </span><span class="kw">filter</span>(what ==<span class="st"> &quot;Career&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> values, <span class="dt">y =</span> names)) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>type))</code></pre></div>
 <p><img src="04_lab-solution_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
