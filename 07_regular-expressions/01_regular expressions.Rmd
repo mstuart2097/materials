@@ -123,19 +123,19 @@ see `?regex`
 
 ## Examples
 
-What do these regaular expressions do?
+What do these regular expressions do?
 
-```.at```
+`.at`
 
-```[hc]at```
+`[hc]at`
 
-```[^t]at```
+`[^t]at`
 
-```[^hc]at```
+`[^hc]at`
 
-```^[S]tat```
+`^[S]tat`
 
-```[S]tat$```
+`[S]tat$`
 
 
 
@@ -143,13 +143,20 @@ What do these regaular expressions do?
 
 What do these regular expressions do?
 
-```^s.*```
-```[A-Z]\{3,\}```
-```\[.\]```
-```[bB]ar ?[cC]hart```
-```^[0-9]{5}$```
-```^(\d{3}-\d{3}-\d{4})*$```
-```(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})```
+`^s.*`
+
+`[A-Z]\{3,\}`
+
+`\[.\]`
+
+`[bB]ar ?[cC]hart`
+
+`^[0-9]{5}$`
+
+`^(\d{3}-\d{3}-\d{4})*$`
+
+`(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})`
+
 
 ## Your Turn (5 min)
 

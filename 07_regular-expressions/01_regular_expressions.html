@@ -259,7 +259,7 @@ courses[indx]</code></pre></div>
 </section>
 <section id="examples" class="slide level2">
 <h2>Examples</h2>
-<p>What do these regaular expressions do?</p>
+<p>What do these regular expressions do?</p>
 <p><code>.at</code></p>
 <p><code>[hc]at</code></p>
 <p><code>[^t]at</code></p>
@@ -270,27 +270,37 @@ courses[indx]</code></pre></div>
 <section id="trickier-examples" class="slide level2">
 <h2>Trickier Examples</h2>
 <p>What do these regular expressions do?</p>
-<p><code>^s.*</code> <code>[A-Z]\{3,\}</code> <code>\[.\]</code> <code>[bB]ar ?[cC]hart</code> <code>^[0-9]{5}$</code> <code>^(\d{3}-\d{3}-\d{4})*$</code></p>
-<pre class="(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})```"><code>
-## Your Turn (5 min)
+<p><code>^s.*</code></p>
+<p><code>[A-Z]\{3,\}</code></p>
+<p><code>\[.\]</code></p>
+<p><code>[bB]ar ?[cC]hart</code></p>
+<p><code>^[0-9]{5}$</code></p>
+<p><code>^(\d{3}-\d{3}-\d{4})*$</code></p>
+<p><code>(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})</code></p>
+</section>
+<section id="your-turn-5-min" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<ul>
+<li>write out the regular expression for a number in scientific notation <!--
+```
+grep("[+-]?([0-9]+\\.)?[0-9]+[eE][+-]?[0-9]+", c("1e-4", "-2.13e-1", "2E4"))
+```
+--></li>
+<li>how can we try out whether the pattern works?</li>
+</ul>
+</section>
+<section id="regular-expressions-in-r" class="slide level2">
+<h2>Regular expressions in R</h2>
+<p>Patterns &amp; Matches</p>
+<ul>
+<li>Find pattern: <code>grep, regexpr, gregexpr</code></li>
+<li>Pattern replacement: <code>gsub (pattern, replacement, x)</code></li>
+</ul>
+<pre><code>grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE,
+     fixed = FALSE, useBytes = FALSE, invert = FALSE)
 
-- write out the regular expression for a number in scientific notation
-&lt;!--</code></pre>
-<p>grep(“[+-]?([0-9]+\.)?[0-9]+[eE][+-]?[0-9]+”, c(“1e-4”, “-2.13e-1”, “2E4”))</p>
-<pre><code>--&gt;
-- how can we try out whether the pattern works?
-
-
-
-## Regular expressions in R
-
-Patterns &amp; Matches
-
-* Find pattern: &lt;code&gt;grep, regexpr, gregexpr&lt;/code&gt;
-* Pattern replacement: &lt;code&gt;gsub (pattern, replacement, x)&lt;/code&gt;
-</code></pre>
-<p>grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE)</p>
-<p>gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE) ```</p>
+gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+     fixed = FALSE, useBytes = FALSE)</code></pre>
 </section>
 <section id="your-turn-8-min" class="slide level2">
 <h2>Your Turn (8 min)</h2>
@@ -336,7 +346,7 @@ summer[<span class="kw">grep</span>(<span class="st">&quot;.*[ </span><span clas
 ##  [89] &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;arr&quot; &quot;3&quot;   &quot;3&quot;   &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot;
 ## [100] &quot;arr&quot; &quot;arr&quot; &quot;arr&quot;</code></pre>
 </section>
-<section id="your-turn-5-min" class="slide level2">
+<section id="your-turn-5-min-1" class="slide level2">
 <h2>Your Turn (5 min)</h2>
 <ul>
 <li>Extract the course number from the scraped vectors.</li>
