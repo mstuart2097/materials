@@ -225,5 +225,5 @@ gsub(".*Cr\\. ([0-9]|R|(arr)).*", "\\1", credits)
 
 ## Your Turn (5 min)
 
-- Extract the course number from the scraped vectors. 
-- Overachiever: 
+- Extract the course number from the scraped vector `courses`. 
+- Overachiever: extract the number of lectures and lab time from the vector `credits`
