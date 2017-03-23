@@ -276,6 +276,9 @@ Connect to the  `person` table. Identify drivers (`PER_TYP` might help, see [far
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
 
 ```{r}
 person <- tbl(fars, "person")
@@ -305,6 +308,8 @@ Note that there are a lot of variables with the same name - we actually include 
 - Tally the number of accidents by day of the week (`DAY_WEEK`), hour of the day (`HOUR`) and gender (`SEX`). Visualize the results!
 
 
+<br>
+<br>
 <br>
 <br>
 <br>

@@ -455,7 +455,7 @@ drunk %&gt;%<span class="st"> </span><span class="kw">collect</span>() %&gt;%<sp
 </section><section id="your-turn-5-mins" class="slide level2">
 <h2>Your Turn (5 mins)</h2>
 <p>Connect to the <code>person</code> table. Identify drivers (<code>PER_TYP</code> might help, see <a href="https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx">fars manual</a>) and subset on them.</p>
-<p><br> <br> <br> <br> <br></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> </span><span class="kw">tbl</span>(fars, <span class="st">&quot;person&quot;</span>)
 drivers &lt;-<span class="st"> </span>person %&gt;%<span class="st"> </span><span class="kw">filter</span>(PER_TYP ==<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
 </section><section id="working-with-multiple-tables" class="slide level2">
@@ -476,7 +476,7 @@ drivers &lt;-<span class="st"> </span>person %&gt;%<span class="st"> </span><spa
 <li>Join drivers and accidents data.</li>
 <li>Tally the number of accidents by day of the week (<code>DAY_WEEK</code>), hour of the day (<code>HOUR</code>) and gender (<code>SEX</code>). Visualize the results!</li>
 </ul>
-<p><br> <br> <br> <br> <br> <br> <br></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">driver_acc %&gt;%<span class="st"> </span><span class="kw">group_by</span>(DAY_WEEK, HOUR, SEX) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">tally</span>() %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(HOUR &lt;<span class="st"> </span><span class="dv">25</span>, SEX &lt;<span class="st"> </span><span class="dv">8</span>) %&gt;%<span class="st"> </span>
