@@ -79,7 +79,19 @@ Encoding: UTF-8
 LazyData: true
 ```
 
-## hello.Rd
+## Licenses
+
+- There's a (surprising?) range of common use licenses available: http://www.r-project.org/Licenses/
+- More licenses at http://creativecommons.org/choose/ and  http://www.opensource.org/licenses/category
+- Most often used: GPL-2, GPL-3, MIT
+- GPL-2/3: "run, copy, distribute, study, change and improve the software" now and in the future, i.e. preserve open-source nature
+- GPL-3 clears up some inconsistencies and ambiguities in GPL-2 and should be used in new projects
+- MIT releases software completely and also allows use in commercial projects, removes liability of provider.
+
+
+## Documentation
+
+hello.Rd:
 
 ```
 \name{hello}
@@ -163,6 +175,36 @@ add(10, 1)
 - Run `devtools::document()` to create the file `hello.Rd`. 
 - Build the package and run `?hello`.
 - Already done? Expand the functionality of `hello` to produce an output of `Hello, string!` for `hello(string)`. Update `?hello` accordingly.
+
+## Roxygen tags
+
+| Tag      | Purpose           |
+| ------ |:------------------------------------------------------------------- |
+| `@param` |	Describe inputs |
+| `@examples` |	Show how the function works |
+| `@author`	| "Who wrote the function (if different from package)"|
+| `@seealso` |	Pointers to related functions |
+| `@return` |	Describe outputs |
+| `@aliases` |	Make it easier for users to find |
+| `@rdname`	| Useful for functions that are invalid filenames and for combining docs |
+
+## Commands in Roxygen
+
+| Tag      | Purpose           
+| ------ |:------------------------------------------------------------------- |
+| `\code{}` |	Discuss R code 
+| `\link{}` | 	Make link to another function.  Usually wrapped in `\code{}`
+|`\eqn{}` |	Inline equation (standard latex)
+| `\emph{}` |	Italic text
+| `\strong{}` |	Bold text
+
+Numbered list (Use `\itemize{}` for bulleted):
+
+```
+\enumerate{
+  \item First item
+}
+```
 
 
 ## Data in a package

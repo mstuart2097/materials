@@ -76,8 +76,19 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true</code></pre>
-</section><section id="hello.rd" class="slide level2">
-<h2>hello.Rd</h2>
+</section><section id="licenses" class="slide level2">
+<h2>Licenses</h2>
+<ul>
+<li>There’s a (surprising?) range of common use licenses available: <a href="http://www.r-project.org/Licenses/" class="uri">http://www.r-project.org/Licenses/</a></li>
+<li>More licenses at <a href="http://creativecommons.org/choose/" class="uri">http://creativecommons.org/choose/</a> and <a href="http://www.opensource.org/licenses/category" class="uri">http://www.opensource.org/licenses/category</a></li>
+<li>Most often used: GPL-2, GPL-3, MIT</li>
+<li>GPL-2/3: “run, copy, distribute, study, change and improve the software” now and in the future, i.e. preserve open-source nature</li>
+<li>GPL-3 clears up some inconsistencies and ambiguities in GPL-2 and should be used in new projects</li>
+<li>MIT releases software completely and also allows use in commercial projects, removes liability of provider.</li>
+</ul>
+</section><section id="documentation" class="slide level2">
+<h2>Documentation</h2>
+<p>hello.Rd:</p>
 <pre><code>\name{hello}
 \alias{hello}
 \title{Hello, World!}
@@ -151,6 +162,86 @@ add(10, 1)
 <li>Build the package and run <code>?hello</code>.</li>
 <li>Already done? Expand the functionality of <code>hello</code> to produce an output of <code>Hello, string!</code> for <code>hello(string)</code>. Update <code>?hello</code> accordingly.</li>
 </ul>
+</section><section id="roxygen-tags" class="slide level2">
+<h2>Roxygen tags</h2>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 90%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>@param</code></td>
+<td style="text-align: left;">Describe inputs</td>
+</tr>
+<tr class="even">
+<td><code>@examples</code></td>
+<td style="text-align: left;">Show how the function works</td>
+</tr>
+<tr class="odd">
+<td><code>@author</code></td>
+<td style="text-align: left;">“Who wrote the function (if different from package)”</td>
+</tr>
+<tr class="even">
+<td><code>@seealso</code></td>
+<td style="text-align: left;">Pointers to related functions</td>
+</tr>
+<tr class="odd">
+<td><code>@return</code></td>
+<td style="text-align: left;">Describe outputs</td>
+</tr>
+<tr class="even">
+<td><code>@aliases</code></td>
+<td style="text-align: left;">Make it easier for users to find</td>
+</tr>
+<tr class="odd">
+<td><code>@rdname</code></td>
+<td style="text-align: left;">Useful for functions that are invalid filenames and for combining docs</td>
+</tr>
+</tbody>
+</table>
+</section><section id="commands-in-roxygen" class="slide level2">
+<h2>Commands in Roxygen</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\code{}</code></td>
+<td style="text-align: left;">Discuss R code</td>
+</tr>
+<tr class="even">
+<td><code>\link{}</code></td>
+<td style="text-align: left;">Make link to another function. Usually wrapped in <code>\code{}</code></td>
+</tr>
+<tr class="odd">
+<td><code>\eqn{}</code></td>
+<td style="text-align: left;">Inline equation (standard latex)</td>
+</tr>
+<tr class="even">
+<td><code>\emph{}</code></td>
+<td style="text-align: left;">Italic text</td>
+</tr>
+<tr class="odd">
+<td><code>\strong{}</code></td>
+<td style="text-align: left;">Bold text</td>
+</tr>
+</tbody>
+</table>
+<p>Numbered list (Use <code>\itemize{}</code> for bulleted):</p>
+<pre><code>\enumerate{
+  \item First item
+}</code></pre>
 </section><section id="data-in-a-package" class="slide level2">
 <h2>Data in a package</h2>
 <ul>
