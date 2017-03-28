@@ -1,0 +1,36 @@
+---
+title: "Stat 585 - Final Project"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Final project
+
+## Final project
+
+- Choose a topic of interest (make sure it is of general interest as well)
+- Yes, you can work in teams (up to 3 people) but the expectation will be higher accordingly.
+
+
+*Deliverables:*
+
+- some form of research in reproducible form in a github repository: code, R package, R markdown, shiny app, ... the `README.md` file documents how files are supposed to be used
+- written report (10 pages maximum)
+- presentation
+
+## Due dates
+
+- Identify the topic you want to work on. 
+- April 2: submit an title and abstract for your project. Identify the github repo in which you are working.
+- April 18: submit a draft of your report to get feedback (informal, does not carry a grade)
+- April 25, 27, and May 4: Final presentations
+- May 5: Final report due
