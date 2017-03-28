@@ -18,7 +18,8 @@ library(tidyverse)
 ## Outline
 
 - file structures of packages
-- 
+- documentation
+- data in packages
 
 <br>
 
