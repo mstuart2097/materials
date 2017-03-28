@@ -269,7 +269,7 @@ drunk %>% collect() %>%
 
 ## Your Turn (5 mins)
 
-Connect to the  `person` table. Identify drivers (`PER_TYP` might help, see [fars manual](https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx)) and subset on them.
+Connect to the  `person` table. Identify drivers (`PER_TYP` == 1, see [fars manual](https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx) ) and subset on them.
 
 <br>
 <br>

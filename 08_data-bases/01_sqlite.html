@@ -454,7 +454,7 @@ drunk %&gt;%<span class="st"> </span><span class="kw">collect</span>() %&gt;%<sp
 <p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-5-3.png" width="768" /></p>
 </section><section id="your-turn-5-mins" class="slide level2">
 <h2>Your Turn (5 mins)</h2>
-<p>Connect to the <code>person</code> table. Identify drivers (<code>PER_TYP</code> might help, see <a href="https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx">fars manual</a>) and subset on them.</p>
+<p>Connect to the <code>person</code> table. Identify drivers (<code>PER_TYP</code> == 1, see <a href="https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx">fars manual</a> ) and subset on them.</p>
 <p><br> <br> <br> <br> <br> <br> <br> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> </span><span class="kw">tbl</span>(fars, <span class="st">&quot;person&quot;</span>)
 drivers &lt;-<span class="st"> </span>person %&gt;%<span class="st"> </span><span class="kw">filter</span>(PER_TYP ==<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
