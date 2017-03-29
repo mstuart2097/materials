@@ -30,7 +30,7 @@ library(tidyverse)
 ## Due dates
 
 - Identify the topic you want to work on. 
-- April 2: submit an title and abstract for your project. Identify the github repo in which you are working.
+- April 4: submit an title and abstract for your project. Identify the github repo in which you are working.
 - April 18: submit a draft of your report to get feedback (informal, does not carry a grade)
 - April 25, 27, and May 4: Final presentations
 - May 5: Final report due
