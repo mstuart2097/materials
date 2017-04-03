@@ -25,6 +25,11 @@ nrow(available.packages(contriburl =
 
 ![](http://bxhorn.com/wp-content/uploads/2014/07/Wordcloud1.png)
 
+## Getting ready
+
+DESCRIPTION: dependencies!!!
+Install git on the machine you want to use for the lab
+Make sure that it works with RStudio - XXX example code to test that everything works?
 
 ## Lab Assignment
 
