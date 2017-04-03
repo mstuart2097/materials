@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Shiny</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_shiny_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_shiny_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_shiny_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_shiny_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Shiny</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="shiny" class="titleslide slide level1"><h2 class="shout"><code>shiny</code></h2></section><section id="what-is-shiny" class="slide level2">
+<h2>What is <code>shiny</code>?</h2>
+<ul>
+<li><code>shiny</code> is an R package that allows us to easily create interactive web applets using R.</li>
+<li>Produced by RStudio: <a href="http://shiny.rstudio.com" class="uri">http://shiny.rstudio.com</a></li>
+<li>Code can be entirely in R (or customized with HTML/JavaScript)</li>
+<li>RStudio’s showcase gallery of Shiny applets: <a href="http://shiny.rstudio.com/gallery/" class="uri">http://shiny.rstudio.com/gallery/</a></li>
+</ul>
+</section><section id="resources" class="slide level2">
+<h2>Resources:</h2>
+<ul>
+<li>RStudio shiny tutorial: <a href="http://shiny.rstudio.com/tutorial/" class="uri">http://shiny.rstudio.com/tutorial/</a></li>
+<li>Useful if you want to use shiny on your own webserver: <a href="http://shiny.rstudio.com" class="uri">http://shiny.rstudio.com</a></li>
+<li>Latest updates: <a href="https://github.com/rstudio/shiny" class="uri">https://github.com/rstudio/shiny</a></li>
+<li>Shiny Mailing List: <a href="https://groups.google.com/forum/#!forum/shiny-discuss" class="uri">https://groups.google.com/forum/#!forum/shiny-discuss</a></li>
+</ul>
+<p>Check the tutorial first, then search the mailing list.</p>
+</section><section id="your-turn-a-first-example" class="slide level2">
+<h2>Your Turn: A first example</h2>
+<ul>
+<li>Download folder <code>shiny</code> from the repo, put it into your working directory,</li>
+<li>and run the code below</li>
+</ul>
+<pre><code>library(shiny)
+runApp(&quot;shiny/01_Hello&quot;)</code></pre>
+</section><section id="reactivity" class="slide level2">
+<h2>Reactivity</h2>
+<ul>
+<li><code>shiny</code> is built on the idea of <em>reactive programming</em>, i.e. outputs automatically update whenever an input value changes.</li>
+<li>input values =&gt; R code =&gt; output values</li>
+<li>Reactive expressions keep track of what values they read and what values they change. If those values become “out of date”, they know their return value is out of date and will automatically recalculate.</li>
+</ul>
+</section><section id="a-minimal-shiny-app" class="slide level2">
+<h2>A minimal shiny app</h2>
+<pre><code>library(shiny)
+
+ui &lt;- fluidPage()
+server &lt;- function(input, output) {
+}
+
+shinyServer(ui, server)</code></pre>
+<ul>
+<li>save this code in a separate folder call the file <code>app.R</code></li>
+<li>run the code: either paste into the console or use <code>runApp</code> on folder name</li>
+</ul>
+</section><section id="user-interface-ui" class="slide level2">
+<h2>User Interface (ui)</h2>
+<ul>
+<li>elements of the user interface are called <strong>widgets</strong></li>
+<li>we distinguish between <code>input</code> and <code>output</code></li>
+<li>overview of available input widgets in shiny at <a href="http://shiny.rstudio.com/gallery/widget-gallery.html" class="uri">http://shiny.rstudio.com/gallery/widget-gallery.html</a></li>
+<li>input widgets have a similar structure <code>xxxInput (inputId, label, value)</code> where <code>xxx</code> is the name of the widget
+<ul>
+<li><code>inputId</code> is the (unique) name you give to the widget (object name)</li>
+<li><code>label</code> is the text that appears with the widget in interface</li>
+<li><code>value</code> all widgets have a value - the type of this value is specific to the widget</li>
+<li>… other parameters are widget-specific</li>
+</ul></li>
+</ul>
+</section><section id="shiny-inputs" class="slide level2">
+<h2>Shiny Inputs</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">textInput</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">label =</span> <span class="kw">h3</span>(<span class="st">&quot;Text input&quot;</span>), <span class="dt">value =</span> <span class="st">&quot;Enter text...&quot;</span>)</code></pre></div>
+<div class="form-group shiny-input-container">
+<label for="text">
+<h3>Text input</h3>
+</label>
+<input id="text" type="text" class="form-control" value="Enter text..."/>
+</div>
+<p><br></p>
+<p><code>h3()</code> is just converting html into a header of level 3:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">h3</span>(<span class="st">&quot;Hello&quot;</span>)</code></pre></div>
+<pre><code>&lt;h3&gt;Hello&lt;/h3&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">selectInput</span>(<span class="st">&quot;select&quot;</span>, <span class="dt">label =</span> <span class="kw">h3</span>(<span class="st">&quot;What do you like?&quot;</span>), 
+            <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Pizza&quot;</span>, <span class="st">&quot;Ice cream&quot;</span>, 
+                        <span class="st">&quot;Donuts&quot;</span>, <span class="st">&quot;None of the above&quot;</span>), 
+            <span class="dt">selected=</span><span class="dv">2</span>)</code></pre></div>
+</section><section id="shiny-inputs-contd" class="slide level2">
+<h2>Shiny Inputs (cont’d)</h2>
+<ul>
+<li><code>actionButton()</code> - creates a clickable button</li>
+<li><code>checkboxInput()</code> and <code>checkboxGroupInput()</code></li>
+<li><code>dateInput()</code> - calendar to select a date</li>
+<li><code>dateRangeInput()</code> - select a range of dates</li>
+<li><code>fileInput()</code> - upload a file</li>
+<li><code>numericInput()</code> - input a numeric value</li>
+<li><code>radioButtons()</code> - select one or more items</li>
+<li><code>sliderInput()</code> - slide along a range of values</li>
+<li><code>textInput()</code> - input a string</li>
+</ul>
+</section><section id="your-turn-10-min" class="slide level2">
+<h2>Your Turn (10 min)</h2>
+<ul>
+<li>Run the Hello World example on your machine:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runApp</span>(<span class="st">&quot;01_Hello&quot;</span>, <span class="dt">display.mode =</span> <span class="st">&quot;showcase&quot;</span>)</code></pre></div>
+<ul>
+<li>Add an input to change the mean and standard deviation of the normal distribution from which the sample is drawn (Hint: see <code>?numericInput</code>).</li>
+<li>Add an input to simulate from a gamma distribution as well as a normal.</li>
+<li><strong>Tricky</strong> - how do we get the shiny app to react to the input?</li>
+</ul>
+</section><section id="shiny-outputs" class="slide level2">
+<h2>Shiny Outputs</h2>
+<p>Shiny also has a set of output functions with general structure:</p>
+<pre><code>xxxOutput (outputId, ...)</code></pre>
+<p>where <code>outputId</code> is a (unique) object name (and <code>xxx</code> is one of the choices below)</p>
+<ul>
+<li><code>html</code>, <code>image</code>, <code>plot</code>, <code>table</code>, <code>text</code>, creates what the names says</li>
+<li><code>uiOutput</code> raw HTML</li>
+<li><code>verbatimTextOutput</code> text</li>
+</ul>
+<p>Outputs have width and height, might be clickable, hoverable, …</p>
+</section><section id="other-user-interface-options" class="slide level2">
+<h2>Other User Interface Options</h2>
+<ul>
+<li><code>tabsetPanel()</code> - make multiple different output views (i.e. a plot in one tab, a data table in another)</li>
+<li><code>helpText()</code> - create additional text to help users navigate your applet</li>
+<li><code>submitButton()</code> - only update outputs when this button is clicked</li>
+<li><code>conditionalPanel()</code> - only show certain UI options when conditions are met (i.e. if a certain tab is open, or a certain input is selected)</li>
+</ul>
+</section><section id="getting-the-shiny-app-to-react-server" class="slide level2">
+<h2>Getting the shiny app to react: server</h2>
+<ul>
+<li>the server function connects inputs to outputs</li>
+<li>render functions create outputs of different types</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">server  &lt;-<span class="st">  </span>function(input, output) {
+  <span class="co"># make output objects from inputs  </span>
+  
+  output$hist &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+  
+  })
+}</code></pre></div>
+</section><section id="render-functions" class="slide level2">
+<h2>Render functions</h2>
+<ul>
+<li><code>renderDataTable()</code> - outputs an interactive, sortable data table</li>
+<li><code>renderPlot()</code> - output an R plot</li>
+<li><code>renderPrint()</code> - output text from print() in R</li>
+<li><code>renderTable()</code> - output an HTML table</li>
+<li><code>renderText()</code> - output text from R</li>
+<li><code>renderUI()</code> - output a custom part of the user interface</li>
+<li><code>renderImage()</code> - print an image to the page</li>
+<li><code>htmlOutput()</code> - output html elements</li>
+</ul>
+</section><section id="example-server-function" class="slide level2">
+<h2>Example <code>server</code> function</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">server &lt;-<span class="st"> </span>function(input, output) {
+    output$hist &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+        dist &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> input$num)
+        gg &lt;-<span class="st"> </span><span class="kw">data.frame</span>(dist) %&gt;%<span class="st"> </span>
+<span class="st">          </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dist)) +<span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.25</span>) +
+<span class="st">          </span><span class="kw">xlim</span>(<span class="kw">c</span>(-<span class="dv">10</span>,<span class="dv">10</span>))
+        <span class="kw">print</span>(gg)
+    })
+}</code></pre></div>
+<p>Note the use of curly brackets <code>{</code> <code>}</code> in <code>renderPlot</code>.</p>
+<p>The last statement in the code block must be the plot.</p>
+</section><section id="your-turn-5-min" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<p>For the 01_Hello app:</p>
+<ul>
+<li>expand on the server functionality to make the plot react to the input</li>
+</ul>
+</section><section id="your-turn-15-min" class="slide level2">
+<h2>Your Turn (15 min)</h2>
+<p>Run the NYC emergency app provided as a starting point.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runApp</span>(<span class="st">&quot;03_NYC_Emergency&quot;</span>)</code></pre></div>
+<ul>
+<li>Expand on this app.</li>
+<li>Ideas:
+<ul>
+<li>Plot some aspect of the data with color based on another aspect of the data</li>
+<li>Use <code>subset()</code> and <code>checkboxInput()</code> to plot user-selected subsets</li>
+<li>Use <code>tabsetPanel()</code> to display different tables/plots</li>
+<li><strong>Extra Challenging:</strong> Can you make a map of NYC crime by location?</li>
+</ul></li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_shiny_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
