@@ -76,4 +76,10 @@ DESCRIPTION file has three tags to declare relationships with other packages:
 - `Depends:` or `Imports:` make sure the package is installed when installing your package. `Imports` loads the package, `Depends` only attaches the package. Any packages listed in `Imports` are needed for your package to work. 
 - `Suggests:` your package can use these packages, but doesn’t require them.
 
-## Your packages
+## Where to go further?
+
+Read through other people's packages!
+
+Dare to read!
+
+All packages have the same structure - if you want to do something and can't get it to work, have a look at someone else's solution and try to adapt it to your situation
