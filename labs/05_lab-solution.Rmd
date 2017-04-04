@@ -1,0 +1,38 @@
+---
+title: 'Lab Assignment #5'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab #5: The making of an R package
+
+## Lab Assignment
+
+The objective of today's lab is to create and R package, document it and make it available through a github repository.
+
+1. Create an R package with at least one (exported) function and one dataset. 
+2. Document both the function and the dataset appropriately. 
+3. Place your R package on github, such that it is possible to install via the `install_github` function in the `devtools` package (e.g. try `install_github("heike/ggmapr")`).
+4. Write a `README.md` file to showcase your package.
+5. Make sure that your package passes CRAN check, i.e. run `devtools::check()` without any warnings or errors.
+
+## Your Solutions
+
+```{r, eval=FALSE}
+library(devtools)
+install_github("bbuzzee/package2")
+library(help=package2)
+library(package2)
+?mod
+mod(5,3)
+```
+The other packages: `joepapio/585lab5`, `calegacy/Lab5PackageR`, `mstuart2097/Lab5`, `jeffsong9/FREDdata`, `akshayayadav/Team8`, `KatieWill/LittleChickens`, `haleyjeppson/cousinR`
