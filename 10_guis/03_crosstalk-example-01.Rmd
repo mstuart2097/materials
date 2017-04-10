@@ -27,7 +27,7 @@ bscols(widths = c(3,NA,NA),
   d3scatter(shared_mtcars, ~wt, ~mpg, ~factor(cyl), 
             width="300", height=250),
   d3scatter(shared_mtcars, ~hp, ~qsec, ~factor(cyl), 
-            width="300", height=250),
+            width="300", height=250)
 )
 ```
 
