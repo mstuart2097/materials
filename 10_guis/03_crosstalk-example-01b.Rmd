@@ -13,8 +13,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(crosstalk)
 library(shiny)
 library(d3scatter)
+library(tidyverse)
+library(plotly)
 
 shared_mtcars <- SharedData$new(mtcars)
+
+gg <- shared_mtcars %>% ggplot(aes(x = hp, y = qsec, colour=factor(cyl))) +
+  geom_point()
+
 bscols(widths = c(3,NA,NA),
   list(
     filter_checkbox("cyl", "Cylinders", shared_mtcars, 
@@ -26,8 +32,8 @@ bscols(widths = c(3,NA,NA),
   ),
   d3scatter(shared_mtcars, ~wt, ~mpg, ~factor(cyl), 
             width="300", height=250),
-  d3scatter(shared_mtcars, ~hp, ~qsec, ~factor(cyl), 
-            width="300", height=250),
+  ggplotly(p = shared_mtcars$data() %>% ggplot(aes(x = hp, y = qsec, colour=factor(cyl))) +
+  geom_point()) %>% highlight("plotly_hover")
 )
 ```
 
