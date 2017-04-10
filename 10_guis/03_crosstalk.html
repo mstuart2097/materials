@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Crosstalk</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="03_crosstalk_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="03_crosstalk_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="03_crosstalk_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="03_crosstalk_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Crosstalk</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="making-widgets-talk-to-each-other" class="titleslide slide level1"><h2 class="shout">Making widgets talk to each other</h2></section><section id="what-is-crosstalk" class="slide level2">
+<h2>What is <code>crosstalk</code>?</h2>
+<ul>
+<li><code>crosstalk</code> is an add-on R package to <code>htmlwidgets</code> produced by RStudio.</li>
+<li>extends htmlwidgets and allows implementing cross-widget interactions: linked brushing and filtering. <br><br><br><br><br><br></li>
+<li>Tutorial: <a href="http://rstudio.github.io/crosstalk/" class="uri">http://rstudio.github.io/crosstalk/</a></li>
+</ul>
+</section><section id="crosstalk-example" class="slide level2">
+<h2>crosstalk Example</h2>
+<p><a href="03_crosstalk-example-01.html">Result</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(crosstalk)
+<span class="kw">library</span>(shiny)
+<span class="kw">library</span>(d3scatter)
+
+shared_mtcars &lt;-<span class="st"> </span>SharedData$<span class="kw">new</span>(mtcars)
+<span class="kw">bscols</span>(<span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="ot">NA</span>,<span class="ot">NA</span>),
+  <span class="kw">list</span>(
+    <span class="kw">filter_checkbox</span>(<span class="st">&quot;cyl&quot;</span>, <span class="st">&quot;Cylinders&quot;</span>, shared_mtcars, 
+                    ~cyl, <span class="dt">inline =</span> <span class="ot">TRUE</span>),
+    <span class="kw">filter_slider</span>(<span class="st">&quot;hp&quot;</span>, <span class="st">&quot;Horsepower&quot;</span>, shared_mtcars, 
+                  ~hp, <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),
+    <span class="kw">filter_select</span>(<span class="st">&quot;auto&quot;</span>, <span class="st">&quot;Automatic&quot;</span>, shared_mtcars, 
+                  ~<span class="kw">ifelse</span>(am ==<span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>))
+  ),
+  <span class="kw">d3scatter</span>(shared_mtcars, ~wt, ~mpg, ~<span class="kw">factor</span>(cyl), 
+            <span class="dt">width=</span><span class="st">&quot;300&quot;</span>, <span class="dt">height=</span><span class="dv">250</span>),
+  <span class="kw">d3scatter</span>(shared_mtcars, ~hp, ~qsec, ~<span class="kw">factor</span>(cyl), 
+            <span class="dt">width=</span><span class="st">&quot;300&quot;</span>, <span class="dt">height=</span><span class="dv">250</span>)
+)</code></pre></div>
+</section><section id="another---crazy---example" class="slide level2">
+<h2>Another - crazy(!) - example</h2>
+<p><a href="03_crosstalk-example-02.html">Result</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
+<span class="kw">library</span>(crosstalk)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(plotly)
+
+g &lt;-<span class="st"> </span>crosstalk::SharedData$<span class="kw">new</span>(gapminder, ~continent)
+
+gg &lt;-<span class="st"> </span><span class="kw">ggplot</span>(g, <span class="kw">aes</span>(gdpPercap, lifeExp, <span class="dt">color =</span> continent, 
+                    <span class="dt">frame =</span> year)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> pop, <span class="dt">ids =</span> country)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_log10</span>()
+
+<span class="kw">ggplotly</span>(gg) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">highlight</span>(<span class="st">&quot;plotly_hover&quot;</span>)</code></pre></div>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="03_crosstalk_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>
