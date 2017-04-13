@@ -148,11 +148,11 @@ mtcars %>% ggvis(x=~mpg, y=~wt,
 
 ## Interactive plots and shiny
 
-- plotly charts are embedded in the interface with the command `plotlyOutput`
+- plotly charts are embedded in the interface with the command `plotlyOutput` in the ui, and `renderPlotly` in the server function.
 - `ggvis` needs a bit more work:
     - ggvis is internally implemented as a shiny app
     - two apps cannot run at the same time
-    - in server function:
+    - in the server function:
     `bind_shiny(ggvis_object, "name_of_plot", "name_of_control")`
     - in the ui: `ggvisOutput` (use `name_of_plot`) and `uiOutput` (use `name_of_control`)
 
