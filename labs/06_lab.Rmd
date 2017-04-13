@@ -1,0 +1,33 @@
+---
+title: 'Lab Assignment #6'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab #6: it's shiny!
+
+
+
+## Lab Assignment
+
+The objective of today's lab is to create a shiny web-app.
+
+There are no restrictions in terms of the topic.
+
+**Minimum specs for your app:** use a data set, have at least three (meaningful) widgets, and at least one chart. 
+**At least one of the widgets is supposed to be implemented from the chart (i.e. you'll need to use ggvis, plotly or d3scatter)**
+
+## Deliverable 
+
+Submit your file `app.R` and all of the data needed  to Blackboard. 
+
+
