@@ -1,5 +1,5 @@
 ---
-title: "Stat 585 - Shiny"
+title: "Stat 585 - Profiling"
 author: "Heike Hofmann"
 ratio: 16x10
 output:

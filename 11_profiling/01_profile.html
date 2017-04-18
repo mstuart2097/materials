@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stat 585 - Shiny</title>
+  <title>Stat 585 - Profiling</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,7 +58,7 @@
 <body class="shower list">
 
   <header class="caption">
-    <h1>Stat 585 - Shiny</h1>
+    <h1>Stat 585 - Profiling</h1>
     <p>Heike Hofmann</p>
   </header>
 
@@ -214,7 +214,7 @@ for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
 <span class="kw">table</span>(y)</code></pre></div>
 <pre><code>## y
 ## Hail Rain Snow  Sun 
-##   33   21   24   22</code></pre>
+##   32   24   18   26</code></pre>
 </section><section id="removing-for-loops-contd" class="slide level2">
 <h2>Removing for loops (cont’d)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the switch statement on the previous slide is equivalent to </span>
@@ -266,24 +266,24 @@ y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot
 t1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/temps.csv&quot;</span>)
 <span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.286   0.122   4.596</code></pre>
+##   4.399   0.127   4.824</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
 t2 &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&quot;../data/temps.csv&quot;</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
 <span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.535   0.037   0.597</code></pre>
+##   0.553   0.092   0.680</code></pre>
 </p>
 <p class="double-flow">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
 t3 &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../data/temps.rds&quot;</span>)
 <span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.058   0.008   0.070</code></pre>
+##   0.069   0.009   0.095</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
 <span class="kw">load</span>(<span class="st">&quot;../data/temps.Rda&quot;</span>)
 <span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.097   0.007   0.106</code></pre>
+##   0.094   0.008   0.109</code></pre>
 </p>
 </div>
 </section><section id="your-turn-5-min" class="slide level2">
@@ -332,6 +332,8 @@ p &lt;-<span class="st"> </span><span class="kw">profvis</span>({
   m &lt;-<span class="st"> </span><span class="kw">lm</span>(price ~<span class="st"> </span>carat, <span class="dt">data =</span> diamonds)           
   <span class="kw">abline</span>(m, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)            
 })</code></pre></div>
+<p><code>profvis</code> creates interactive response with code and flame plot.</p>
+<p>Copy and paste the code into your console to run it.</p>
 </section>
 
   <!--
