@@ -1,0 +1,21 @@
+---
+title: "Stat 585 - Final Project"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Final project update
+
+- Due date coming up! April 18: submit a draft of your report to get feedback (informal, does not carry a grade)
+- Sign-up for presentation slot: 
+follow the link to 
+https://heike.wufoo.com/forms/m1j894e40e4egep/
