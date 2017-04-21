@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Profiling</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_profile_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_profile_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_profile_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_profile_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Profiling</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="writing-good-code" class="titleslide slide level1"><h2 class="shout">Writing good code</h2></section><section id="what-makes-code-good" class="slide level2">
+<h2>What makes code “good”?</h2>
+<ul>
+<li>maintainable</li>
+<li>extendable</li>
+<li>fast</li>
+</ul>
+<p>How do we recognize good code? How do we spot bad code?</p>
+</section><section id="getting-better" class="slide level2">
+<h2>Getting better</h2>
+<ul>
+<li>Read good code, try to emulate</li>
+<li>READ code</li>
+<li>spot GOOD code - how?</li>
+<li>Re-read your own (old) code CRITICALLY.</li>
+<li>Possible questions: how can I break the code? how can I write this shorter? how can I make this more general?</li>
+<li>Foremost: PRACTICE!</li>
+</ul>
+</section><section id="read-code" class="slide level2">
+<h2>Read code</h2>
+<p>What does this function do? How does it work?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">somefunction &lt;-<span class="st"> </span>function (...) 
+{
+    k &lt;-<span class="st"> </span><span class="kw">length</span>(ll &lt;-<span class="st"> </span><span class="kw">list</span>(...))
+    if (k ==<span class="st"> </span>0L) 
+        <span class="kw">return</span>(<span class="kw">invisible</span>())
+    mc &lt;-<span class="st"> </span><span class="kw">match.call</span>()
+    for (i in 1L:k) if (!(<span class="kw">is.logical</span>(r &lt;-<span class="st"> </span>ll[[i]]) &amp;&amp;<span class="st"> </span>!<span class="kw">any</span>(<span class="kw">is.na</span>(r)) &amp;&amp;<span class="st"> </span>
+<span class="st">        </span><span class="kw">all</span>(r))) {
+        ch &lt;-<span class="st"> </span><span class="kw">deparse</span>(mc[[i +<span class="st"> </span><span class="dv">1</span>]], <span class="dt">width.cutoff =</span> 60L)
+        if (<span class="kw">length</span>(ch) &gt;<span class="st"> </span>1L) 
+            ch &lt;-<span class="st"> </span><span class="kw">paste</span>(ch[1L], <span class="st">&quot;....&quot;</span>)
+        <span class="kw">stop</span>(<span class="kw">paste</span>(ch, <span class="st">&quot; is not &quot;</span>, if (<span class="kw">length</span>(r) &gt;<span class="st"> </span>1L) 
+            <span class="st">&quot;all &quot;</span>, <span class="st">&quot;TRUE&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>), <span class="dt">call. =</span> <span class="ot">FALSE</span>)
+    }
+    <span class="kw">invisible</span>()
+}</code></pre></div>
+</section><section id="step-by-step-code-checking" class="slide level2">
+<h2>Step-by-step code checking</h2>
+<p>The <code>browser()</code> function allows stepping through your code.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">help</span>(browser)</code></pre></div>
+<ul>
+<li><code>n</code>= executes the next line of code</li>
+<li><code>c</code>= continue execution until the end of the function, and exit</li>
+<li><code>where</code> gives you the stack information, the trace of the active function calls</li>
+<li><code>Q</code> exits browser()</li>
+</ul>
+</section><section id="simple-alternatives" class="slide level2">
+<h2>Simple alternatives</h2>
+<p>Putting in</p>
+<ul>
+<li><code>cat()</code></li>
+<li><code>str()</code></li>
+<li><code>head()</code></li>
+<li><code>summary()</code></li>
+<li><code>print()</code></li>
+</ul>
+<p>are simple ways to build code up step-wise ensuring that each piece works</p>
+</section><section id="lets-try-browser" class="slide level2">
+<h2>Let’s try browser()</h2>
+<p><code>somefunction2()</code> function has <code>browser()</code> in first line of function</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>
+<span class="kw">somefunction2</span>(x==x, <span class="dv">1+1</span>==<span class="dv">2</span>, <span class="kw">c</span>(<span class="dv">7+5</span>==<span class="fl">11.99999</span>, <span class="dv">1+1</span>==<span class="dv">2</span>))</code></pre></div>
+<p>Browser enables:</p>
+<ul>
+<li>printing of result of each line</li>
+<li>checking changes to values</li>
+<li>make sure that it results in what is expected</li>
+</ul>
+</section><section id="debug" class="slide level2">
+<h2><code>debug()</code></h2>
+<p><code>debug(f)</code> automatically places a <code>browser()</code> statement in the first line of function <code>f</code></p>
+<p><code>undebug(f)</code> removes it.</p>
+</section><section id="setting-error-handling" class="slide level2">
+<h2>Setting error handling</h2>
+<ul>
+<li><code>options(error=recover)</code> will drop user into <code>browser()</code> upon an error</li>
+<li><code>options(error=NULL)</code> default, do nothing</li>
+<li><code>options(warn=2)</code> sets maximum number of warnings to be 2</li>
+<li><code>options(warn=0)</code> warnings are stored until top level function finishes</li>
+<li><code>options(warn=-1)</code> ignore all warnings</li>
+</ul>
+</section><section id="traceback" class="slide level2">
+<h2>Traceback</h2>
+<p><code>traceback()</code> shows the stack at the time the last error occurred</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(x) { 
+  <span class="kw">w</span>(x)
+    <span class="kw">g</span>(<span class="kw">h</span>(x)) 
+    <span class="kw">w</span>(x)
+} 
+g &lt;-<span class="st"> </span>function(x) {
+    a &lt;-<span class="st"> </span><span class="dv">10</span>
+    x
+} 
+
+h &lt;-<span class="st"> </span>function(x) {
+    <span class="kw">w</span>(x) 
+    <span class="kw">w</span>(x) 
+}
+     
+w &lt;-<span class="st"> </span>function(x) { 
+    if (<span class="kw">sample</span>(<span class="dv">10</span>, <span class="dv">1</span>) ==<span class="st"> </span><span class="dv">1</span>) <span class="kw">stop</span>(<span class="st">&quot;This is an error!&quot;</span>)
+}
+
+<span class="kw">f</span>() 
+<span class="kw">traceback</span>()</code></pre></div>
+</section><section id="traceback-1" class="slide level2">
+<h2>Traceback</h2>
+<pre><code>&gt; f()
+Error in w(x) : This is an error! 
+&gt; traceback()
+5: stop(&quot;This is an error!&quot;) at #2
+4: w(x) at #2
+3: h(x) at #3
+2: g(h(x)) at #3
+1: f()</code></pre>
+</section><section id="your-turn-fix-this-8-mins" class="slide level2">
+<h2>Your Turn: fix this!! (8 mins)</h2>
+<p><code>larger(x,y)</code> is supposed to return the element-wise maximum of two vectors</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">larger &lt;-<span class="st"> </span>function(x, y) { 
+  y.is.bigger &lt;-<span class="st"> </span>y &gt;<span class="st"> </span>x 
+    x[y.is.bigger] &lt;-<span class="st"> </span>y[y.is.bigger] 
+    x
+} 
+<span class="kw">larger</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">11</span>)) </code></pre></div>
+<pre><code>## [1]  2  5 11</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">larger</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="dv">6</span>)</code></pre></div>
+<pre><code>## [1]  6 NA 10</code></pre>
+</section><section id="signs-of-inexperienced-programmers" class="slide level2">
+<h2>Signs of inexperienced programmers</h2>
+<ul>
+<li>Violation of the language model
+<ul>
+<li>e.g. R is vector oriented language, i.e. <code>for</code> loops should be used sparingly,</li>
+<li>e.g. use of <code>rbind</code> (it is <em>known</em> to be very slow)</li>
+</ul></li>
+<li>Insufficient knowledge of the language. We’re all guilty of that at different levels</li>
+<li>Reading other people’s code helps improve our language knowledge!</li>
+</ul>
+</section><section id="removing-for-loops" class="slide level2">
+<h2>Removing for loops</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="kw">runif</span>(<span class="dv">100</span>)*<span class="dv">4</span>)
+y &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;character&quot;</span>, <span class="dt">length=</span><span class="kw">length</span>(x))
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+   y[i] &lt;-<span class="st"> </span>switch (x[i]+<span class="dv">1</span>, <span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;Rain&quot;</span>, <span class="st">&quot;Snow&quot;</span>, <span class="st">&quot;Hail&quot;</span>, <span class="dt">default=</span><span class="ot">NA</span>)
+}
+
+<span class="kw">table</span>(y)</code></pre></div>
+<pre><code>## y
+## Hail Rain Snow  Sun 
+##   32   24   18   26</code></pre>
+</section><section id="removing-for-loops-contd" class="slide level2">
+<h2>Removing for loops (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the switch statement on the previous slide is equivalent to </span>
+<span class="co"># the following lines:</span>
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+  if (x[i] ==<span class="st"> </span><span class="dv">0</span>) y[i] &lt;-<span class="st"> &quot;Sun&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">1</span>) y[i] &lt;-<span class="st"> &quot;Rain&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">2</span>) y[i] &lt;-<span class="st"> &quot;Snow&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">3</span>) y[i] &lt;-<span class="st"> &quot;Hail&quot;</span>
+}
+
+<span class="co"># using R&#39;s vectors we can reduce this to a single line:</span>
+y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;Rain&quot;</span>, <span class="st">&quot;Snow&quot;</span>, <span class="st">&quot;Hail&quot;</span>)[x<span class="dv">+1</span>]</code></pre></div>
+</section><section id="spotting-bad-code" class="slide level2">
+<h2>Spotting bad code</h2>
+<ul>
+<li>Ken Thompson: keep the number of indentations down, high number of local variables is suspicious</li>
+<li>Hadley Wickham: functions with more than ten lines are suspicious, highly repetitive code</li>
+<li>Generally Good Practices: indentation and spacing, comments, clear naming convention</li>
+</ul>
+</section><section id="profiling" class="slide level2">
+<h2>Profiling</h2>
+<p>Code can be profiled at different levels:</p>
+<ol type="1">
+<li>two (or more) alternatives of code with the same objectives are timed to determined the one which is the fastest (<code>system.time()</code> and <code>proc.time()</code>)</li>
+<li>one piece of code is analyzed to find weak/slow spots (e.g. <code>profr</code> and <code>profviz</code>)</li>
+</ol>
+</section><section id="profiling-process" class="slide level2">
+<h2>Profiling process</h2>
+<ul>
+<li>Collect information on code performance:</li>
+<li>memory usage</li>
+<li>frequency and duration of function calls</li>
+<li>Goal: optimization of code</li>
+</ul>
+</section><section id="system.time" class="slide level2">
+<h2><code>system.time()</code></h2>
+<ul>
+<li>Probably simplest of all measures</li>
+<li>Evaluates the time spent in the whole expression</li>
+<li>doesn’t give any clues about what is done at a lower level <br><br></li>
+<li>Alternative: <code>proc.time()</code></li>
+</ul>
+</section><section id="mini-code-blocks" class="slide level2">
+<h2>(Mini) code blocks</h2>
+<div class="double">
+<p class="double-flow">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
+t1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/temps.csv&quot;</span>)
+<span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   4.399   0.127   4.824</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
+t2 &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&quot;../data/temps.csv&quot;</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.553   0.092   0.680</code></pre>
+</p>
+<p class="double-flow">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
+t3 &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../data/temps.rds&quot;</span>)
+<span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.069   0.009   0.095</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ptm &lt;-<span class="st"> </span><span class="kw">proc.time</span>()
+<span class="kw">load</span>(<span class="st">&quot;../data/temps.Rda&quot;</span>)
+<span class="kw">proc.time</span>() -<span class="st"> </span>ptm</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.094   0.008   0.109</code></pre>
+</p>
+</div>
+</section><section id="your-turn-5-min" class="slide level2">
+<h2>Your turn (5 min)</h2>
+<p>Which of the three options is the fastest?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="kw">runif</span>(<span class="dv">100</span>)*<span class="dv">4</span>)
+y &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;character&quot;</span>, <span class="dt">length=</span><span class="kw">length</span>(x))
+
+<span class="co"># Option #1</span>
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+   y[i] &lt;-<span class="st"> </span>switch (x[i]+<span class="dv">1</span>, <span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;Rain&quot;</span>, <span class="st">&quot;Snow&quot;</span>, <span class="st">&quot;Hail&quot;</span>, <span class="dt">default=</span><span class="ot">NA</span>)
+}
+
+<span class="co"># Option #2</span>
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+  if (x[i] ==<span class="st"> </span><span class="dv">0</span>) y[i] &lt;-<span class="st"> &quot;Sun&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">1</span>) y[i] &lt;-<span class="st"> &quot;Rain&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">2</span>) y[i] &lt;-<span class="st"> &quot;Snow&quot;</span>
+  if (x[i] ==<span class="st"> </span><span class="dv">3</span>) y[i] &lt;-<span class="st"> &quot;Hail&quot;</span>
+}
+
+<span class="co"># Option #3</span>
+y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;Rain&quot;</span>, <span class="st">&quot;Snow&quot;</span>, <span class="st">&quot;Hail&quot;</span>)[x<span class="dv">+1</span>]</code></pre></div>
+</section><section id="your-turn-result" class="slide level2">
+<h2>Your Turn Result</h2>
+<p>Based on 100 evaluations of samples of size 5000:</p>
+<p><img src="01_profile_files/figure-revealjs/unnamed-chunk-12-1.png" width="768" /></p>
+</section><section id="profiling-code" class="slide level2">
+<h2>Profiling Code</h2>
+<p>Last method is much faster. But why?</p>
+<p><code>profr</code>/<code>profvis</code> package:</p>
+<ul>
+<li>wrapper around function <code>Rprof</code></li>
+<li>call stack is written every 0.02 seconds (interval) into a temporary file</li>
+<li>output file is processed to produce a summary of the usage</li>
+<li>time measurements varies by platform: on Unix-alike time is CPU time of the R process (excludes time waiting for input)</li>
+<li>Note: profiling takes time, too; once the timer goes off, the information is not recorded until the next timing click (probably in the range 1–10 msecs). Can’t go below that.</li>
+</ul>
+</section><section id="profvis-example" class="slide level2">
+<h2><code>profvis</code> example</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(profvis)
+
+p &lt;-<span class="st"> </span><span class="kw">profvis</span>({          
+  <span class="kw">data</span>(diamonds, <span class="dt">package =</span> <span class="st">&quot;ggplot2&quot;</span>)           
+  <span class="kw">plot</span>(price ~<span class="st"> </span>carat, <span class="dt">data =</span> diamonds)          
+  m &lt;-<span class="st"> </span><span class="kw">lm</span>(price ~<span class="st"> </span>carat, <span class="dt">data =</span> diamonds)           
+  <span class="kw">abline</span>(m, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)            
+})</code></pre></div>
+<p><code>profvis</code> creates interactive response with code and flame plot.</p>
+<p>Copy and paste the code into your console to run it.</p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_profile_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

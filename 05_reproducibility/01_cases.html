@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Case Studies in Failed Reproducibility</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_cases_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_cases_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_cases_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_cases_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Case Studies in Failed Reproducibility</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="reproducibility-of-research" class="titleslide slide level1"><h2 class="shout">Reproducibility of Research</h2></section><section id="source" class="slide level2">
+<h2>Source</h2>
+<p>Material for this slide deck comes from</p>
+<ul>
+<li>Data Carpentry repository <a href="https://github.com/datacarpentry/rr-intro">rr-intro</a> (Jenni Bryan and Mine Çetinkaya-Rundel)</li>
+</ul>
+</section><section id="science-retracts-gay-marriage-paper-without-agreement-of-lead-author" class="slide level2">
+<h2>Science retracts gay marriage paper without agreement of lead author</h2>
+<ul>
+<li>May 2015: Science retracts paper of how canvassers can sway people’s opinions about gay marriage.</li>
+<li>Science Editor-in-Chief: Original survey data not made available for independent reproduction of results + Survey incentives misrepresented + Sponsorship statement false</li>
+<li>Two Berkeley grad students attempted to replicate the study and discovered that the data must have been faked.</li>
+<li>Outright fraud cannot be prevented by reproducibility methods, but the methods make it easier to discover such issues.</li>
+</ul>
+<p><small> Source: <a href="http://news.sciencemag.org/policy/2015/05/science-retracts-gay-marriage-paper-without-lead-author-s-consent" class="uri">http://news.sciencemag.org/policy/2015/05/science-retracts-gay-marriage-paper-without-lead-author-s-consent</a> </small></p>
+</section><section id="seizure-study-retracted-after-authors-realize-data-got-terribly-mixed" class="slide level2">
+<h2>Seizure study retracted after authors realize data got “terribly mixed”</h2>
+<p>From the authors of <strong>Low Dose Lidocaine for Refractory Seizures in Preterm Neonates</strong>:</p>
+<p><em>“The article has been retracted at the request of the authors. After carefully re-examining the data presented in the article, they identified that data of two different hospitals got terribly mixed. The published results cannot be reproduced in accordance with scientific and clinical correctness.”</em></p>
+<p><small> Source: <a href="http://retractionwatch.com/2013/02/01/seizure-study-retracted-after-authors-realize-data-got-terribly-mixed/" class="uri">http://retractionwatch.com/2013/02/01/seizure-study-retracted-after-authors-realize-data-got-terribly-mixed/</a> </small></p>
+</section><section id="bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it" class="slide level2">
+<h2>Bad spreadsheet merge kills depression paper, quick fix resurrects it</h2>
+<ul>
+<li>The authors informed the journal that the merge of lab results and other survey data used in the paper resulted in an error regarding the identification codes.</li>
+<li><strong>Original conclusion:</strong> Lower levels of CSF IL-6 were associated with current depression and with future depression […].</li>
+<li><strong>Revised conclusion:</strong> Higher levels of CSF IL-6 and IL-8 were associated with current depression […].</li>
+</ul>
+<p><small> Source: <a href="http://retractionwatch.com/2014/07/01/bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it/" class="uri">http://retractionwatch.com/2014/07/01/bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it/</a> </small></p>
+</section><section id="keith-baggerly-founder-of-bioinformatic-forensics" class="slide level2">
+<h2>Keith Baggerly: Founder of “Bioinformatic Forensics”</h2>
+<ul>
+<li>Start of the so-called <em>Potti retractions</em>: <a href="http://videolectures.net/cancerbioinformatics2010_baggerly_irrh/" class="uri">http://videolectures.net/cancerbioinformatics2010_baggerly_irrh/</a></li>
+<li>by now Anil Potti was forced to retract four papers</li>
+<li>Five cancer drug studies exhibited “several simple errors” <a href="http://projecteuclid.org/euclid.aoas/1267453942">Annals of Applied Statistics 2009</a> (mislabeling, row/column offsets) to the point that the exact opposite drug was given to participants resulting in likely avoidable deaths.</li>
+</ul>
+</section>
+<section id="what-canshould-we-do" class="titleslide slide level1"><h2 class="shout">What can/should we do?</h2></section><section id="four-facets-of-reproducibility" class="slide level2">
+<h2>Four facets of reproducibility</h2>
+<ol type="1">
+<li><strong>Documentation:</strong> avoid binary files (e.g. docx) and use text files for documentation
+<ul>
+<li>Use markdown to document your workflow so that anyone can pick up your data and follow what you are doing</li>
+<li>Use literate programming so that your analysis and your results are tightly connected, or better yet, unseparable</li>
+</ul></li>
+<li><strong>Organization:</strong> tools to organize your projects so that you don’t have a single folder with hundreds of files</li>
+<li><strong>Automation:</strong> the power of scripting to create automated data analyses</li>
+<li><strong>Dissemination:</strong> publishing is not the end of your analysis, rather it is a way station towards your future research and the future research of others</li>
+</ol>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_cases_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,85 @@
+---
+title: "Stat 585 - Data and Dependencies"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# R packages: Data and Dependencies
+
+## Data in a package
+
+- Data frames must be stored in the `data` folder using the command `save`
+- Two *very* important notes:
+    - file must have the extension `.rda` (all lower case)
+    - `save` stores object *together with its name*, to avoid complications use the same name for the object and its file name
+    
+```
+# read data into work session:
+obj <- read.csv("some data from some source")
+save(obj, file="obj.rda")
+```
+
+## Documenting Data
+
+- Data documentation: http://r-pkgs.had.co.nz/data.html#documenting-data
+
+```
+#' Prices of 50,000 round cut diamonds.
+#'
+#' A dataset containing the prices and other attributes of almost 54,000
+#' diamonds.
+#'
+#' @format A data frame with 53940 rows and 10 variables:
+#' \describe{
+#'   \item{price}{price, in US dollars}
+#'   \item{carat}{weight of the diamond, in carats}
+#'   ...
+#' }
+#' @source \url{http://www.diamondse.info/}
+"diamonds"
+```
+
+## DESCRIPTION
+
+another important aspect of the DESCRIPTION file: declaring dependencies, i.e. other packages that are needed for running yours:
+
+```
+Package: happyR
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Depends: 
+    ggplot2 (>= 2.2.1),
+    dplyr (>= 0.4.0.1)
+Encoding: UTF-8
+LazyData: true
+```
+
+## Depends, Suggests or Imports?
+
+DESCRIPTION file has three tags to declare relationships with other packages:
+
+- `Depends:` or `Imports:` make sure the package is installed when installing your package. `Imports` loads the package, `Depends` only attaches the package. Any packages listed in `Imports` are needed for your package to work. 
+- `Suggests:` your package can use these packages, but doesn’t require them.
+
+## Where to go further?
+
+Read through other people's packages!
+
+Dare to read!
+
+All packages have the same structure - if you want to do something and can't get it to work, have a look at someone else's solution and try to adapt it to your situation

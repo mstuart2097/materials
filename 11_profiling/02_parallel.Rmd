@@ -1,0 +1,145 @@
+---
+title: "Stat 585 - A Smattering of Parallel Programming"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rmarkdown)
+```
+
+#  A Smattering of Parallel Programming in R
+
+## Idea of Parallelization
+
+- by default R is using only a single processor (core)
+- most modern machines have multiple processors
+- parallel code makes use of these multiple processors
+- challenge: identify those pieces of code that can be run in parallel
+
+## Embarassingly parallel processes
+
+Little or no effort is needed to separate the problem into a number of parallel tasks:
+
+```{r eval = FALSE}
+dataframe %>% group_by(group) %>%
+  mutate(somecalculation)
+```
+
+we can exploit group structure to identify code pieces that can be parallelized
+
+## `multidplyr`
+
+- another package in the `tidyverse` collection
+- `multidplyr` is parallel version of `dplyr` 
+- available through github: `devtools::github_install("hadley/multidplyr")`
+
+<br>
+
+Resource: 
+- https://www.r-bloggers.com/speed-up-your-code-parallel-processing-with-multidplyr/
+- multidplyr vignette available on the [github repo](https://github.com/hadley/multidplyr/blob/master/vignettes/multidplyr.md)
+
+## {.white}
+
+![](https://i2.wp.com/www.mattdancho.com/assets/multidplyr.png?zoom=3&w=800)
+
+
+## An example
+
+Fits one random forest predicting color, for each value of clarity (8 levels)
+
+```{r cache = TRUE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(randomForest)
+
+ptm0 <- proc.time()
+color_models <- diamonds %>%
+  group_by(clarity) %>%
+  do(
+    mymodel = randomForest(color ~ carat+cut+depth+table+price+x+y+z, 
+                           data = ., ntree = 1000)
+  )
+ptm1 <- proc.time()
+```
+
+The difference between `ptm1` and `ptm0` is 59.552 on my machine.
+
+
+## Parallel version - set up the cluster
+
+```{r eval = FALSE}
+library(multidplyr) # devtools::install_github("hadley/multidplyr")
+
+# how many nodes?
+(num_cores <- parallel::detectCores())
+
+# copy all of the data and libraries needed to the cores
+cluster <- create_cluster(num_cores-1) %>% cluster_library("randomForest")
+```
+
+`cluster_library()` makes packages available on the nodes (only assume basic R implementation)
+`cluster_assign_value()` makes objects available on the nodes.
+
+## Partitions
+
+`partition` according to the clarity variable, `collect` afterwards
+
+```{r cache = TRUE, eval = FALSE}
+ptm2 <- proc.time()
+color_models_faster <- diamonds %>%
+  partition(clarity, cluster = cluster) %>%
+  do(
+    mymodel = randomForest(color ~ carat+cut+depth+table+price+x+y+z, 
+                           data = ., ntree = 1000)
+  ) %>%
+  collect()
+ptm3 <- proc.time()
+```
+
+The number of nodes determines the time between `ptm3` and `ptm2`.
+
+## Results from a 20 core server
+
+We see a significant increase in speed 
+
+```{r echo =FALSE, message=FALSE, warning = FALSE}
+library(tidyverse)
+dframe <- read.csv("../data/rf-parallel.csv")
+dframe %>% 
+  ggplot(aes(x = cores, y = time)) + geom_point() +
+  geom_hline(yintercept = 59.552, colour = "blue") +
+  xlab("Number of cores used") +
+  ylab("Time in seconds")
+```
+
+## Results from a 20 core server (cont'd)
+
+We don't actually see an X-fold increase in speed when we use X nodes
+
+```{r echo=FALSE, message=FALSE, warning = FALSE}
+dframe %>% 
+  ggplot(aes(x = cores, y = (59.552/time)/cores)) + geom_point() +
+  xlab("Number of cores used") +
+  ylab("Efficiency (higher is better)")
+```
+
+## The Ultimate Your Turn (10 mins)
+
+- Check how many cores the machine you are using has `parallel::detectCores()`
+- Initialize a cluster with fewer than the number of cores available
+- Run the R code below on your machine (the data is available from our github repo)
+- Parallelize the statement, re-run it and time 
+
+```{r}
+library(nycflights13)
+delays <- flights %>% group_by(flight) %>% 
+  summarize(
+    mean_delay = mean(arr_delay, na.rm=FALSE)
+    ) 
+```

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Web Scraping</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_regular_expressions_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_regular_expressions_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_regular_expressions_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_regular_expressions_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Web Scraping</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="regular-expressions" class="slide level2">
+<h2>Regular Expressions</h2>
+<p><img src="images/email.png" class="cover" width=1800></p>
+</section>
+<section id="xkcd-208" class="slide level2">
+<h2><a href="https://xkcd.com/208/">xkcd #208</a></h2>
+<p><img src="https://imgs.xkcd.com/comics/regular_expressions.png" /></p>
+</section>
+<section id="lessons-learned-from-web-scraping" class="slide level2">
+<h2>Lessons learned from web-scraping</h2>
+<p><em>Solutions using small steps are better than scraping everything in one go</em></p>
+<p><strong>Example:</strong> scrape list of Statistics classes offered next semester:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
+url &lt;-<span class="st"> &quot;http://catalog.iastate.edu/azcourses/stat/&quot;</span>
+html &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)
+
+<span class="co"># Results: we get some, but they don&#39;t look great</span>
+html %&gt;%<span class="st"> </span><span class="kw">html_nodes</span>(<span class="st">&quot;.courseblocklink strong, .noindent, .prereq&quot;</span>)</code></pre></div>
+<pre><code>## {xml_nodeset (306)}
+##  [1] &lt;strong&gt;STAT 100: Orientation in Statistics&lt;/strong&gt;
+##  [2] &lt;p class=&quot;credits noindent&quot;&gt;\n(1-0) Cr. R.\n F. \n&lt;/p&gt;\n
+##  [3] &lt;p class=&quot;prereq&quot;&gt;&lt;br&gt;Opportunities, challenges, and the scope of t ...
+##  [4] &lt;strong&gt;STAT 101: Principles of Statistics&lt;/strong&gt;
+##  [5] &lt;p class=&quot;credits noindent&quot;&gt;\n(3-2) Cr. 4.\n F.S.SS. \n&lt;/p&gt;\n
+##  [6] &lt;p class=&quot;prereq&quot;&gt;&lt;em&gt;Prereq: 1 1/2 years of high school algebra&lt;/e ...
+##  [7] &lt;strong&gt;STAT 104: Introduction to Statistics&lt;/strong&gt;
+##  [8] &lt;p class=&quot;credits noindent&quot;&gt;\n(2-2) Cr. 3.\n F.S.SS. \n&lt;/p&gt;\n
+##  [9] &lt;p class=&quot;prereq&quot;&gt;&lt;em&gt;Prereq: 1 1/2 years of high school algebra&lt;/e ...
+## [10] &lt;strong&gt;STAT 105: Introduction to Statistics for Engineers&lt;/strong&gt;
+## [11] &lt;p class=&quot;credits noindent&quot;&gt;\n(3-0) Cr. 3.\n F.S. \n&lt;/p&gt;\n
+## [12] &lt;p class=&quot;prereq&quot;&gt;&lt;em&gt;Prereq: &lt;a href=&quot;/search/?P=MATH%20165&quot; title ...
+## [13] &lt;strong&gt;STAT 201: Introduction to Statistical Concepts and Methods&lt; ...
+## [14] &lt;p class=&quot;credits noindent&quot;&gt;\n(3-2) Cr. 4.\n S. \n&lt;/p&gt;\n
+## [15] &lt;p class=&quot;prereq&quot;&gt;&lt;em&gt;Prereq: Credit or enrollment in &lt;a href=&quot;/sea ...
+## [16] &lt;strong&gt;STAT 226: Introduction to Business Statistics I&lt;/strong&gt;
+## [17] &lt;p class=&quot;credits noindent&quot;&gt;\n(3-0) Cr. 3.\n F.S.SS. \n&lt;/p&gt;\n
+## [18] &lt;p class=&quot;prereq&quot;&gt;&lt;em&gt;Prereq: &lt;a href=&quot;/search/?P=MATH%20150&quot; title ...
+## [19] &lt;strong&gt;STAT 231: Probability and Statistical Inference for Enginee ...
+## [20] &lt;p class=&quot;credits noindent&quot;&gt;\n(4-0) Cr. 4.\n F.S. \n&lt;/p&gt;\n
+## ...</code></pre>
+</section>
+<section id="lessons-learned-from-web-scraping-contd" class="slide level2">
+<h2>Lessons learned from web-scraping (cont’d)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># much better, but the &quot;data&quot; itself isn&#39;t very tractable yet</span>
+courses &lt;-<span class="st"> </span>html %&gt;%<span class="st"> </span><span class="kw">html_nodes</span>(<span class="st">&quot;.courseblocklink&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">html_text</span>()
+credits &lt;-<span class="st"> </span>html %&gt;%<span class="st"> </span><span class="kw">html_nodes</span>(<span class="st">&quot;.noindent&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">html_text</span>()
+description &lt;-<span class="st"> </span>html %&gt;%<span class="st"> </span><span class="kw">html_nodes</span>(<span class="st">&quot;.prereq&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">html_text</span>()
+
+courses %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>##  chr [1:102] &quot;STAT 100: Orientation in Statistics&quot; ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">credits %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>##  chr [1:102] &quot;\n(1-0) Cr. R.\n F. \n&quot; ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">description %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>##  chr [1:102] &quot;Opportunities, challenges, and the scope of the curriculum in statistics. For students planning or considering a career in this&quot;| __truncated__ ...</code></pre>
+</section>
+<section id="regular-expressions-1" class="slide level2">
+<h2>Regular Expressions</h2>
+<ul>
+<li>Regular expressions (regex, regexp) is a sequence of characters that form a search pattern</li>
+<li>Originated in 1950s. American mathematician Stephen Kleene formalized the description of a regular language.</li>
+<li>Common usage with Unix text processing utilities ed, an editor, and grep (global regular expression print), a filter.</li>
+<li>R language provides this capability through <code>grep</code>, <code>gsub</code>, …</li>
+</ul>
+</section>
+<section id="example-stat-courses" class="slide level2">
+<h2>Example: Stat Courses</h2>
+<p>How many courses offer computing?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;computing&quot;</span>, description)</code></pre></div>
+<pre><code>## [1] 34 52 69</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">description[<span class="dv">34</span>]</code></pre></div>
+<pre><code>## [1] &quot;Prereq: STAT 301 or STAT 326 or STAT 401Modern statistical computing. Data management; spread sheets, verifying data accuracy, transferring data between software packages. Data and graphical analysis with statistical software packages. Algorithmic programming concepts and applications. Simulation. Software reliability.\n&quot;</code></pre>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p>We don’t care about the casing, we also do not want to distinguish between <code>computing</code>, <code>computer</code>, and <code>computational</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[cC]omput&quot;</span>, description)</code></pre></div>
+<pre><code>##  [1]  6 11 12 27 29 34 42 45 52 59 67 69 83 94</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">indx &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;[cC]omput&quot;</span>, description)
+courses[indx]</code></pre></div>
+<pre><code>##  [1] &quot;STAT 226: Introduction to Business Statistics I&quot;           
+##  [2] &quot;STAT 326: Introduction to Business Statistics II&quot;          
+##  [3] &quot;STAT 330: Probability and Statistics for Computer Science&quot; 
+##  [4] &quot;STAT 430: Empirical Methods for the Computational Sciences&quot;
+##  [5] &quot;STAT 444: Bayesian Data Analysis&quot;                          
+##  [6] &quot;STAT 480: Statistical Computing Applications&quot;              
+##  [7] &quot;STAT 503: Exploratory Methods and Data Mining&quot;             
+##  [8] &quot;STAT 510: Statistical Methods II&quot;                          
+##  [9] &quot;STAT 522: Advanced Applied Survey Sampling&quot;                
+## [10] &quot;STAT 544: Bayesian Statistics&quot;                             
+## [11] &quot;STAT 570: Bioinformatics IV (Systems Biology)&quot;             
+## [12] &quot;STAT 580: Statistical Computing&quot;                           
+## [13] &quot;STAT 612: Advanced Design of Experiments&quot;                  
+## [14] &quot;STAT 680: Advanced Statistical Computing&quot;</code></pre>
+</section>
+<section id="basics-of-regular-expressions" class="slide level2">
+<h2>Basics of regular expressions</h2>
+<table>
+<thead>
+<tr class="header">
+<th>expression</th>
+<th style="text-align: left;">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ordinary characters</td>
+<td style="text-align: left;">match themselves</td>
+</tr>
+<tr class="even">
+<td><code>$ ^ { [ ( ) ] } * + ? \</code></td>
+<td style="text-align: left;">special characters</td>
+</tr>
+<tr class="odd">
+<td><code>[abc]</code></td>
+<td style="text-align: left;">matches single letter from “a”, “b”, or “c”</td>
+</tr>
+<tr class="even">
+<td><code>[^abc]</code></td>
+<td style="text-align: left;">matches any single letter other than “a”, “b”, and “c”</td>
+</tr>
+<tr class="odd">
+<td><code>[a-gm]</code></td>
+<td style="text-align: left;">matches any single letter out of “a”, “b”, … “g” or “m”</td>
+</tr>
+<tr class="even">
+<td><code>[a-z][0-9]</code></td>
+<td style="text-align: left;">matches one lower case letter followed by a digit</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="basics-of-regular-expressions-contd" class="slide level2">
+<h2>Basics of regular expressions (cont’d)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>expression</th>
+<th style="text-align: left;">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\x</code></td>
+<td style="text-align: left;">match a hexadecimal number</td>
+</tr>
+<tr class="even">
+<td><code>\s</code></td>
+<td style="text-align: left;">whitespace</td>
+</tr>
+<tr class="odd">
+<td>^</td>
+<td style="text-align: left;">starting position within the string</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td style="text-align: left;">ending position with in the string</td>
+</tr>
+<tr class="odd">
+<td><code>&lt; &gt;</code></td>
+<td style="text-align: left;">start, end of a word</td>
+</tr>
+<tr class="even">
+<td><code>\t \r \v \n</code></td>
+<td style="text-align: left;">tab, carriage return, vertical tab, new line</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multipliers" class="slide level2">
+<h2>Multipliers</h2>
+<ul>
+<li><code>?</code> indicates there is <strong>zero or one</strong> of the preceding element, eg <code>colou?r</code> matches “color” or “colour”</li>
+<li><code>*</code> indicates there is <strong>zero or more</strong> of the preceding element, eg <code>ab*c</code> matches “ac”, “abc”, “abbc”, “abbbc”, …</li>
+<li><code>+</code> indicates there is <strong>one or more</strong> of the preceding element, eg <code>ab+c</code> matches “abc”, “abbc”, “abbbc”, …</li>
+<li><code>.</code> matches any <strong>single</strong> character, eg <code>a.c</code> matches “abc” or “atc”</li>
+</ul>
+</section>
+<section id="advanced-patterns" class="slide level2">
+<h2>Advanced Patterns</h2>
+<p>see <code>?regex</code></p>
+<ul>
+<li><code>[:alpha:]</code> Any alphabetic character</li>
+<li><code>[:lower:]</code> Any lowercase character</li>
+<li><code>[:upper:]</code> Any uppercase character</li>
+<li><code>[:digit:]</code> Any digit</li>
+<li><code>[:alnum:]</code> Any alphanumeric character (alphabetic or digit)</li>
+<li><code>[:blank:]</code> Any white space character (space, tab, vertical tab)</li>
+<li><code>[:graph:]</code> Any printable character, except space</li>
+<li><code>[:print:]</code> Any printable character, including the space</li>
+<li><code>[:punct:]</code> Any punctuation (i.e., a printable character that is not white space or alphanumeric)</li>
+<li><code>[:cntrl:]</code> Any nonprintable character</li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h2>Examples</h2>
+<p>What do these regular expressions do?</p>
+<p><code>.at</code></p>
+<p><code>[hc]at</code></p>
+<p><code>[^t]at</code></p>
+<p><code>[^hc]at</code></p>
+<p><code>^[S]tat</code></p>
+<p><code>[S]tat$</code></p>
+</section>
+<section id="trickier-examples" class="slide level2">
+<h2>Trickier Examples</h2>
+<p>What do these regular expressions do?</p>
+<p><code>^s.*</code></p>
+<p><code>[A-Z]\{3,\}</code></p>
+<p><code>\[.\]</code></p>
+<p><code>[bB]ar ?[cC]hart</code></p>
+<p><code>^[0-9]{5}$</code></p>
+<p><code>^(\d{3}-\d{3}-\d{4})*$</code></p>
+<p><code>(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})</code></p>
+</section>
+<section id="your-turn-5-min" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<ul>
+<li>write out the regular expression for a number in scientific notation <!--
+```
+grep("[+-]?([0-9]+\\.)?[0-9]+[eE][+-]?[0-9]+", c("1e-4", "-2.13e-1", "2E4"))
+```
+--></li>
+<li>how can we try out whether the pattern works?</li>
+</ul>
+</section>
+<section id="regular-expressions-in-r" class="slide level2">
+<h2>Regular expressions in R</h2>
+<p>Patterns &amp; Matches</p>
+<ul>
+<li>Find pattern: <code>grep, regexpr, gregexpr</code></li>
+<li>Pattern replacement: <code>gsub (pattern, replacement, x)</code></li>
+</ul>
+<pre><code>grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE,
+     fixed = FALSE, useBytes = FALSE, invert = FALSE)
+
+gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+     fixed = FALSE, useBytes = FALSE)</code></pre>
+</section>
+<section id="your-turn-8-min" class="slide level2">
+<h2>Your Turn (8 min)</h2>
+<ul>
+<li>Use a regular expression to delete any line breaks <code>\n</code> from the scraped credits section of the Stats courses. Save the result in vector <code>credits_clean</code></li>
+<li>Introduce three logical vectors <code>Fall</code>, <code>Spring</code> and <code>Summer</code> that are true for a course that is offered in the Fall, Spring and/or Summer semester. Bonus: can you include information on alternate falls as well?</li>
+</ul>
+</section>
+<section id="your-turn---solution" class="slide level2">
+<h2>Your Turn - Solution</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">credits_clean &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, credits)
+
+fall &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="kw">length</span>(credits))
+fall[<span class="kw">grep</span>(<span class="st">&quot;.* F</span><span class="ch">\\</span><span class="st">..*&quot;</span>, credits)] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+
+spring &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="kw">length</span>(credits))
+spring[<span class="kw">grep</span>(<span class="st">&quot;.*[ </span><span class="ch">\\</span><span class="st">.]S</span><span class="ch">\\</span><span class="st">..*&quot;</span>, credits)] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+
+summer &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="kw">length</span>(credits))
+summer[<span class="kw">grep</span>(<span class="st">&quot;.*[ </span><span class="ch">\\</span><span class="st">.]SS</span><span class="ch">\\</span><span class="st">..*&quot;</span>, credits)] &lt;-<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+</section>
+<section id="extracting-pieces-from-a-regular-expression" class="slide level2">
+<h2>Extracting pieces from a regular expression</h2>
+<ul>
+<li>parentheses <code>( )</code> group a pattern of interest together</li>
+<li>using <code>\\1</code>, <code>\\2</code>, <code>\\3</code>, … we can extract the first, second, third … pattern</li>
+</ul>
+<p>Imagine, we want to extract the number of credits for each course</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">credits[<span class="dv">1</span>:<span class="dv">5</span>]</code></pre></div>
+<pre><code>## [1] &quot;\n(1-0) Cr. R.\n F. \n&quot;      &quot;\n(3-2) Cr. 4.\n F.S.SS. \n&quot;
+## [3] &quot;\n(2-2) Cr. 3.\n F.S.SS. \n&quot; &quot;\n(3-0) Cr. 3.\n F.S. \n&quot;   
+## [5] &quot;\n(3-2) Cr. 4.\n S. \n&quot;</code></pre>
+<p>We use the expression <code>Cr.</code> as cue; the number after that is the number of credits:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;.*Cr</span><span class="ch">\\</span><span class="st">. ([0-9]|R|(arr)).*&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, credits)</code></pre></div>
+<pre><code>##   [1] &quot;R&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;4&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [12] &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;R&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [23] &quot;6&quot;   &quot;1&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [34] &quot;3&quot;   &quot;arr&quot; &quot;arr&quot; &quot;3&quot;   &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [45] &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [56] &quot;3&quot;   &quot;4&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [67] &quot;3&quot;   &quot;1&quot;   &quot;3&quot;   &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;R&quot;  
+##  [78] &quot;arr&quot; &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;3&quot;  
+##  [89] &quot;3&quot;   &quot;3&quot;   &quot;3&quot;   &quot;arr&quot; &quot;3&quot;   &quot;3&quot;   &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot; &quot;arr&quot;
+## [100] &quot;arr&quot; &quot;arr&quot; &quot;arr&quot;</code></pre>
+</section>
+<section id="your-turn-5-min-1" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<ul>
+<li>Extract the course number from the scraped vector <code>courses</code>.</li>
+<li>Overachiever: extract the number of lectures and lab time from the vector <code>credits</code></li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_regular_expressions_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

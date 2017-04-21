@@ -1,0 +1,380 @@
+---
+title: "Stat 585 - Profiling"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rmarkdown)
+```
+
+# Writing good code
+
+## What makes code "good"?
+
+- maintainable
+- extendable
+- fast
+
+How do we recognize good code? How do we spot bad code?
+
+## Getting better
+
+- Read good code, try to emulate
+- READ code 
+- spot GOOD code - how?
+- Re-read your own (old) code CRITICALLY. 
+- Possible questions:  how can I break the code?  how can I write this shorter? how can I make this more general?
+- Foremost:  PRACTICE!
+
+
+## Read code
+
+
+What does this function do?
+How does it work?
+
+```{r eval = FALSE}
+somefunction <- function (...) 
+{
+    k <- length(ll <- list(...))
+    if (k == 0L) 
+        return(invisible())
+    mc <- match.call()
+    for (i in 1L:k) if (!(is.logical(r <- ll[[i]]) && !any(is.na(r)) && 
+        all(r))) {
+        ch <- deparse(mc[[i + 1]], width.cutoff = 60L)
+        if (length(ch) > 1L) 
+            ch <- paste(ch[1L], "....")
+        stop(paste(ch, " is not ", if (length(r) > 1L) 
+            "all ", "TRUE", sep = ""), call. = FALSE)
+    }
+    invisible()
+}
+```
+
+## Step-by-step code checking
+
+The ```browser()``` function allows stepping through your code.
+
+```{r}
+help(browser)
+```
+
+- ```n```= executes the next line of code
+- ```c```= continue execution until the end of the function, and exit
+- ```where``` gives you the stack information, the trace of the active function calls
+- ```Q``` exits browser()
+
+## Simple alternatives
+
+Putting in 
+
+- ```cat()```
+- ```str()```
+- ```head()```
+- ```summary()```
+- ```print()```
+
+are simple ways to build code up step-wise ensuring that each piece works
+
+
+## Let's try browser()
+
+```somefunction2()``` function has ```browser()``` in first line of function
+
+```{r echo = FALSE}
+somefunction2 <- function (...) 
+{
+    browser()
+    k <- length(ll <- list(...))
+    if (k == 0L) 
+        return(invisible())
+    mc <- match.call()
+    for (i in 1L:k) if (!(is.logical(r <- ll[[i]]) && !any(is.na(r)) && 
+        all(r))) {
+        ch <- deparse(mc[[i + 1]], width.cutoff = 60L)
+        if (length(ch) > 1L) 
+            ch <- paste(ch[1L], "....")
+        stop(paste(ch, " is not ", if (length(r) > 1L) 
+            "all ", "TRUE", sep = ""), call. = FALSE)
+    }
+    invisible()
+}
+```
+
+```{r eval = FALSE}
+x <- 1
+somefunction2(x==x, 1+1==2, c(7+5==11.99999, 1+1==2))
+```
+
+Browser enables:
+
+- printing of result of each line
+- checking changes to values
+- make sure that it results in what is expected
+
+## `debug()`
+
+```debug(f)``` automatically places a ```browser()``` statement in the first line of function `f`
+
+```undebug(f)``` removes it.
+
+## Setting error handling
+
+- ```options(error=recover)``` will drop user into ```browser()``` upon an error
+- ```options(error=NULL)``` default, do nothing
+- ```options(warn=2)``` sets maximum number of warnings to be 2
+- ```options(warn=0)``` warnings are stored until top level function finishes
+- ```options(warn=-1)``` ignore all warnings
+
+## Traceback
+
+```traceback()``` shows the stack at the time the last error occurred
+```{r eval=FALSE}
+f <- function(x) { 
+  w(x)
+	g(h(x)) 
+	w(x)
+} 
+g <- function(x) {
+	a <- 10
+	x
+} 
+
+h <- function(x) {
+	w(x) 
+	w(x) 
+}
+	 
+w <- function(x) { 
+	if (sample(10, 1) == 1) stop("This is an error!")
+}
+
+f() 
+traceback()
+```
+
+## Traceback
+
+  
+```
+> f()
+Error in w(x) : This is an error! 
+> traceback()
+5: stop("This is an error!") at #2
+4: w(x) at #2
+3: h(x) at #3
+2: g(h(x)) at #3
+1: f()
+```
+
+## Your Turn: fix this!! (8 mins)
+
+```larger(x,y)``` is supposed to return the element-wise maximum of two vectors
+
+```{r}
+larger <- function(x, y) { 
+  y.is.bigger <- y > x 
+	x[y.is.bigger] <- y[y.is.bigger] 
+	x
+} 
+larger(c(1, 5, 10), c(2, 4, 11)) 
+larger(c(1, 5, 10), 6)
+```
+
+
+## Signs of inexperienced programmers
+
+
+- Violation of the language model
+    - e.g. R is vector oriented language, i.e.  ```for``` loops should be used sparingly, 
+    - e.g. use of ```rbind``` (it is *known* to be very slow)
+- Insufficient knowledge of the language. We're all guilty of that at different levels 
+- Reading other people's code helps improve our language knowledge!
+
+## Removing for loops
+
+```{r}
+x <- floor(runif(100)*4)
+y <- vector("character", length=length(x))
+for (i in 1:length(x)) {
+   y[i] <- switch (x[i]+1, "Sun", "Rain", "Snow", "Hail", default=NA)
+}
+
+table(y)
+```
+
+## Removing for loops (cont'd)
+
+```{r}
+# the switch statement on the previous slide is equivalent to 
+# the following lines:
+for (i in 1:length(x)) {
+  if (x[i] == 0) y[i] <- "Sun"
+  if (x[i] == 1) y[i] <- "Rain"
+  if (x[i] == 2) y[i] <- "Snow"
+  if (x[i] == 3) y[i] <- "Hail"
+}
+
+# using R's vectors we can reduce this to a single line:
+y <- c("Sun", "Rain", "Snow", "Hail")[x+1]
+```
+
+
+## Spotting bad code
+
+- Ken Thompson: keep the number of indentations down, high number of local variables is suspicious
+- Hadley Wickham: functions with more than ten lines are suspicious, highly repetitive code
+- Generally Good Practices: indentation and spacing, comments, clear naming convention
+
+## Profiling
+
+Code can be profiled at different levels:
+
+1. two (or more) alternatives of code with the same objectives are timed to determined the one which is the fastest (```system.time()``` and ```proc.time()```)
+2. one piece of code is analyzed to find weak/slow spots (e.g. `profr` and `profviz`)
+
+
+## Profiling process
+
+- Collect information on code performance:
+- memory usage
+- frequency and duration of function calls
+- Goal: optimization of code
+
+## `system.time()`
+
+- Probably simplest of all measures
+- Evaluates the time spent in the whole expression
+- doesn't give any clues about what is done at a lower level <br><br>
+- Alternative: ```proc.time()```
+
+## (Mini) code blocks
+
+<div class="double">
+<p class="double-flow">
+```{r message=FALSE}
+ptm <- proc.time()
+t1 <- read.csv("../data/temps.csv")
+proc.time() - ptm
+
+ptm <- proc.time()
+t2 <- readr::read_csv("../data/temps.csv", progress = FALSE)
+proc.time() - ptm
+```
+</p><p class="double-flow">
+```{r message=FALSE}
+ptm <- proc.time()
+t3 <- readRDS("../data/temps.rds")
+proc.time() - ptm
+
+ptm <- proc.time()
+load("../data/temps.Rda")
+proc.time() - ptm
+```
+</p>
+</div>
+
+## Your turn (5 min)
+
+Which of the three options is the fastest?
+
+```{r message=FALSE}
+x <- floor(runif(100)*4)
+y <- vector("character", length=length(x))
+
+# Option #1
+for (i in 1:length(x)) {
+   y[i] <- switch (x[i]+1, "Sun", "Rain", "Snow", "Hail", default=NA)
+}
+
+# Option #2
+for (i in 1:length(x)) {
+  if (x[i] == 0) y[i] <- "Sun"
+  if (x[i] == 1) y[i] <- "Rain"
+  if (x[i] == 2) y[i] <- "Snow"
+  if (x[i] == 3) y[i] <- "Hail"
+}
+
+# Option #3
+y <- c("Sun", "Rain", "Snow", "Hail")[x+1]
+```
+
+## Your Turn Result
+
+Based on 100 evaluations of samples of size 5000: 
+
+```{r message=FALSE, warning=FALSE, echo = FALSE}
+library(tidyverse)
+
+results <- 1:100 %>% purrr::map_df(.f = function(x) {
+x <- floor(runif(5000)*4)
+y <- vector("character", length=length(x))
+
+ptmbase <- proc.time()
+# Option #1
+for (i in 1:length(x)) {
+   y[i] <- switch (x[i]+1, "Sun", "Rain", "Snow", "Hail", default=NA)
+}
+ptm1 <- proc.time()
+
+# Option #2
+for (i in 1:length(x)) {
+  if (x[i] == 0) y[i] <- "Sun"
+  if (x[i] == 1) y[i] <- "Rain"
+  if (x[i] == 2) y[i] <- "Snow"
+  if (x[i] == 3) y[i] <- "Hail"
+}
+
+ptm2 <- proc.time()
+
+# Option #3
+y <- c("Sun", "Rain", "Snow", "Hail")[x+1]
+
+ptm3 <- proc.time()
+data.frame(value=c((ptm1-ptmbase)["elapsed"], (ptm2-ptm1)["elapsed"], (ptm3-ptm2)["elapsed"]), Option=1:3)
+})
+
+results %>% 
+  ggplot(aes(x = Option, y = value, fill= factor(Option))) +geom_boxplot() +
+  ylab("Elapsed time")
+```
+
+
+## Profiling Code
+
+Last method is much faster. But why?
+
+`profr`/`profvis` package:
+
+- wrapper around function ```Rprof```
+- call stack is written every 0.02 seconds (interval) into a temporary file
+- output file is processed to produce a summary of the usage
+- time measurements varies by platform: on Unix-alike time is CPU time of the R process (excludes time waiting for input)
+- Note: profiling takes time, too; once the timer goes off, the information is not recorded until the next timing click (probably in the range 1–10 msecs). Can’t go below that.
+
+
+## `profvis` example
+
+```{r eval=FALSE}
+library(profvis)
+
+p <- profvis({			
+  data(diamonds, package = "ggplot2")			
+  plot(price ~ carat, data = diamonds)			
+  m <- lm(price ~ carat, data = diamonds)			
+  abline(m, col = "red")			
+})
+```
+
+`profvis` creates interactive response with code and flame plot.
+
+Copy and paste the code into your console to run it.
+
+

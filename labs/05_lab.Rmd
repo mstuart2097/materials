@@ -1,0 +1,48 @@
+---
+title: 'Lab Assignment #5'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab #5: The making of an R package
+
+## R packages
+
+```{r}
+nrow(available.packages(contriburl = 
+                          contrib.url("https://cran.rstudio.com/", 
+                                      type = "both")))
+```
+
+![](http://bxhorn.com/wp-content/uploads/2014/07/Wordcloud1.png)
+
+## Getting ready
+
+DESCRIPTION: dependencies!!!
+Install git on the machine you want to use for the lab
+Make sure that it works with RStudio - XXX example code to test that everything works?
+
+## Lab Assignment
+
+The objective of today's lab is to create and R package, document it and make it available through a github repository.
+
+1. Create an R package with at least one (exported) function and one dataset. 
+2. Document both the function and the dataset appropriately. 
+3. Place your R package on github, such that it is possible to install via the `install_github` function in the `devtools` package (e.g. try `install_github("heike/ggmapr")`).
+4. Write a `README.md` file to showcase your package.
+5. Make sure that your package passes CRAN check, i.e. run `devtools::check()` without any warnings or errors.
+
+## Deliverable 
+
+Submit the link to your github repository and paste the results from `devtools::check()` to Blackboard. 
+
+

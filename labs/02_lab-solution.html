@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab Assignment #2</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="02_lab-solution_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="02_lab-solution_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="02_lab-solution_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="02_lab-solution_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Lab Assignment #2</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="lab-2" class="titleslide slide level1"><h2 class="shout">Lab #2</h2></section><section id="section" class="slide level2 white">
+<h2></h2>
+<p><img src="images/movies-cropped.jpeg" width=2500 class="cover"></p>
+</section><section id="movies-of-the-last-two-years" class="slide level2">
+<h2>Movies of the last two years</h2>
+<p>The data set <a href="../data/movies.csv">movies</a> consists of movies in theaters for the last two years.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/movies.csv&quot;</span>)
+<span class="kw">head</span>(movies)</code></pre></div>
+<pre><code>##         Date Rank Rank.Last.Week Days                        Movie
+## 1 2017-01-27    1              1   10                        Split
+## 2 2017-01-27    2             NA    3              A Dog’s Purpose
+## 3 2017-01-27    3              3   36               Hidden Figures
+## 4 2017-01-27    4             NA    3 Resident Evil: The Final Ch…
+## 5 2017-01-27    5              5   52                   La La Land
+## 6 2017-01-27    6              2   10   xXx: Return of Xander Cage
+##          Distributor    Gross    Change Total.Gross    Release Theaters
+## 1          Universal 25655440 -35.87899    77385530 2017-01-17     3199
+## 2          Universal 18222810        NA    18222810 2017-01-24     3059
+## 3   20th Century Fox 14003275 -10.92974   104024969 2016-12-22     3351
+## 4      Sony Pictures 13601682        NA    13601682 2017-01-24     3104
+## 5          Lionsgate 12233928  45.16532   106693300 2016-12-06     3136
+## 6 Paramount Pictures  8601858 -57.26877    33839608 2017-01-17     3651
+##   Per.Theater
+## 1    8019.831
+## 2    5957.113
+## 3    4178.835
+## 4    4381.985
+## 5    3901.125
+## 6    2356.028</code></pre>
+</section><section id="lab-assignment" class="slide level2">
+<h2>Lab assignment</h2>
+<p>Using tools from <code>dplyr</code> and <code>ggplot2</code> answer the follwoing questions:</p>
+<ul>
+<li>What were the most successful movies over the past two years? Make sure to define how you measure success. What can you say about movies that only came out recently?</li>
+<li>How long, on average, are movies in theaters? Also look at the median time. Try to figure out what contributes to the big difference.</li>
+<li>What is the standard trajectory of a movie’s total gross? Draw a plot and label some of the trajectories. <br> If you feel ambitious, you could try to model this trajectory - but if you do, make sure to detail all assumptions that you make.</li>
+</ul>
+<p>Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard.</p>
+</section><section id="most-successful-movies" class="slide level2">
+<h2>Most successful movies</h2>
+<p>Measure of success: Total gross - which means that recently released movies are biased against because they just didn’t have enough time yet to accumulate a lot of total gross.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie, Release) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">final =</span> <span class="kw">max</span>(Total.Gross),
+  <span class="dt">date =</span> Date[<span class="kw">which.max</span>(Total.Gross)]
+) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(final))</code></pre></div>
+<pre><code>## Source: local data frame [1,387 x 4]
+## Groups: Movie [1,386]
+## 
+##                           Movie    Release     final       date
+##                          &lt;fctr&gt;     &lt;fctr&gt;     &lt;int&gt;     &lt;fctr&gt;
+## 1  Star Wars Ep. VII: The Forc… 2015-12-15 936658640 2016-05-27
+## 2                Jurassic World 2015-06-09 652177270 2015-11-13
+## 3  Rogue One: A Star Wars Story 2016-12-13 520200086 2017-01-27
+## 4                  Finding Dory 2016-06-14 486292984 2016-12-02
+## 5   The Avengers: Age of Ultron 2015-04-28 458991599 2015-10-02
+## 6    Captain America: Civil War 2016-05-03 408080554 2016-09-16
+## 7       The Secret Life of Pets 2016-07-05 368305960 2016-12-23
+## 8               The Jungle Book 2016-04-12 363995937 2016-09-23
+## 9                      Deadpool 2016-02-09 363063801 2016-06-10
+## 10                   Inside Out 2015-06-16 356454367 2015-12-04
+## # ... with 1,377 more rows</code></pre>
+</section><section id="most-successful-movies-contd" class="slide level2">
+<h2>Most successful movies (cont’d)</h2>
+<p>We could also use boxoffice gross over the opening weekend to measure success. This gives a slightly different set of most successful movies - maybe the ones with the most promise or the most loyal fans:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies %&gt;%<span class="st"> </span><span class="kw">filter</span> (Days &lt;=<span class="dv">5</span>) %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie, Release) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">gross =</span> <span class="kw">sum</span>(Gross, <span class="dt">na.rm=</span><span class="ot">TRUE</span>),
+  <span class="dt">date =</span> Date[<span class="dv">1</span>]
+) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(gross))</code></pre></div>
+<pre><code>## Source: local data frame [1,139 x 4]
+## Groups: Movie [1,138]
+## 
+##                           Movie    Release     gross       date
+##                          &lt;fctr&gt;     &lt;fctr&gt;     &lt;dbl&gt;     &lt;fctr&gt;
+## 1  Star Wars Ep. VII: The Forc… 2015-12-15 247966675 2015-12-18
+## 2                Jurassic World 2015-06-09 208806270 2015-06-12
+## 3   The Avengers: Age of Ultron 2015-04-28 191271109 2015-05-01
+## 4    Captain America: Civil War 2016-05-03 179139142 2016-05-06
+## 5  Batman v Superman: Dawn of … 2016-03-22 166007347 2016-03-25
+## 6  Rogue One: A Star Wars Story 2016-12-13 155081681 2016-12-16
+## 7                     Furious 7 2015-03-31 147163560 2015-04-03
+## 8                  Finding Dory 2016-06-14 135060273 2016-06-17
+## 9                 Suicide Squad 2016-08-02 133682248 2016-08-05
+## 10                     Deadpool 2016-02-09 132434639 2016-02-12
+## # ... with 1,129 more rows</code></pre>
+</section><section id="time-in-theaters" class="slide level2">
+<h2>Time in theaters</h2>
+<p>There are some movies with a really, really long time in theaters. Those are movies that are shown again and again in theaters (but most of them not at all times).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first we exclude all of the movies that are currently in theaters:</span>
+times &lt;-<span class="st"> </span>movies %&gt;%<span class="st"> </span><span class="kw">group_by</span>(Movie, Release) %&gt;%<span class="st"> </span><span class="kw">summarize</span>(
+  <span class="dt">intheaters =</span> <span class="kw">max</span>(Days),
+  <span class="dt">lastday =</span> Date[<span class="kw">which.max</span>(Days)]
+) %&gt;%<span class="st"> </span><span class="kw">filter</span>(lastday !=<span class="st"> &quot;2017-01-27&quot;</span>) 
+
+
+times %&gt;%<span class="st"> </span><span class="kw">ungroup</span>() %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="kw">mean</span>(intheaters), <span class="kw">median</span>(intheaters))</code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   `mean(intheaters)` `median(intheaters)`
+##                &lt;dbl&gt;                &lt;dbl&gt;
+## 1           286.9394                   52</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(intheaters))</code></pre></div>
+<pre><code>## Source: local data frame [1,336 x 4]
+## Groups: Movie [1,335]
+## 
+##                            Movie    Release intheaters    lastday
+##                           &lt;fctr&gt;     &lt;fctr&gt;      &lt;int&gt;     &lt;fctr&gt;
+## 1                The Fallen Idol 1949-11-12      24478 2016-11-18
+## 2                  The Third Man 1950-01-30      24035 2015-11-20
+## 3        Elevator to the Gallows 1961-06-07      20281 2016-12-16
+## 4                         Marnie 1963-12-29      18772 2015-05-22
+## 5              Band of Outsiders 1966-03-12      18409 2016-08-05
+## 6          The Battle of Algiers 1967-09-17      18016 2017-01-13
+## 7             The Lion in Winter 1968-10-27      17617 2017-01-20
+## 8               Multiple Maniacs 1970-04-07      16929 2016-08-12
+## 9  The Rocky Horror Picture Show 1975-09-23      15011 2016-10-28
+## 10                 The Wanderers 1979-07-10      13667 2016-12-09
+## # ... with 1,326 more rows</code></pre>
+</section><section id="trajectory-of-total-gross" class="slide level2">
+<h2>Trajectory of total gross</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movies %&gt;%<span class="st"> </span><span class="kw">filter</span>(Days &lt;<span class="st"> </span><span class="dv">100</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Total.Gross))  +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="kw">interaction</span>(Movie, Release)), <span class="dt">alpha =</span> <span class="fl">0.5</span>) +<span class="st">   </span>
+<span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">110</span>)) +
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days<span class="dv">+7</span>, <span class="dt">label=</span>Movie), 
+            <span class="dt">hjust =</span> <span class="dv">1</span>,
+            <span class="dt">data =</span> movies %&gt;%<span class="st"> </span><span class="kw">filter</span>(Total.Gross &gt;<span class="st"> </span><span class="fl">2.5</span>*<span class="dv">10</span>^<span class="dv">8</span>, Days &lt;<span class="st"> </span><span class="dv">100</span>) %&gt;%<span class="st"> </span>
+<span class="st">              </span><span class="kw">group_by</span>(Movie) %&gt;%<span class="st"> </span><span class="kw">filter</span>(Days ==<span class="st"> </span><span class="kw">max</span>(Days))) </code></pre></div>
+<p><img src="02_lab-solution_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+</section><section id="problems-along-the-way" class="slide level2">
+<h2>Problems along the way</h2>
+<ul>
+<li>do not use absolute file paths (see discussion of the <a href="01_lab-solution.html">last lab</a> for more details on file paths)</li>
+<li>stick to the questions:
+<ul>
+<li>use <code>dplyr</code> and <code>ggplot2</code> to answer <em>all</em> the questions: the questions all had some solution using <code>dplyr</code> functionality - so look a bit closer in case you don’t see the solution right away, because that was a bit of the point for this lab: recognizing situations where we can successfully apply new functionality rather than using what we always use.</li>
+<li>find successful movies, not just top movie</li>
+<li>directly label trajectories with names of movies: work with layers in ggplot!</li>
+</ul></li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="02_lab-solution_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

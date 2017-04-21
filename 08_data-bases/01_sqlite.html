@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Databases in R</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_sqlite_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_sqlite_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_sqlite_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_sqlite_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Databases in R</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="databases-and-r" class="titleslide slide level1"><h2 class="shout">Databases and R</h2></section><section id="outline" class="slide level2">
+<h2>Outline</h2>
+<ul>
+<li>a bit about databases</li>
+<li>linking R to a (local) data base</li>
+<li>investigate the FARS data</li>
+</ul>
+<p><br></p>
+<p>Resources:</p>
+<ul>
+<li><code>vignette(&quot;databases&quot;, package=&quot;dplyr&quot;)</code> (for working with dplyr and databases)</li>
+<li><code>vignette(&quot;two-table&quot;, package=&quot;dplyr&quot;)</code> (for joining tables - we’ve covered this before)</li>
+</ul>
+</section><section id="why-databases" class="slide level2">
+<h2>Why databases?</h2>
+<p>What is a database?</p>
+<ul>
+<li>A collection of data</li>
+<li>A set of rules to manipulate data</li>
+</ul>
+<p>Why are they important?</p>
+<ul>
+<li>Efficient manipulation of large data sets</li>
+<li>Convenient processing of data</li>
+<li>Integration of multiple sources of data</li>
+<li>Access to a shared resource</li>
+</ul>
+</section><section id="relational-databases" class="slide level2">
+<h2>Relational Databases</h2>
+<ul>
+<li>Database is collection of tables and links (normal form)</li>
+<li>SQL (Structured Query Language) for querying</li>
+<li>DBMS (Database Management System) and managing data</li>
+</ul>
+</section><section id="structured-query-language" class="slide level2">
+<h2>Structured Query Language</h2>
+<ul>
+<li>Structured Query Language (1970, E Codds)</li>
+<li>Programming language used for accessing data in a database</li>
+<li>ANSI standard since 1986, ISO standard since 1987</li>
+<li>Still some portability issues between software systems!</li>
+<li>We’ll mainly focus on SQL queries to access data</li>
+</ul>
+</section><section id="syntax" class="slide level2">
+<h2>Syntax</h2>
+<ul>
+<li>SQL is not case sensitive.</li>
+<li>Some systems require <code>;</code> at the end of each line. The semi-colon can be used to separate each SQL statement in a system that allows multiple command to be executed in a call to the server.</li>
+</ul>
+</section><section id="select" class="slide level2">
+<h2>Select</h2>
+<div class="double">
+<p class="double-flow">
+<p><strong>Student</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: right;">Major</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">Never Ever</td>
+<td style="text-align: right;">Math</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">Some Times</td>
+<td style="text-align: right;">CS</td>
+</tr>
+</tbody>
+</table>
+</p>
+<p class="double-flow">
+<p><strong>Attendance</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;"><strong><em>Date</em></strong></th>
+<th style="text-align: right;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="even">
+<td>1234</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="odd">
+<td>4321</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">present</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<p><code>Select * from student</code> leads to</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: right;">Major</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">Never Ever</td>
+<td style="text-align: right;">Math</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">Some Times</td>
+<td style="text-align: right;">CS</td>
+</tr>
+</tbody>
+</table>
+</section><section id="where" class="slide level2">
+<h2>Where</h2>
+<div class="double">
+<p class="double-flow">
+<p><strong>Student</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: right;">Major</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">Never Ever</td>
+<td style="text-align: right;">Math</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">Some Times</td>
+<td style="text-align: right;">CS</td>
+</tr>
+</tbody>
+</table>
+</p>
+<p class="double-flow">
+<p><strong>Attendance</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;"><strong><em>Date</em></strong></th>
+<th style="text-align: right;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="even">
+<td>1234</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="odd">
+<td>4321</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">present</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<p><code>Select Name from student where Major='Math'</code> leads to</p>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Never Ever</td>
+</tr>
+</tbody>
+</table>
+</section><section id="aggregations" class="slide level2">
+<h2>Aggregations</h2>
+<div class="double">
+<p class="double-flow">
+<p><strong>Student</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: right;">Major</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">Never Ever</td>
+<td style="text-align: right;">Math</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">Some Times</td>
+<td style="text-align: right;">CS</td>
+</tr>
+</tbody>
+</table>
+</p>
+<p class="double-flow">
+<p><strong>Attendance</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: center;"><strong><em>Date</em></strong></th>
+<th style="text-align: right;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="even">
+<td>1234</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+<tr class="odd">
+<td>4321</td>
+<td style="text-align: center;">02-Feb</td>
+<td style="text-align: right;">present</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: center;">09-Feb</td>
+<td style="text-align: right;">absent</td>
+</tr>
+</tbody>
+</table>
+</p>
+</div>
+<p><code>Select ID, count(ID) from Attendance where Status='absent'</code> leads to</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong><em>ID</em></strong></th>
+<th style="text-align: right;">Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1234</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td>4321</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</section><section id="additional-resources-for-sql" class="slide level2">
+<h2>Additional Resources for SQL</h2>
+<ul>
+<li>W3Schools: <a href="http://www.w3schools.com/sql/default.asp" class="uri">http://www.w3schools.com/sql/default.asp</a></li>
+<li>DBI package, RMySQL, RSQLite: <a href="http://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf" class="uri">http://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf</a> <a href="http://cran.r-project.org/web/packages/RSQLite/RSQLite.pdf" class="uri">http://cran.r-project.org/web/packages/RSQLite/RSQLite.pdf</a></li>
+</ul>
+</section><section id="good-news" class="slide level2">
+<h2>Good news!</h2>
+<ul>
+<li><code>dplyr</code> package works (almost) the same for local data frames as tables in a database</li>
+<li><code>dplyr</code> functionality: <code>group_by</code>, <code>summarize</code>, <code>transform</code>, <code>filter</code>, <code>arrange</code>, <code>select</code></li>
+</ul>
+</section><section id="an-example-fars-data" class="slide level2">
+<h2>An example: FARS data</h2>
+<ul>
+<li>US Department of transportation is keeping a record of every accident that results in a fatality in the FARS Data base (fatal accident report system, <a href="http://www.nhtsa.gov/FARS" class="uri">http://www.nhtsa.gov/FARS</a>)</li>
+<li>FARS consists of 20+ tables consisting of various aspects of each accident Documentation at</li>
+<li><a href="http://www-nrd.nhtsa.dot.gov/Cats/listpublications.aspx?Id=J&amp;ShowBy=DocType" class="uri">http://www-nrd.nhtsa.dot.gov/Cats/listpublications.aspx?Id=J&amp;ShowBy=DocType</a></li>
+</ul>
+</section><section id="sqlite" class="slide level2">
+<h2>SQLite</h2>
+<ul>
+<li>SQLite is a relational database management system</li>
+<li>Unlike other DBMS SQLite is a server-less system with “zero-configuration”</li>
+<li><code>fars2014</code> is a SQLite database of the 2014 data provided by FARS, consisting of three tables: <code>accidents</code>, <code>person</code>, and <code>vehicle</code> (make sure to download <code>fars2014</code> from our github repo).</li>
+</ul>
+<p>connecting to the database:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+fars &lt;-<span class="st"> </span><span class="kw">src_sqlite</span>(<span class="st">&quot;../data/fars2014&quot;</span>)
+fars</code></pre></div>
+<pre><code>## src:  sqlite 3.8.6 [../data/fars2014]
+## tbls: accidents, person, vehicle</code></pre>
+</section><section id="connecting-to-fars" class="slide level2">
+<h2>Connecting to FARS</h2>
+<p>Use <code>tbl</code> to connect to a specific table (dataset) in the database</p>
+<p>note: R does not load the data into the session</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">accidents &lt;-<span class="st"> </span><span class="kw">tbl</span>(fars, <span class="st">&quot;accidents&quot;</span>)
+accidents</code></pre></div>
+<pre><code>## Source:   query [?? x 50]
+## Database: sqlite 3.8.6 [../data/fars2014]
+## 
+##    STATE ST_CASE VE_TOTAL VE_FORMS PVH_INVL  PEDS PERNOTMVIT PERMVIT
+##    &lt;int&gt;   &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt;      &lt;int&gt;   &lt;int&gt;
+## 1      1   10001        1        1        0     0          0       2
+## 2      1   10002        1        1        0     0          0       1
+## 3      1   10003        2        2        0     0          0       7
+## 4      1   10004        3        3        0     0          0       5
+## 5      1   10005        1        1        0     0          0       1
+## 6      1   10006        1        1        0     0          0       1
+## 7      1   10007        3        2        1     0          0       2
+## 8      1   10008        2        2        0     0          0       4
+## 9      1   10009        3        3        0     0          0       5
+## 10     1   10010        2        2        0     0          0       6
+## # ... with more rows, and 42 more variables: PERSONS &lt;int&gt;, COUNTY &lt;int&gt;,
+## #   CITY &lt;int&gt;, DAY &lt;int&gt;, MONTH &lt;int&gt;, YEAR &lt;int&gt;, DAY_WEEK &lt;int&gt;,
+## #   HOUR &lt;int&gt;, MINUTE &lt;int&gt;, NHS &lt;int&gt;, ROAD_FNC &lt;int&gt;, ROUTE &lt;int&gt;,
+## #   TWAY_ID &lt;chr&gt;, TWAY_ID2 &lt;chr&gt;, MILEPT &lt;int&gt;, LATITUDE &lt;dbl&gt;,
+## #   LONGITUD &lt;dbl&gt;, SP_JUR &lt;int&gt;, HARM_EV &lt;int&gt;, MAN_COLL &lt;int&gt;,
+## #   RELJCT1 &lt;int&gt;, RELJCT2 &lt;int&gt;, TYP_INT &lt;int&gt;, WRK_ZONE &lt;int&gt;,
+## #   REL_ROAD &lt;int&gt;, LGT_COND &lt;int&gt;, WEATHER1 &lt;int&gt;, WEATHER2 &lt;int&gt;,
+## #   WEATHER &lt;int&gt;, SCH_BUS &lt;int&gt;, RAIL &lt;chr&gt;, NOT_HOUR &lt;int&gt;,
+## #   NOT_MIN &lt;int&gt;, ARR_HOUR &lt;int&gt;, ARR_MIN &lt;int&gt;, HOSP_HR &lt;int&gt;,
+## #   HOSP_MN &lt;int&gt;, CF1 &lt;int&gt;, CF2 &lt;int&gt;, CF3 &lt;int&gt;, FATALS &lt;int&gt;,
+## #   DRUNK_DR &lt;int&gt;</code></pre>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<ul>
+<li><code>dplyr</code> commands do not actually download the (whole) database</li>
+<li>use <code>collect()</code> to extract <em>all</em> records. This returns a tibble</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">accidents %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">between</span>(LONGITUD, -<span class="dv">130</span>, <span class="dv">0</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">collect</span>() %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(LONGITUD, LATITUDE)) +
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="fl">0.5</span>)</code></pre></div>
+</section><section id="section-1" class="slide level2">
+<h2></h2>
+<p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-4-1.png" width="768" /></p>
+</section><section id="your-turn-8-mins" class="slide level2">
+<h2>Your Turn (8 mins)</h2>
+<p>Connect to the FARS database (using the SQLite database <code>fars2014</code>). Answer the following questions:</p>
+<ul>
+<li>are there some days of the week where more accidents happen than on others (use variable <code>DAY_WEEK</code>)?</li>
+<li>what time of the day do accidents happen (use variable <code>HOUR</code>)?</li>
+<li>what is the number of accidents with at least one drunk driver (use variable <code>DRUNK_DR</code>)?</li>
+</ul>
+<p><br> <br> <br> <br></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dayweek &lt;-<span class="st"> </span>accidents %&gt;%<span class="st"> </span><span class="kw">group_by</span>(DAY_WEEK) %&gt;%<span class="st"> </span><span class="kw">tally</span>() 
+dayweek %&gt;%<span class="st"> </span><span class="kw">collect</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> DAY_WEEK, <span class="dt">weight=</span>n)) +<span class="st"> </span><span class="kw">geom_bar</span>() </code></pre></div>
+<p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-5-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hours &lt;-<span class="st"> </span>accidents %&gt;%<span class="st"> </span><span class="kw">group_by</span>(HOUR) %&gt;%<span class="st"> </span><span class="kw">tally</span>() 
+hours %&gt;%<span class="st"> </span><span class="kw">filter</span>(HOUR &lt;<span class="st"> </span><span class="dv">25</span>) %&gt;%<span class="st"> </span><span class="kw">collect</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> HOUR, <span class="dt">weight=</span>n)) +<span class="st"> </span><span class="kw">geom_bar</span>() </code></pre></div>
+<p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-5-2.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">drunk &lt;-<span class="st"> </span>accidents %&gt;%<span class="st"> </span><span class="kw">group_by</span>(DRUNK_DR) %&gt;%<span class="st"> </span><span class="kw">tally</span>() 
+drunk %&gt;%<span class="st"> </span><span class="kw">collect</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> DRUNK_DR, <span class="dt">weight=</span>n)) +<span class="st"> </span><span class="kw">geom_bar</span>() </code></pre></div>
+<p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-5-3.png" width="768" /></p>
+</section><section id="your-turn-5-mins" class="slide level2">
+<h2>Your Turn (5 mins)</h2>
+<p>Connect to the <code>person</code> table. Identify drivers (<code>PER_TYP</code> == 1, see <a href="https://www-fars.nhtsa.dot.gov/Common/IdDefs.aspx">fars manual</a> ) and subset on them.</p>
+<p><br> <br> <br> <br> <br> <br> <br> <br></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> </span><span class="kw">tbl</span>(fars, <span class="st">&quot;person&quot;</span>)
+drivers &lt;-<span class="st"> </span>person %&gt;%<span class="st"> </span><span class="kw">filter</span>(PER_TYP ==<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+</section><section id="working-with-multiple-tables" class="slide level2">
+<h2>Working with multiple tables</h2>
+<ul>
+<li>Only rarely single datasets are giving us all the answers we need</li>
+<li><code>left_join</code>, <code>right_join</code> work in the same way on databases as on local data frames.</li>
+</ul>
+</section><section id="investigating-accidents-by-gender" class="slide level2">
+<h2>Investigating accidents by gender</h2>
+<p>We want to join drivers and accidents:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">driver_acc &lt;-<span class="st"> </span><span class="kw">left_join</span>(drivers, accidents)</code></pre></div>
+<pre><code>## Joining, by = c(&quot;STATE&quot;, &quot;ST_CASE&quot;, &quot;VE_FORMS&quot;, &quot;COUNTY&quot;, &quot;DAY&quot;, &quot;MONTH&quot;, &quot;HOUR&quot;, &quot;MINUTE&quot;, &quot;ROAD_FNC&quot;, &quot;HARM_EV&quot;, &quot;MAN_COLL&quot;, &quot;SCH_BUS&quot;)</code></pre>
+<p>Note that there are a lot of variables with the same name - we actually include all of these variables</p>
+</section><section id="your-turn-5-min" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<ul>
+<li>Join drivers and accidents data.</li>
+<li>Tally the number of accidents by day of the week (<code>DAY_WEEK</code>), hour of the day (<code>HOUR</code>) and gender (<code>SEX</code>). Visualize the results!</li>
+</ul>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">driver_acc %&gt;%<span class="st"> </span><span class="kw">group_by</span>(DAY_WEEK, HOUR, SEX) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">tally</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(HOUR &lt;<span class="st"> </span><span class="dv">25</span>, SEX &lt;<span class="st"> </span><span class="dv">8</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">collect</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> HOUR, <span class="dt">y =</span> n)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> <span class="kw">factor</span>(SEX))) +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~DAY_WEEK) +
+<span class="st">  </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Set1&quot;</span>)</code></pre></div>
+<p><img src="01_sqlite_files/figure-revealjs/unnamed-chunk-8-1.png" width="768" /></p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_sqlite_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

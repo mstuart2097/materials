@@ -1,0 +1,102 @@
+---
+title: 'Lab Assignment #2'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Lab #2
+
+## {.white}
+
+<img src="images/movies-cropped.jpeg" width=2500 class="cover">
+
+
+## Movies of the last two years
+
+The data set [movies](../data/movies.csv) consists of movies in theaters for the last two years. 
+
+```{r}
+movies <- read.csv("../data/movies.csv")
+head(movies)
+```
+
+## Lab assignment
+
+Using tools from `dplyr` and `ggplot2` answer the follwoing questions:
+
+- What were the most successful movies over the past two years? Make sure to define how you measure success. What can you say about movies that only came out recently?
+- How long, on average, are movies in theaters? Also look at the median time. Try to figure out what contributes to the big difference.
+- What is the standard trajectory of a movie's total gross? Draw a plot and label some of the trajectories. <br>
+If you feel ambitious, you could try to model this trajectory - but if you do, make sure to detail all assumptions that you make.
+
+Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard. 
+
+## Most successful movies
+
+Measure of success: Total gross - which means that recently released movies are biased against because they just didn't have enough time yet to accumulate a lot of total gross. 
+
+```{r}
+movies %>% group_by(Movie, Release) %>% summarize(
+  final = max(Total.Gross),
+  date = Date[which.max(Total.Gross)]
+) %>% arrange(desc(final))
+```
+
+## Most successful movies (cont'd)
+
+We could also use boxoffice gross over the opening weekend to measure success. This gives a slightly different set of most successful movies - maybe the ones with the most promise or the most loyal fans:
+
+```{r}
+movies %>% filter (Days <=5) %>% group_by(Movie, Release) %>% summarize(
+  gross = sum(Gross, na.rm=TRUE),
+  date = Date[1]
+) %>% arrange(desc(gross))
+```
+## Time in theaters
+
+There are some movies with a really, really long time in theaters. Those are movies that are shown again and again in theaters (but most of them not at all times).
+
+```{r}
+# first we exclude all of the movies that are currently in theaters:
+times <- movies %>% group_by(Movie, Release) %>% summarize(
+  intheaters = max(Days),
+  lastday = Date[which.max(Days)]
+) %>% filter(lastday != "2017-01-27") 
+
+
+times %>% ungroup() %>% summarize(mean(intheaters), median(intheaters))
+
+times %>% arrange(desc(intheaters))
+```
+
+
+## Trajectory of total gross
+
+```{r fig.height=3.5}
+movies %>% filter(Days < 100) %>% 
+  ggplot(aes(x = Days, y = Total.Gross))  + 
+  geom_line(aes(group = interaction(Movie, Release)), alpha = 0.5) +   
+  xlim(c(0,110)) +
+  geom_text(aes(x = Days+7, label=Movie), 
+            hjust = 1,
+            data = movies %>% filter(Total.Gross > 2.5*10^8, Days < 100) %>% 
+              group_by(Movie) %>% filter(Days == max(Days))) 
+```
+
+## Problems along the way
+
+- do not use absolute file paths (see discussion of the [last lab](01_lab-solution.html) for more details on file paths)
+- stick to the questions:
+    - use `dplyr` and `ggplot2` to answer *all* the questions: the questions all had some solution using `dplyr` functionality - so look a bit closer in case you don't see the solution right away, because that was a bit of the point for this lab: recognizing situations where we can successfully apply new functionality rather than using what we always use.
+    - find successful movies, not just top movie
+    - directly label trajectories with names of movies: work with layers in ggplot! 

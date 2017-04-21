@@ -1,0 +1,148 @@
+---
+title: "Stat 585 - tidyr your-turn solution"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Your Turn (5 min)
+
+<img src="images/beardshear-view.png" width=1100 class="cover">
+
+The Iowa Data Portal is a wealth of information on and about the State of Iowa. 
+
+The website 
+[Campaign Expenditures](https://data.iowa.gov/Government/Campaign-Expenditures/3adi-mht4/data) provides data on campaign expenditures. The code below reads the data into an R session.
+
+```{r cache = TRUE, message = FALSE}
+url <- "https://data.iowa.gov/api/views/3adi-mht4/rows.csv"
+campaign <- readr::read_csv(url)
+```
+
+Assess the 'messiness' of the data. List issues that prevent us from working with the data directly. Which of these issues are of type (1) or (2) of messiness?
+
+## Your Turn (10 min)
+
+<img src="images/beardshear-view.png" width=1100 class="cover">
+
+- Check the help for the function `parse_number` in the `readr` package and use it on the campaign expenditure data.
+- Use `separate` to split the date variable into year, month and day.
+- Use `separate` again to extract geographic latitude and longitude (Hint - you might need several steps of `separate`)
+- Using `dplyr` functionality answer the following questions:
+
+  1. What is the total amount of campaign expenditure?
+  2. What is the single largest cost in the campaign expenditures?
+  3. What time frame does the campaign expenditure cover?
+  4. Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.
+
+## Bit of background ...
+
+The first half of the Your-Turn is **what** we do to data, but the second half is **why**. 
+
+Any new data set we get, we first have to *vet*: 
+
+- find out about its background,
+- get an idea of its quality by checking on (obvious) relationships,
+- tidy into some normal form.
+
+In the answer, we'll combine elements of the first and second half.
+
+## Campaign expenditures
+
+```{r warning=FALSE}
+campaign <- campaign %>% mutate(
+  expenditure = readr::parse_number(`Expenditure Amount`)
+)  
+summary(campaign$expenditure)
+
+# total in millions of dollars:
+sum(campaign$expenditure)/10^6 
+
+# sort largest to smallest:
+campaign %>% arrange(desc(expenditure)) %>% 
+  select(Date, `Receiving Organization Name`, expenditure)
+```
+
+## Time frame
+
+```{r}
+campaign <- campaign %>% 
+  separate(Date, into = c("Month", "Day", "Year"), 
+           remove = FALSE)  %>% # keep the original column
+  mutate( 
+    Year = as.numeric(Year), 
+    Month = as.numeric(Month),
+    Day = as.numeric(Day)
+  )
+```
+
+```{r}
+campaign %>% count(Year)
+```
+## Geographic Locations
+
+```{r warning = FALSE}
+campaign %>% select(`City Coordinates`) %>% glimpse()
+
+campaign <- campaign %>% 
+  separate(`City Coordinates`, into = c("X", "coords"), sep="\n",  remove=FALSE) %>%
+  separate(coords, into=c("whitespace", "lat", "long"), sep="[(),]") %>%
+  select(-X, -whitespace) %>% # throw out variables
+  mutate(
+    long = parse_number(long),
+    lat = parse_number(lat)
+  ) 
+
+campaign %>% select(long, lat)
+```
+
+## Money is leaving Iowa
+
+```{r, message = FALSE, warning = FALSE}
+iowa <- map_data("state") %>% filter(region == "iowa")
+ggplot(aes(x = long, y = lat), data = campaign) + 
+  geom_path(data = iowa) +
+  geom_point(aes(x = long, y = lat, colour = State == "IA"))
+```
+
+## Investigate oddities
+
+there are points geographically outside the state with an Iowa address. 
+
+```{r}
+campaign <- campaign %>% mutate(
+  inIA = sp::point.in.polygon(long, lat, iowa$long, iowa$lat)
+)
+campaign %>% filter(!inIA, State == "IA") %>% dim()
+campaign %>% filter(!inIA, State == "IA") %>% select(`City Coordinates`)
+```
+
+##
+
+There is no Chicago in Iowa - particularly not, with a ZIP code of 60654. 
+
+387 records have a geographic location of (-93.92180955, 44.770556229). This is a location South West of Minneapolis, MN.
+
+```{r}
+campaign %>% filter(!inIA, State == "IA") %>% 
+  count(long, lat) %>% arrange(desc(n))
+```      
+
+## 
+
+... lots of these mis-located items have a date of the last day of the year:
+
+```{r}
+campaign %>% filter(!inIA, State == "IA", round(long,5)==-93.92181) %>%
+  select(Date, `Committee Name`) %>% xtabs(data=., ~`Date`) %>% sort()
+```
+Does anybody have any ideas how to explain this? I'd love to hear from you!

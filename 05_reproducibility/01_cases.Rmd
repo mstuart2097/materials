@@ -1,0 +1,88 @@
+---
+title: "Stat 585 - Case Studies in Failed Reproducibility"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Reproducibility of Research
+
+## Source
+
+Material for this slide deck comes from 
+
+- Data Carpentry repository [rr-intro](https://github.com/datacarpentry/rr-intro)   (Jenni Bryan and Mine Çetinkaya-Rundel) 
+
+## Science retracts gay marriage paper without agreement of lead author
+
+- May 2015: Science retracts paper of how canvassers can sway people's opinions about 
+gay marriage.
+- Science Editor-in-Chief: Original survey data not made available for independent
+reproduction of results + Survey incentives misrepresented + Sponsorship 
+statement false
+- Two Berkeley grad students attempted to replicate the study and discovered that 
+the data must have been faked.
+- Outright fraud cannot be prevented by reproducibility methods, but the methods  make it easier to discover such issues.
+
+<small>
+Source: 
+http://news.sciencemag.org/policy/2015/05/science-retracts-gay-marriage-paper-without-lead-author-s-consent
+</small>
+
+
+## Seizure study retracted after authors realize data got "terribly mixed"
+
+From the authors of **Low Dose Lidocaine for Refractory Seizures in Preterm Neonates**:
+
+*"The article has been retracted at the request of the authors. After carefully 
+re-examining the data presented in the article, they identified that data of two 
+different hospitals got terribly mixed. The published results cannot be reproduced in
+accordance with scientific and clinical correctness."*
+
+<small>
+Source: http://retractionwatch.com/2013/02/01/seizure-study-retracted-after-authors-realize-data-got-terribly-mixed/
+</small>
+
+
+## Bad spreadsheet merge kills depression paper, quick fix resurrects it
+
+- The authors informed the journal that the merge of lab results and other survey 
+data used in the paper resulted in an error regarding the identification codes.
+- **Original conclusion:** Lower levels of CSF IL-6 were associated with current 
+depression and with future depression [...].
+- **Revised conclusion:** Higher levels of CSF IL-6 and IL-8 were associated with 
+current depression [...].
+
+<small>
+Source: 
+http://retractionwatch.com/2014/07/01/bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it/
+</small>
+
+## Keith Baggerly: Founder of "Bioinformatic Forensics"
+
+- Start of the so-called *Potti retractions*: http://videolectures.net/cancerbioinformatics2010_baggerly_irrh/
+- by now Anil Potti was forced to retract four papers
+- Five cancer drug studies exhibited "several simple errors" [Annals of Applied Statistics 2009](http://projecteuclid.org/euclid.aoas/1267453942) (mislabeling, row/column offsets) to the point that the exact opposite drug was given to participants resulting in likely avoidable deaths.
+
+# What can/should we do?
+
+## Four facets of reproducibility
+
+1. **Documentation:** avoid binary files (e.g. docx) and use text files for documentation
+    - Use markdown to document your workflow so that anyone can pick up your
+    data and follow what you are doing
+    - Use literate programming so that your analysis and your results are
+    tightly connected, or better yet, unseparable
+2. **Organization:** tools to organize your projects so that you don't have a single folder with hundreds of files
+3. **Automation:** the power of scripting to create automated data analyses
+4. **Dissemination:** publishing is not the end of your analysis, rather it is a way 
+station towards your future research and the future research of others
+

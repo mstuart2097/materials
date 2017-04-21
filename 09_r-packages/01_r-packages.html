@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - R packages</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="01_r-packages_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="01_r-packages_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="01_r-packages_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="01_r-packages_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - R packages</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="r-packages" class="titleslide slide level1"><h2 class="shout">R packages</h2></section><section id="outline" class="slide level2">
+<h2>Outline</h2>
+<ul>
+<li>file structures of packages</li>
+<li>documentation</li>
+<li>data in packages</li>
+</ul>
+<p><br></p>
+<p>Resource: <a href="http://r-pkgs.had.co.nz/">R packages</a> by Hadley Wickham</p>
+</section><section id="rstudio-and-r-packages" class="slide level2">
+<h2>RStudio and R packages</h2>
+<p>RStudio supports creating new packages. Follow the dialogs through <code>New Project ...</code></p>
+<p><img src="images/package-01.png" height=450></p>
+</section><section id="rstudio-and-r-packages-contd" class="slide level2">
+<h2>RStudio and R packages (cont’d)</h2>
+<p>RStudio supports creating new packages. Follow the dialogs through <code>New Project ...</code></p>
+<p><img src="images/package-02.png" height=450></p>
+</section><section id="rstudio-and-r-packages-contd-1" class="slide level2">
+<h2>RStudio and R packages (cont’d)</h2>
+<p>RStudio supports creating new packages. Follow the dialogs through <code>New Project ...</code></p>
+<p><img src="images/package-03.png" height=450></p>
+</section><section id="section" class="slide level2 white">
+<h2></h2>
+<p><img src="images/package-04.png" class = "cover"></p>
+</section><section id="file-structure" class="slide level2">
+<h2>File structure</h2>
+<p>Within folder that has the same name as your R package:</p>
+<ul>
+<li>DESCRIPTION</li>
+<li>NAMESPACE</li>
+<li>R</li>
+<li>man</li>
+<li>data</li>
+</ul>
+<p>R code files go into the folder <code>R</code>, data sets go into the folder <code>data</code>, Rd files contain documentation and go into <code>man</code></p>
+</section><section id="description" class="slide level2">
+<h2>DESCRIPTION</h2>
+<p>plain text file with all the meta information on a package</p>
+<pre><code>Package: happyR
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer &lt;yourself@somewhere.net&gt;
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true</code></pre>
+</section><section id="licenses" class="slide level2">
+<h2>Licenses</h2>
+<ul>
+<li>There’s a (surprising?) range of common use licenses available: <a href="http://www.r-project.org/Licenses/" class="uri">http://www.r-project.org/Licenses/</a></li>
+<li>More licenses at <a href="http://creativecommons.org/choose/" class="uri">http://creativecommons.org/choose/</a> and <a href="http://www.opensource.org/licenses/category" class="uri">http://www.opensource.org/licenses/category</a></li>
+<li>Most often used: GPL-2, GPL-3, MIT</li>
+<li>GPL-2/3: “run, copy, distribute, study, change and improve the software” now and in the future, i.e. preserve open-source nature</li>
+<li>GPL-3 clears up some inconsistencies and ambiguities in GPL-2 and should be used in new projects</li>
+<li>MIT releases software completely and also allows use in commercial projects, removes liability of provider.</li>
+</ul>
+</section><section id="documentation" class="slide level2">
+<h2>Documentation</h2>
+<p>hello.Rd:</p>
+<pre><code>\name{hello}
+\alias{hello}
+\title{Hello, World!}
+\usage{
+hello()
+}
+\description{
+Prints &#39;Hello, world!&#39;.
+}
+\examples{
+hello()
+}</code></pre>
+<p>The Rd files are clearly structured, yet, we DO NOT want to write these ourselves (way too many places to mess up)</p>
+</section><section id="the-documentation-workflow" class="slide level2">
+<h2>The documentation workflow</h2>
+<ol type="1">
+<li>Add roxygen comments to your .R files.</li>
+<li>Run <code>devtools::document()</code> (or press <code>Ctrl/Cmd + Shift + D</code> in RStudio) to convert roxygen comments to .Rd files.</li>
+<li>Preview documentation with <code>?</code>.</li>
+<li>Rinse and repeat until the documentation looks the way you want.</li>
+</ol>
+</section><section id="roxygen2" class="slide level2">
+<h2>Roxygen2</h2>
+<p>Roxygen comments start with <code>#'</code> to distinguish them from regular comments:</p>
+<pre><code>#&#39; Add together two numbers.
+#&#39; 
+#&#39; @param x A number.
+#&#39; @param y A number.
+#&#39; @export
+#&#39; @return The sum of \code{x} and \code{y}.
+#&#39; @examples
+#&#39; add(1, 1)
+#&#39; add(10, 1)
+add &lt;- function(x, y) {
+  x + y
+}</code></pre>
+<p><code>@export</code> does not write anything into the help file - instead it writes a line into <code>NAMESPACE</code> and makes the function visible to package users.</p>
+</section><section id="roxygenized-example-in-add.rd" class="slide level2">
+<h2>Roxygenized example in <code>add.Rd</code></h2>
+<pre><code>% Generated by roxygen2 (4.0.0): do not edit by hand
+\name{add}
+\alias{add}
+\title{Add together two numbers}
+\usage{
+add(x, y)
+}
+\arguments{
+  \item{x}{A number}
+
+  \item{y}{A number}
+}
+\value{
+The sum of \code{x} and \code{y}
+}
+\description{
+Add together two numbers
+}
+\examples{
+add(1, 1)
+add(10, 1)
+}</code></pre>
+</section><section id="your-turn-12-mins" class="slide level2">
+<h2>Your Turn (12 mins)</h2>
+<ul>
+<li>Create a new R package using the RStudio dialog to set it up in a new project.</li>
+<li>Build the package (CMD + shift + B) and run the function <code>hello()</code></li>
+<li>Have a look at <code>?hello</code></li>
+<li>Delete the file <code>hello.Rd</code> in the folder <code>man</code></li>
+<li>Include roxygen comments for the function <code>hello()</code> in the file <code>hello.R</code> to create the same help for <code>hello</code> as was there before.</li>
+<li>Run <code>devtools::document()</code> to create the file <code>hello.Rd</code>.</li>
+<li>Build the package and run <code>?hello</code>.</li>
+<li>Already done? Expand the functionality of <code>hello</code> to produce an output of <code>Hello, string!</code> for <code>hello(string)</code>. Update <code>?hello</code> accordingly.</li>
+</ul>
+</section><section id="roxygen-tags" class="slide level2">
+<h2>Roxygen tags</h2>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 90%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>@param</code></td>
+<td style="text-align: left;">Describe inputs</td>
+</tr>
+<tr class="even">
+<td><code>@examples</code></td>
+<td style="text-align: left;">Show how the function works</td>
+</tr>
+<tr class="odd">
+<td><code>@author</code></td>
+<td style="text-align: left;">“Who wrote the function (if different from package)”</td>
+</tr>
+<tr class="even">
+<td><code>@seealso</code></td>
+<td style="text-align: left;">Pointers to related functions</td>
+</tr>
+<tr class="odd">
+<td><code>@return</code></td>
+<td style="text-align: left;">Describe outputs</td>
+</tr>
+<tr class="even">
+<td><code>@aliases</code></td>
+<td style="text-align: left;">Make it easier for users to find</td>
+</tr>
+<tr class="odd">
+<td><code>@rdname</code></td>
+<td style="text-align: left;">Useful for functions that are invalid filenames and for combining docs</td>
+</tr>
+</tbody>
+</table>
+</section><section id="commands-in-roxygen" class="slide level2">
+<h2>Commands in Roxygen</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\code{}</code></td>
+<td style="text-align: left;">Discuss R code</td>
+</tr>
+<tr class="even">
+<td><code>\link{}</code></td>
+<td style="text-align: left;">Make link to another function. Usually wrapped in <code>\code{}</code></td>
+</tr>
+<tr class="odd">
+<td><code>\eqn{}</code></td>
+<td style="text-align: left;">Inline equation (standard latex)</td>
+</tr>
+<tr class="even">
+<td><code>\emph{}</code></td>
+<td style="text-align: left;">Italic text</td>
+</tr>
+<tr class="odd">
+<td><code>\strong{}</code></td>
+<td style="text-align: left;">Bold text</td>
+</tr>
+</tbody>
+</table>
+<p>Numbered list (Use <code>\itemize{}</code> for bulleted):</p>
+<pre><code>\enumerate{
+  \item First item
+}</code></pre>
+</section><section id="data-in-a-package" class="slide level2">
+<h2>Data in a package</h2>
+<ul>
+<li>Data frames must be stored in the <code>data</code> folder using the command <code>save</code>.</li>
+<li>Data documentation: <a href="http://r-pkgs.had.co.nz/data.html#documenting-data" class="uri">http://r-pkgs.had.co.nz/data.html#documenting-data</a></li>
+</ul>
+<pre><code>#&#39; Prices of 50,000 round cut diamonds.
+#&#39;
+#&#39; A dataset containing the prices and other attributes of almost 54,000
+#&#39; diamonds.
+#&#39;
+#&#39; @format A data frame with 53940 rows and 10 variables:
+#&#39; \describe{
+#&#39;   \item{price}{price, in US dollars}
+#&#39;   \item{carat}{weight of the diamond, in carats}
+#&#39;   ...
+#&#39; }
+#&#39; @source \url{http://www.diamondse.info/}
+&quot;diamonds&quot;</code></pre>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="01_r-packages_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

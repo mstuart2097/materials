@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - Organization and Analysis Flow</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="03_data-flow_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="03_data-flow_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="03_data-flow_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="03_data-flow_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - Organization and Analysis Flow</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="data-organization" class="titleslide slide level1"><h2 class="shout">Data Organization</h2></section><section id="source" class="slide level2">
+<h2>Source</h2>
+<p>Material for this slide deck comes from</p>
+<ul>
+<li>Data Carpentry repository <a href="https://github.com/datacarpentry/rr-organization1">rr-organization1</a> (Jenny Bryan)</li>
+</ul>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<blockquote>
+<p>A place for everything, everything in its place.</p>
+</blockquote>
+<p><strong>Benjamin Franklin</strong></p>
+</section><section id="section-1" class="slide level2 flexbox vcenter">
+<h2></h2>
+<p><img src="img/02-organization/beer_messy_tidy.png" alt="beer_messy_tidy" /></p>
+</section><section id="section-2" class="slide level2 flexbox vcenter">
+<h2></h2>
+<p><img src="img/02-organization/files_messy_tidy.png" alt="files_messy_tidy" /></p>
+</section><section id="data-analysis-workflow" class="slide level2 flexbox vcenter">
+<h2>Data analysis workflow</h2>
+<p><img src="img/02-organization/workflow.png" alt="workflow" /></p>
+</section><section id="face-it" class="slide level2">
+<h2>Face it…</h2>
+<ul>
+<li>There are going to be files</li>
+<li>LOTS of files</li>
+<li>The files will change over time</li>
+<li>The files will have relationships to each other</li>
+<li>It’ll probably get complicated</li>
+</ul>
+</section><section id="mighty-weapon" class="slide level2">
+<h2>Mighty weapon</h2>
+<ul>
+<li>File organization and naming is a mighty weapon against chaos</li>
+<li>Make a file’s name and location VERY INFORMATIVE about what it is, why it exists, how it relates to other things</li>
+<li>The more things are self-explanatory, the better</li>
+<li>READMEs are great, but don’t document something if you could just make that thing self-documenting by definition</li>
+</ul>
+</section>
+<section id="organizing-your-data-analysis-workflow" class="titleslide slide level1"><h2 class="shout">Organizing your data analysis workflow</h2></section><section id="raw-data-rightarrow-data" class="slide level2">
+<h2>Raw data <span class="math inline">\(\rightarrow\)</span> data</h2>
+<p>Pick a strategy, any strategy, just pick one!</p>
+<div class="double">
+<p><img src="img/02-organization/workflow_raw_data_to_data.png" alt="workflow_raw_data_to_data" /></p>
+<pre><code>data
+
+data-raw
+data-clean
+
+data/
+  - raw
+  - clean</code></pre>
+</div>
+</section><section id="data-rightarrow-results" class="slide level2">
+<h2>Data <span class="math inline">\(\rightarrow\)</span> results</h2>
+<p>Pick a strategy, any strategy, just pick one!</p>
+<div class="double">
+<p><img src="img/02-organization/workflow_data_to_results_1.png" alt="workflow_data_to_results_1" /></p>
+<pre><code>code
+
+scripts
+
+analysis
+
+bin</code></pre>
+</div>
+</section><section id="data-rightarrow-results-1" class="slide level2">
+<h2>Data <span class="math inline">\(\rightarrow\)</span> results</h2>
+<p>Pick a strategy, any strategy, just pick one!</p>
+<div class="double">
+<p><img src="img/02-organization/workflow_data_to_results_2.png" alt="workflow_data_to_results_2" /></p>
+<pre><code>figures
+results
+
+results/
+  - figs
+  - nums
+
+figures
+tables</code></pre>
+</div>
+</section>
+<section id="a-real-and-imperfect-example" class="titleslide slide level1"><h2 class="shout">A real (and imperfect!) example</h2></section><section id="section-3" class="slide level2">
+<h2></h2>
+<pre><code>  /Users/jenny/research/bohlmann/White_Pine_Weevil_DE:
+  total used in directory 246648 available 131544558
+  drwxr-xr-x  14 jenny  staff        476 Jun 23  2014 .
+  drwxr-xr-x   4 jenny  staff        136 Jun 23  2014 ..
+  -rw-r--r--@  1 jenny  staff      15364 Apr 23 10:19 .DS_Store
+  -rw-r--r--   1 jenny  staff  126231190 Jun 23  2014 .RData
+  -rw-r--r--   1 jenny  staff      19148 Jun 23  2014 .Rhistory
+  drwxr-xr-x   3 jenny  staff        102 May 16  2014 .Rproj.user
+  drwxr-xr-x  17 jenny  staff        578 Apr 29 10:20 .git
+  -rw-r--r--   1 jenny  staff         50 May 30  2014 .gitignore
+  -rw-r--r--   1 jenny  staff       1003 Jun 23  2014 README.md
+  -rw-r--r--   1 jenny  staff        205 Jun  3  2014 White_Pine_Weevil_DE.Rproj
+  drwxr-xr-x  20 jenny  staff        680 Apr 14 15:44 analysis
+  drwxr-xr-x   7 jenny  staff        238 Jun  3  2014 data
+  drwxr-xr-x  22 jenny  staff        748 Jun 23  2014 model-exposition
+  drwxr-xr-x   4 jenny  staff        136 Jun  3  2014 results</code></pre>
+</section><section id="data" class="slide level2">
+<h2>Data</h2>
+<p>Ready to analyze data:</p>
+<p><img src="img/02-organization/sample_ready_to_analyze_data.png" alt="sample_ready_to_analyze_data" /></p>
+<hr>
+<p>Raw data:</p>
+<p><img src="img/02-organization/sample_raw_data.png" alt="sample_raw_data" /></p>
+</section><section id="analysis-and-figures" class="slide level2">
+<h2>Analysis and figures</h2>
+<p>R scripts + the Markdown files from “Compile Notebook”:</p>
+<p><img src="img/02-organization/sample_analysis.png" alt="sample_ready_to_analyze_data" /></p>
+<hr>
+<p>The figures created in those R scripts and linked in those Markdown files:</p>
+<p><img src="img/02-organization/sample_figures.png" alt="sample_raw_data" /></p>
+</section><section id="scripts" class="slide level2">
+<h2>Scripts</h2>
+<p>Linear progression of R scripts, and Makefile to run the entire analysis:</p>
+<p><img src="img/02-organization/sample_scripts.png" alt="sample_scripts" /></p>
+</section><section id="results" class="slide level2">
+<h2>Results</h2>
+<p>Tab-delimited files with one row per gene of parameter estimates, test statistics, etc.:</p>
+<p><img src="img/02-organization/sample_results.png" alt="sample_results" /></p>
+</section><section id="expository-files" class="slide level2">
+<h2>Expository files</h2>
+<p>Files to help collaborators understand the model we fit: some markdown docs, a Keynote presentation, Keynote slides exported as PNGs for viewability on GitHub:</p>
+<p><img src="img/02-organization/sample_expository.png" alt="sample_expository" /></p>
+</section><section id="caveats-problems-with-this-example" class="slide level2">
+<h2>Caveats / problems with this example</h2>
+<ul>
+<li>This project is no where near done, i.e. no manuscript or publication-ready figs</li>
+<li>File naming has inconsistencies due to three different people being involved</li>
+<li>Code and reports/figures all sit together because it’s just much easier that way w/ knitr &amp; rmarkdown</li>
+</ul>
+</section><section id="wins-of-this-example" class="slide level2">
+<h2>Wins of this example</h2>
+<ul>
+<li>I (Jenny Bryan) can walk away from the project and come back to it a year later and resume work fairly quickly</li>
+<li>The two other people (the post-doc whose project it is + the bioinformatician for that lab) were able to figure out what I did and decide which files they needed to look at, etc.</li>
+</ul>
+<center>
+GOOD ENOUGH!
+</center>
+</section>
+<section id="other-tips" class="titleslide slide level1"><h2 class="shout">Other tips</h2></section><section id="tip-the-from_joe-directory" class="slide level2">
+<h2>Tip: The <code>from_joe</code> directory</h2>
+<ul>
+<li>Let’s say my collaborator and data producer is Joe.</li>
+<li>He will send me data with weird space-containing file names, data in Microsoft Excel workbooks, etc.</li>
+<li>It is futile to fight this, just quarantine all the crazy here. I rename things and/or export to plain text and put those files in my data directory.</li>
+<li>Whether I move, copy, or symlink depends on the situation.</li>
+<li>Whatever I did gets recorded in a README or in comments in my R code – whatever makes it easiest for me to remind myself of a file’s provenance, if it came from the outside world in a state that was not ready for programmatic analysis.</li>
+</ul>
+</section><section id="tip-give-yourself-less-rope" class="slide level2">
+<h2>Tip: Give yourself less rope</h2>
+<ul>
+<li>I often revoke my own write permission to the raw data file.</li>
+<li>Then I can’t accidentally edit it.</li>
+<li>It also makes it harder to do manual edits in a moment of weakness, when you know you should just add a line to your data cleaning script.</li>
+</ul>
+</section><section id="tip-prose" class="slide level2">
+<h2>Tip: Prose</h2>
+<ul>
+<li>Sometimes you need a place to park key emails, internal documentation and explanations, random Word and PowerPoint docs people send, etc.</li>
+<li>This is kind of like <code>from_joe</code>, where I don’t force myself to keep same standards with respect to file names and open formats.</li>
+</ul>
+</section><section id="tip-life-cycle-of-data" class="slide level2">
+<h2>Tip: Life cycle of data</h2>
+<p>Here’s how most data analyses go down in reality:</p>
+<ul>
+<li>You get raw data</li>
+<li>You explore, describe and visualize it</li>
+<li>You diagnose what this data needs to become useful</li>
+<li>You fix, clean, marshal the data into ready-to-analyze form</li>
+<li>You visualize it some more</li>
+<li>You fit a model or whatever and write lots of numerical results to file</li>
+<li>You make prettier tables and many figures based on the data &amp; results accumulated by this point</li>
+</ul>
+<p>Both the data file(s) and the code/scripts that acts on them reflect this progression</p>
+</section><section id="prepare-data-rightarrow-do-stats-rightarrow-make-tables-figs" class="slide level2">
+<h2>Prepare data <span class="math inline">\(\rightarrow\)</span> Do stats <span class="math inline">\(\rightarrow\)</span> Make tables &amp; figs</h2>
+<p>The R scripts:</p>
+<pre><code>01_marshal-data.r
+02_pre-dea-filtering.r
+03_dea-with-limma-voom.r
+04_explore-dea-results.r
+90_limma-model-term-name-fiasco.r</code></pre>
+<hr>
+<p>The figures left behind:</p>
+<pre><code>02_pre-dea-filtering-preDE-filtering.png
+03-dea-with-limma-voom-voom-plot.png
+04_explore-dea-results-focus-term-adjusted-p-values1.png
+04_explore-dea-results-focus-term-adjusted-p-values2.png
+...
+90_limma-model-term-name-fiasco-first-voom.png
+90_limma-model-term-name-fiasco-second-voom.png</code></pre>
+</section><section id="recap" class="slide level2">
+<h2>Recap</h2>
+<p>File organization should reflect inputs vs outputs and the flow of information</p>
+<pre><code>/Users/jenny/research/bohlmann/White_Pine_Weevil_DE:
+drwxr-xr-x  20 jenny  staff        680 Apr 14 15:44 analysis
+drwxr-xr-x   7 jenny  staff        238 Jun  3  2014 data
+drwxr-xr-x  22 jenny  staff        748 Jun 23  2014 model-exposition
+drwxr-xr-x   4 jenny  staff        136 Jun  3  2014 results</code></pre>
+<center>
+<img src="img/02-organization/workflow.png" height="290px" />
+</center>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="03_data-flow_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

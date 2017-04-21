@@ -29,7 +29,16 @@ Steps:
 4. Run the commands in `build.r`.
 5. The book will be available in `book/advanced-r.pdf`.
 
-Deliverables: what is the last word on page 21?
+Deliverables: what is the last word on page 21? - If things don't work, please see next page.
+
+## What to do when things don't work?
+
+Errors happen, they are frustrating, but if we learn something from them, we can turn them into valuable experiences.
+
+- document the error you encounter (be as concise and specific as you can at the same time)
+- describe one approach on how you tried to solve the problem (and how this did not work)
+
+Submit a paragraph with this documentation. Write the paragraph in the mindset that you want to get help from somebody, and you try to describe the problem you are encountering. See stackoverflow for [advice on writing good questions](http://stackoverflow.com/help/how-to-ask).
 
 # Weather stations
 
@@ -41,4 +50,4 @@ Deliverables: what is the last word on page 21?
 4. Try out your routine at a weather station of your choice. 
 5. Visualize the temperature records over time. Describe your plot.
 
-Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to hofmann@iastate.edu. 
+Deliverable: Submit a write-up containing code, plot, and description in form of an RMarkdown file to Blackboard. 

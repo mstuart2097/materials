@@ -1,0 +1,27 @@
+---
+title: "Stat 585 - Numeric and graphical summaries"
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Numeric and graphic summaries of data
+
+## tidyverse
+
+`tidyverse` is a package bundling several other R packages:
+
+- `ggplot2`, `dplyr`, `tidyr`, `purrr`, ...
+- share common data representations and API, i.e. work well together
+- see https://github.com/hadley/tidyverse for more information
+
+2. numerical summaries - [elements](02_tidyverse.html) of `dplyr` and `tidyr`
+1. graphical summaries - [visualizations](03_ggplot2.html) with `ggplot2`
+
+

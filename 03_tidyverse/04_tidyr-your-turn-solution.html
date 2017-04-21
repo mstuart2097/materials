@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - tidyr your-turn solution</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="04_tidyr-your-turn-solution_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="04_tidyr-your-turn-solution_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="04_tidyr-your-turn-solution_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="04_tidyr-your-turn-solution_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   div.sourceCode { overflow-x: auto; }
+   table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+     margin: 0; padding: 0; vertical-align: baseline; border: none; }
+   table.sourceCode { width: 100%; line-height: 100%; }
+   td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+   td.sourceCode { padding-left: 5px; }
+   code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code > span.dt { color: #902000; } /* DataType */
+   code > span.dv { color: #40a070; } /* DecVal */
+   code > span.bn { color: #40a070; } /* BaseN */
+   code > span.fl { color: #40a070; } /* Float */
+   code > span.ch { color: #4070a0; } /* Char */
+   code > span.st { color: #4070a0; } /* String */
+   code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code > span.ot { color: #007020; } /* Other */
+   code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code > span.fu { color: #06287e; } /* Function */
+   code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+   code > span.cn { color: #880000; } /* Constant */
+   code > span.sc { color: #4070a0; } /* SpecialChar */
+   code > span.vs { color: #4070a0; } /* VerbatimString */
+   code > span.ss { color: #bb6688; } /* SpecialString */
+   code > span.im { } /* Import */
+   code > span.va { color: #19177c; } /* Variable */
+   code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code > span.op { color: #666666; } /* Operator */
+   code > span.bu { } /* BuiltIn */
+   code > span.ex { } /* Extension */
+   code > span.pp { color: #bc7a00; } /* Preprocessor */
+   code > span.at { color: #7d9029; } /* Attribute */
+   code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - tidyr your-turn solution</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="your-turn-5-min" class="slide level2">
+<h2>Your Turn (5 min)</h2>
+<p><img src="images/beardshear-view.png" width=1100 class="cover"></p>
+<p>The Iowa Data Portal is a wealth of information on and about the State of Iowa.</p>
+<p>The website <a href="https://data.iowa.gov/Government/Campaign-Expenditures/3adi-mht4/data">Campaign Expenditures</a> provides data on campaign expenditures. The code below reads the data into an R session.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st"> &quot;https://data.iowa.gov/api/views/3adi-mht4/rows.csv&quot;</span>
+campaign &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(url)</code></pre></div>
+<p>Assess the ‘messiness’ of the data. List issues that prevent us from working with the data directly. Which of these issues are of type (1) or (2) of messiness?</p>
+</section>
+<section id="your-turn-10-min" class="slide level2">
+<h2>Your Turn (10 min)</h2>
+<p><img src="images/beardshear-view.png" width=1100 class="cover"></p>
+<ul>
+<li>Check the help for the function <code>parse_number</code> in the <code>readr</code> package and use it on the campaign expenditure data.</li>
+<li>Use <code>separate</code> to split the date variable into year, month and day.</li>
+<li>Use <code>separate</code> again to extract geographic latitude and longitude (Hint - you might need several steps of <code>separate</code>)</li>
+<li>Using <code>dplyr</code> functionality answer the following questions:</li>
+</ul>
+<ol type="1">
+<li>What is the total amount of campaign expenditure?</li>
+<li>What is the single largest cost in the campaign expenditures?</li>
+<li>What time frame does the campaign expenditure cover?</li>
+<li>Plot geographic longitude and latitude. Do campaign expenditures stay in the State of IA? Investigate oddities.</li>
+</ol>
+</section>
+<section id="bit-of-background" class="slide level2">
+<h2>Bit of background …</h2>
+<p>The first half of the Your-Turn is <strong>what</strong> we do to data, but the second half is <strong>why</strong>.</p>
+<p>Any new data set we get, we first have to <em>vet</em>:</p>
+<ul>
+<li>find out about its background,</li>
+<li>get an idea of its quality by checking on (obvious) relationships,</li>
+<li>tidy into some normal form.</li>
+</ul>
+<p>In the answer, we’ll combine elements of the first and second half.</p>
+</section>
+<section id="campaign-expenditures" class="slide level2">
+<h2>Campaign expenditures</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+  <span class="dt">expenditure =</span> readr::<span class="kw">parse_number</span>(<span class="st">`</span><span class="dt">Expenditure Amount</span><span class="st">`</span>)
+)  
+<span class="kw">summary</span>(campaign$expenditure)</code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -100000.0      50.0     197.2    1157.0     500.0 1479000.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># total in millions of dollars:</span>
+<span class="kw">sum</span>(campaign$expenditure)/<span class="dv">10</span>^<span class="dv">6</span> </code></pre></div>
+<pre><code>## [1] 392.1802</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sort largest to smallest:</span>
+campaign %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(expenditure)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(Date, <span class="st">`</span><span class="dt">Receiving Organization Name</span><span class="st">`</span>, expenditure)</code></pre></div>
+<pre><code>## # A tibble: 338,821 × 3
+##          Date `Receiving Organization Name` expenditure
+##         &lt;chr&gt;                         &lt;chr&gt;       &lt;dbl&gt;
+## 1  12/31/2006    Non-candidate expenditures     1479313
+## 2  10/22/2010      Strategic Media Services     1200000
+## 3  10/27/2015         Citizens for Gronstal     1116971
+## 4  06/02/2014       Media Ad Ventures, Inc.      881500
+## 5  10/01/2014       Media Ad Ventures, Inc.      790000
+## 6  09/30/2010   Media Strategies &amp; Research      750000
+## 7  05/05/2010         Chet Culver Committee      750000
+## 8  10/25/2016         Iowa Democratic Party      750000
+## 9  08/28/2014       Media Ad Ventures, Inc.      731500
+## 10 10/15/2010      Strategic Media Services      710644
+## # ... with 338,811 more rows</code></pre>
+</section>
+<section id="time-frame" class="slide level2">
+<h2>Time frame</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(Date, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;Month&quot;</span>, <span class="st">&quot;Day&quot;</span>, <span class="st">&quot;Year&quot;</span>), 
+           <span class="dt">remove =</span> <span class="ot">FALSE</span>)  %&gt;%<span class="st"> </span><span class="co"># keep the original column</span>
+<span class="st">  </span><span class="kw">mutate</span>( 
+    <span class="dt">Year =</span> <span class="kw">as.numeric</span>(Year), 
+    <span class="dt">Month =</span> <span class="kw">as.numeric</span>(Month),
+    <span class="dt">Day =</span> <span class="kw">as.numeric</span>(Day)
+  )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">count</span>(Year)</code></pre></div>
+<pre><code>## # A tibble: 14 × 2
+##     Year     n
+##    &lt;dbl&gt; &lt;int&gt;
+## 1   2003  8769
+## 2   2004 20401
+## 3   2005  8831
+## 4   2006 24264
+## 5   2007 11814
+## 6   2008 35490
+## 7   2009 16462
+## 8   2010 43999
+## 9   2011 18348
+## 10  2012 40930
+## 11  2013 19139
+## 12  2014 37221
+## 13  2015 16866
+## 14  2016 36287</code></pre>
+</section>
+<section id="geographic-locations" class="slide level2">
+<h2>Geographic Locations</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">City Coordinates</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">glimpse</span>()</code></pre></div>
+<pre><code>## Observations: 338,821
+## Variables: 1
+## $ City Coordinates &lt;chr&gt; NA, &quot;Kalona, IA 52247\n(41.503246789000059, -...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(<span class="st">`</span><span class="dt">City Coordinates</span><span class="st">`</span>, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;coords&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,  <span class="dt">remove=</span><span class="ot">FALSE</span>) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(coords, <span class="dt">into=</span><span class="kw">c</span>(<span class="st">&quot;whitespace&quot;</span>, <span class="st">&quot;lat&quot;</span>, <span class="st">&quot;long&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;[(),]&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-X, -whitespace) %&gt;%<span class="st"> </span><span class="co"># throw out variables</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">long =</span> <span class="kw">parse_number</span>(long),
+    <span class="dt">lat =</span> <span class="kw">parse_number</span>(lat)
+  ) 
+
+campaign %&gt;%<span class="st"> </span><span class="kw">select</span>(long, lat)</code></pre></div>
+<pre><code>## # A tibble: 338,821 × 2
+##         long      lat
+##        &lt;dbl&gt;    &lt;dbl&gt;
+## 1         NA       NA
+## 2  -91.71394 41.50325
+## 3  -91.58601 41.68835
+## 4  -93.77771 41.60756
+## 5  -93.88112 42.06433
+## 6  -92.64617 41.29066
+## 7  -87.63412 41.89121
+## 8  -91.51795 41.64851
+## 9  -90.68454 42.51538
+## 10 -90.20346 41.85439
+## # ... with 338,811 more rows</code></pre>
+</section>
+<section id="money-is-leaving-iowa" class="slide level2">
+<h2>Money is leaving Iowa</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iowa &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">filter</span>(region ==<span class="st"> &quot;iowa&quot;</span>)
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat), <span class="dt">data =</span> campaign) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">data =</span> iowa) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">colour =</span> State ==<span class="st"> &quot;IA&quot;</span>))</code></pre></div>
+<p><img src="04_tidyr-your-turn-solution_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" /></p>
+</section>
+<section id="investigate-oddities" class="slide level2">
+<h2>Investigate oddities</h2>
+<p>there are points geographically outside the state with an Iowa address.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign &lt;-<span class="st"> </span>campaign %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+  <span class="dt">inIA =</span> sp::<span class="kw">point.in.polygon</span>(long, lat, iowa$long, iowa$lat)
+)
+campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">dim</span>()</code></pre></div>
+<pre><code>## [1] 1018   23</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">City Coordinates</span><span class="st">`</span>)</code></pre></div>
+<pre><code>## # A tibble: 1,018 × 1
+##                                                  `City Coordinates`
+##                                                               &lt;chr&gt;
+## 1       Chicago, IA 60654\n(41.891207985000051, -87.63411733099997)
+## 2           NA, IA 55555\n(44.770556229000078, -93.921809549999978)
+## 3        Chicago, IA 60654\n(41.89120798500005, -87.63411733099997)
+## 4                                                    --, IA 99999\n
+## 5           NA, IA 55555\n(44.770556229000078, -93.921809549999978)
+## 6       Carter, IA 51510\n(41.292079521000062, -95.915059097999972)
+## 7       Carter, IA 51510\n(41.292079521000062, -95.915059097999972)
+## 8   Des Moines, IA 55555\n(44.770556229000078, -93.921809549999978)
+## 9                                        not applicable, IA 52800\n
+## 10 Carter Lake, IA 51510\n(41.292079521000062, -95.915059097999972)
+## # ... with 1,008 more rows</code></pre>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<p>There is no Chicago in Iowa - particularly not, with a ZIP code of 60654.</p>
+<p>387 records have a geographic location of (-93.92180955, 44.770556229). This is a location South West of Minneapolis, MN.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>(long, lat) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</code></pre></div>
+<pre><code>## Source: local data frame [92 x 3]
+## Groups: long [92]
+## 
+##         long      lat     n
+##        &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+## 1  -93.92181 44.77056   387
+## 2         NA       NA   313
+## 3  -96.47678 42.55592    56
+## 4  -96.05135 41.26347    33
+## 5  -95.91506 41.29208    26
+## 6  -90.49563 41.52590    26
+## 7  -90.72330 41.45630    24
+## 8  -95.91506 41.29064    15
+## 9  -93.28102 45.25174     5
+## 10 -73.93957 42.81424     5
+## # ... with 82 more rows</code></pre>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p>… lots of these mis-located items have a date of the last day of the year:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">campaign %&gt;%<span class="st"> </span><span class="kw">filter</span>(!inIA, State ==<span class="st"> &quot;IA&quot;</span>, <span class="kw">round</span>(long,<span class="dv">5</span>)==-<span class="fl">93.92181</span>) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(Date, <span class="st">`</span><span class="dt">Committee Name</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">xtabs</span>(<span class="dt">data=</span>., ~<span class="st">`</span><span class="dt">Date</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">sort</span>()</code></pre></div>
+<pre><code>## Date
+## 02/10/2009 05/14/2008 05/25/2012 06/12/2006 06/19/2010 06/23/2006 
+##          1          1          1          1          1          1 
+## 06/27/2010 07/30/2013 08/24/2010 09/19/2008 09/30/2012 10/04/2007 
+##          1          1          1          1          1          1 
+## 10/12/2010 10/13/2008 10/17/2010 10/18/2010 10/27/2012 07/14/2006 
+##          1          1          1          1          1         48 
+## 05/14/2006 10/14/2006 12/31/2006 12/31/2007 
+##         62         84         87         89</code></pre>
+<p>Does anybody have any ideas how to explain this? I’d love to hear from you!</p>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="04_tidyr-your-turn-solution_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

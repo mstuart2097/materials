@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stat 585 - File Organizations</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="02_organization_files/rmdshower/node_modules/shower-ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="02_organization_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="02_organization_files/rmdshower/style-ribbon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="02_organization_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+  
+  
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Stat 585 - File Organizations</h1>
+    <p>Heike Hofmann</p>
+  </header>
+
+    
+  
+<section id="file-organization" class="titleslide slide level1"><h2 class="shout">File Organization</h2></section><section id="source" class="slide level2">
+<h2>Source</h2>
+<p>Material for this slide deck comes from</p>
+<ul>
+<li>Data Carpentry repository <a href="https://github.com/datacarpentry/rr-organization1">rr-organization1</a> (Ciera Martinez)</li>
+</ul>
+</section><section id="names-matter" class="slide level2">
+<h2>Names matter</h2>
+<p>What works, what doesn’t?</p>
+<p><strong>NO</strong></p>
+<pre><code>myabstract.docx
+Joe’s Filenames Use Spaces and Punctuation.xlsx
+figure 1.png
+fig 2.png
+JW7d^(2sl@deletethisandyourcareerisoverWx2*.txt</code></pre>
+<p><strong>YES</strong></p>
+<pre><code>2014-06-08_abstract-for-sla.docx
+joes-filenames-are-getting-better.xlsx
+fig01_scatterplot-talk-length-vs-interest.png
+fig02_histogram-talk-attendance.png
+1986-01-28_raw-data-from-challenger-o-rings.txt</code></pre>
+</section><section id="three-principles-for-file-names" class="slide level2">
+<h2>Three principles for (file) names</h2>
+<ol type="1">
+<li>Machine readable</li>
+<li>Human readable</li>
+<li>Plays well with default ordering</li>
+</ol>
+</section><section id="awesome-file-names" class="slide level2">
+<h2>Awesome file names :)</h2>
+<p><img src="img/01-naming/awesome_names.png" alt="awesome_names" /></p>
+</section>
+<section id="machine-readable" class="titleslide slide level1"><h2 class="shout">Machine readable</h2></section><section id="machine-readable-1" class="slide level2">
+<h2>Machine readable</h2>
+<ul>
+<li>Regular expression and globbing friendly
+<ul>
+<li>Avoid spaces, punctuation, accented characters, case sensitivity</li>
+</ul></li>
+<li>Easy to compute on
+<ul>
+<li>Deliberate use of delimiters</li>
+</ul></li>
+</ul>
+</section><section id="globbing" class="slide level2">
+<h2>Globbing</h2>
+<blockquote>
+<p>Globbing is the process of expanding a non-specific file name containing a wildcard character into a set of specific file names that exist in storage on a computer, server, or network. A wildcard is a symbol that can stand for one or more characters.</p>
+</blockquote>
+<p>WhatIs.com</p>
+<p>We’ll deal with regular expressions later - right now think of them as search terms.</p>
+</section><section id="globbing-1" class="slide level2">
+<h2>Globbing</h2>
+<p><strong>Excerpt of complete file listing:</strong></p>
+<p><img src="img/01-naming/plasmid_names.png" alt="plasmid_names" /></p>
+<hr>
+<p><strong>Example of globbing to narrow file listing:</strong></p>
+<p><img src="img/01-naming/plasmid_glob.png" alt="plasmid_names" /></p>
+</section><section id="same-using-mac-os-finder-search-facilities" class="slide level2">
+<h2>Same using Mac OS Finder search facilities</h2>
+<center>
+<img src="img/01-naming/plasmid_mac_os_search.png" alt="plasmid_mac_os_search" />
+</center>
+</section><section id="punctuation" class="slide level2 smaller">
+<h2>Punctuation</h2>
+<p>Deliberate use of <code>&quot;-&quot;</code> and <code>&quot;_&quot;</code> allows recovery of meta-data from the filenames:</p>
+<ul>
+<li><code>&quot;_&quot;</code> underscore used to delimit units of meta-data I want later</li>
+<li><code>&quot;-&quot;</code> hyphen used to delimit words so my eyes don’t bleed</li>
+</ul>
+<center>
+<img src="img/01-naming/plasmid_delimiters.png" alt="plasmid_delimiters" />
+</center>
+<hr>
+<center>
+<img src="img/01-naming/plasmid_delimiters_code.png" alt="plasmid_delimiters_code" />
+</center>
+<p>This happens to be R but also possible in the shell, Python, etc.</p>
+</section><section id="recap-machine-readable" class="slide level2">
+<h2>Recap: machine readable</h2>
+<ul>
+<li>Easy to search for files later</li>
+<li>Easy to narrow file lists based on names</li>
+<li>Easy to extract info from file names, e.g. by splitting</li>
+<li>New to regular expressions and globbing? be kind to yourself and avoid
+<ul>
+<li>Spaces in file names</li>
+<li>Punctuation</li>
+<li>Accented characters</li>
+<li>Different files named <code>foo</code> and <code>Foo</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="human-readable" class="titleslide slide level1"><h2 class="shout">Human readable</h2></section><section id="human-readable-1" class="slide level2">
+<h2>Human readable</h2>
+<ul>
+<li>Name contains info on content</li>
+<li>Connects to concept of a <em>slug</em> from semantic URLs</li>
+</ul>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<p><strong>Which set of file(name)s do you want at 3 a.m. before a deadline?</strong></p>
+<p><img src="img/01-naming/human_readable_not_options.png" alt="human_readable_not_options" /></p>
+</section><section id="embrace-the-slug" class="slide level2">
+<h2>Embrace the slug</h2>
+<div class="columns-2">
+<p><img src="img/01-naming/slug_filenames.png" alt="slug_filenames" /> <img src="img/01-naming/slug.jpg" alt="slug" /></p>
+</div>
+<p>Human readability: Easy to figure out what the heck something is, based on its name</p>
+</section>
+<section id="plays-well-with-default-ordering" class="titleslide slide level1"><h2 class="shout">Plays well with default ordering</h2></section><section id="plays-well-with-default-ordering-1" class="slide level2">
+<h2>Plays well with default ordering</h2>
+<ul>
+<li>Put something numeric first</li>
+<li>Use the ISO 8601 standard for dates</li>
+<li>Left pad other numbers with zeros</li>
+</ul>
+</section><section id="examples" class="slide level2">
+<h2>Examples</h2>
+<p><strong>Chronological order:</strong></p>
+<p><img src="img/01-naming/chronological_order.png" alt="chronological_order" /></p>
+<hr>
+<p><strong>Logical order:</strong> Put something numeric first</p>
+<p><img src="img/01-naming/logical_order.png" alt="logical_order" /></p>
+</section><section id="dates" class="slide level2">
+<h2>Dates</h2>
+<p>Use the ISO 8601 standard for dates: YYYY-MM-DD</p>
+<p><img src="img/01-naming/chronological_order.png" alt="chronological_order" /></p>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<center>
+<img src="https://imgs.xkcd.com/comics/iso_8601.png" alt="iso_psa" />
+</center>
+<p>xkcd comic <a href="https://xkcd.com/1179/">#1179</a></p>
+</section><section id="comprehensive-map-of-all-countries-in-the-world-that-use-the-mm-dd-yyyy-format" class="slide level2">
+<h2>Comprehensive map of all countries in the world that use the MM-DD-YYYY format</h2>
+<center>
+<img src="https://pbs.twimg.com/media/CEwVKWbWgAAzFS2.png" alt="map_mmddyyy" />
+</center>
+<p><br></p>
+<p>From <a href="https://twitter.com/donohoe/status/597876118688026624" class="uri">https://twitter.com/donohoe/status/597876118688026624</a>.</p>
+</section><section id="left-pad-other-numbers-with-zeros" class="slide level2">
+<h2>Left pad other numbers with zeros</h2>
+<center>
+<img src="img/01-naming/logical_order.png" alt="logical_order" />
+</center>
+<p><br></p>
+<p>If you don’t left pad, you get this:</p>
+<pre><code>10_final-figs-for-publication.R
+1_data-cleaning.R
+2_fit-model.R</code></pre>
+<p>which is just sad :(</p>
+</section><section id="recap-plays-well-with-default-ordering" class="slide level2">
+<h2>Recap: Plays well with default ordering</h2>
+<ul>
+<li>Put something numeric first</li>
+<li>Use the ISO 8601 standard for dates</li>
+<li>Left pad other numbers with zeros</li>
+</ul>
+</section><section id="recap-three-principles-for-file-names" class="slide level2">
+<h2>Recap: Three principles for (file) names</h2>
+<ol type="1">
+<li>Machine readable</li>
+<li>Human readable</li>
+<li>Plays well with default ordering</li>
+</ol>
+<p>Pros</p>
+<ul>
+<li>Easy to implement NOW</li>
+<li>Payoffs accumulate as your skills evolve and projects get more complex</li>
+</ul>
+</section>
+<section id="go-forth-and-use-awesome-file-names" class="titleslide slide level1"><h2 class="shout">Go forth and use awesome file names :)</h2></section></section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="02_organization_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

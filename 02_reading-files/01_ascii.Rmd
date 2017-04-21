@@ -170,11 +170,11 @@ The file `ushcn-v2.5-stations.txt` contains information on all weather stations 
 
 - A lot of data is available online in the form of html tables
 - Extracting the data requires recognizing the html table format, and stripping off the html
-- The package ```xml``` helps with this
+- Packages such as `xml`, `rvest`, ... helps with this
 
 ## HTML FILES 
 
-Pulling election polls off the web...
+Pulling election results off the web...
 
 ```{r warnings=FALSE, message=FALSE}
 library(rvest)
@@ -246,7 +246,7 @@ Watch the talk Prof Donald Knuth gave at the useR!2016. Based on that, answer th
 - What role does literate programming play in your life so far?
 - Where do you see potential in applying literate programming in your workflow?
 
-Make a blog entry by 10 pm Tuesday, Jan 24.
+Make a blog entry by 10 pm <s>Tuesday, Jan 24</s> Wednesday, Jan 25.
 
 ## Accessing the blog
 

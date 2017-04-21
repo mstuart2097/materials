@@ -74,7 +74,7 @@
 <li>developed from telegraph code (such as Morse code)</li>
 <li>enables text representation on computers, screens and communication devices</li>
 <li>uses 7-bit binary integers</li>
-<li>encodes 128 specified characters, numbers 0-9, letters a-z, A-Z, some basic punctuation, and (some now obselete) control codes</li>
+<li>encodes 128 specified characters, numbers 0-9, letters a-z, A-Z, some basic punctuation, and (some now obsolete) control codes</li>
 </ul>
 </section><section id="ascii-reference-card" class="slide level2">
 <h2>ASCII reference card</h2>
@@ -115,7 +115,7 @@
 <h2>Example</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(d1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;../data/nasadata.csv&quot;</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.553   0.018   0.608</code></pre>
+##   0.540   0.014   0.567</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(d1)</code></pre></div>
 <pre><code>## [1] 41472    14</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1[<span class="dv">1</span>,]</code></pre></div>
@@ -127,7 +127,7 @@
 <h2>Example</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(d2 &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../data/nasadata.rds&quot;</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.021   0.001   0.024</code></pre>
+##   0.020   0.001   0.023</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(d2)</code></pre></div>
 <pre><code>## [1] 41472    16</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d2[<span class="dv">1</span>,]</code></pre></div>
@@ -216,11 +216,11 @@ FortDodge %&gt;%<span class="st"> </span><span class="kw">ggplot</span>(<span cl
 <ul>
 <li>A lot of data is available online in the form of html tables</li>
 <li>Extracting the data requires recognizing the html table format, and stripping off the html</li>
-<li>The package <code>xml</code> helps with this</li>
+<li>Packages such as <code>xml</code>, <code>rvest</code>, … helps with this</li>
 </ul>
 </section><section id="html-files-1" class="slide level2">
 <h2>HTML FILES</h2>
-<p>Pulling election polls off the web…</p>
+<p>Pulling election results off the web…</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
 url &lt;-<span class="st"> &quot;http://www.nytimes.com/elections/results/iowa&quot;</span>
 doc &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)
@@ -292,7 +292,7 @@ popstate &lt;-<span class="st"> </span><span class="kw">read.census</span>(<span
 <li>What role does literate programming play in your life so far?</li>
 <li>Where do you see potential in applying literate programming in your workflow?</li>
 </ul>
-<p>Make a blog entry by 10 pm Tuesday, Jan 24.</p>
+<p>Make a blog entry by 10 pm <s>Tuesday, Jan 24</s> Wednesday, Jan 25.</p>
 </section><section id="accessing-the-blog" class="slide level2">
 <h2>Accessing the blog</h2>
 <ol type="1">

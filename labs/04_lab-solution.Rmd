@@ -1,0 +1,110 @@
+---
+title: 'Lab Assignment #4'
+author: "Heike Hofmann"
+ratio: 16x10
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    theme: ribbon
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Lab #4: Web Scraping 
+
+<img src="images/web-scraping.png" class="cover" height=2000>
+
+
+## SelectorGadget
+
+- SelectorGadget is a javascript bookmarklet to determine the css selectors of pieces of a website we want to extract.
+- Bookmark the [SelectorGadget](javascript:(function(){var%20s=document.createElement('div');s.innerHTML='Loading...';s.style.color='black';s.style.padding='20px';s.style.position='fixed';s.style.zIndex='9999';s.style.fontSize='3.0em';s.style.border='2px%20solid%20black';s.style.right='40px';s.style.top='40px';s.setAttribute('class','selector_gadget_loading');s.style.background='white';document.body.appendChild(s);s=document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','http://www.selectorgadget.com/stable/lib/selectorgadget.js?raw=true');document.body.appendChild(s);})();) link, then click on it to use it.
+- When SelectorGadget is active, pieces of the website are highlighted in orange/green/red.
+- Use SelectorGadget on http://www.baseball-reference.com/players/ .
+- read more details on `vignette("selectorgadget")`
+
+
+## Lab Assignment
+
+1. Write  a function that allows you to extract the whole matrix (row names, column names and matrix values) of career statistics given the link to a player's bio website. 
+2. Additionally, save the player's  position.
+3. Apply the function to scrape data for ten recently active baseball players with names starting with your favorite letter of the alphabet. 
+4. Save the resulting data, and create a visualization (using `ggplot2`).
+
+## Prep work
+
+Getting a list of links to players:
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(rvest)
+url <- "http://www.baseball-reference.com/players/a/"
+html <- read_html(url)
+playerNames <- html %>% html_nodes("b a") %>% html_text()
+playerlinks <- html %>% html_nodes("b a") %>% html_attr("href")
+playerlinks[1:10]
+```
+
+## Extracting Career Statistics
+
+we set up a function to download career statistics:
+
+```{r}
+getStats <- function(link) {
+  s <- html_session("http://www.baseball-reference.com")
+  s <- s %>% jump_to(link)
+  html <- read_html(s)
+  type <- html %>% html_nodes(".stats_pullout .poptip") %>% html_text() 
+  values <- html %>% html_nodes(".stats_pullout .p1 p, .stats_pullout .p2 p, .stats_pullout .p3 p") %>% html_text()
+  what <- html %>% html_nodes(".stats_pullout strong") %>% html_text()
+  df <- data.frame(type=rep(type, each=length(what)), values=values, what = rep(what, length(values)))
+  df
+}
+
+getStats(playerlinks[1])
+```
+
+## Extracting Career Statistics (cont'd)
+
+```{r}
+bb <- data.frame(links = playerlinks[1:10], names=playerNames[1:10], stringsAsFactors = FALSE)
+
+bb$career <- bb$links %>% purrr::map(getStats)
+
+bb[,c("links", "career")]
+```
+
+
+## Player's position
+
+```{r}
+getPosition <- function(link) {
+  s <- html_session("http://www.baseball-reference.com")
+  s <- s %>% jump_to(link)
+  html <- read_html(s)
+  position <- html %>% html_nodes("#meta p:nth-child(2)") %>% html_text() 
+  trimws(position)
+}
+
+getPosition(bb$links[1])
+
+# scrape'em all:
+bb$position <- bb$links %>% purrr::map_chr(getPosition)
+```
+
+
+## Create a visualization
+
+The warnings are not problematic:
+
+```{r, warning=FALSE, fig.height = 4}
+bb <- bb %>% unnest() 
+bb <- bb %>% mutate(values = as.numeric(values))
+bb %>% filter(what == "Career") %>%
+  ggplot(aes(x = values, y = names)) + geom_point(aes(colour=type))
+```
+
+

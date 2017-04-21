@@ -1,0 +1,74 @@
+---
+title: "Stat 585X Lab 4"
+author: "Team Super-Duper"
+date: "March 7, 2017"
+output: html_document
+---
+# Lab Assignment 4: Web Scraping Using Selector Gadget  
+
+## 1. Write a function that allows you to extract the whole matrix of career statistics given the link to a player's bio website. Additionally, save the player's position.  
+
+
+The function is below. We can pull out each individual set of information we need using different identifiers found from SelectorGadget, and then once each of the elements of the dataset are found, we can combine them into a data frame that includes all the information we need about the player. We will add 'position' as a column in each of these data frames within this function to save ourselves some time later on.  
+
+```{r, warning = FALSE, message = FALSE}
+player_table <- function(link) {
+  s <- html_session("http://www.baseball-reference.com")
+  s <- s %>% jump_to(link)
+  html <- read_html(s)
+  stat <- html %>% html_nodes(".stats_pullout .poptip") %>% html_text() 
+  values <- html %>% html_nodes(".stats_pullout .p1 p, .stats_pullout .p2 p, .stats_pullout .p3 p") %>% html_text()
+  year <- html %>% html_nodes(".stats_pullout strong") %>% html_text()
+  position <- html %>% html_nodes("p") %>% html_text()
+  position <- unlist(strsplit(gsub("[[:space:]]", "", position), split = "[:]"))[2]
+  df <- data.frame(stat=rep(stat, each=length(year)), values=values, year = rep(year, length(values)), position = position)
+  df
+}
+
+```
+
+## 3. Apply the function to scrape data for ten recently active baseball players with names starting with your favorite letter of the alphabet.  
+
+We will use the letter 'b', not because it is our favorite, but because Kiegan's mom's favorite player from the Chicago Cubs is Javier Baez.  We can first get a random sample of recently active players and acquire their names and the links to their websites.  
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(rvest)
+
+url <- "http://www.baseball-reference.com/players/b/"
+html <- read_html(url)
+players <- html %>% html_nodes("b a") %>% html_text()
+
+links <- html %>% html_nodes("b a") %>% html_attr(name="href")
+
+players <- data.frame(players = players, links = links)
+ten_urls <- dplyr::sample_n(players, size = 10)
+
+```
+
+
+Once we have the links we want to use our function to create a data frame with information from all of the players. We can use `purrr` to put each data frame with a player's name and link to their bio, and then we can use the `unnest` function to get it all into a tidy format where all the information is present in a single data frame.  
+
+```{r, warning = FALSE, message = FALSE}
+playerStats <- ten_urls %>% mutate(
+  career = links %>% purrr::map(player_table)
+) 
+
+playerStats <- playerStats %>% unnest()
+playerStats %>% glimpse
+```
+
+Once we glimpse this data frame, we see that the numbers are being recognized as characters in our data frame, so we need to make sure they are numerics.  
+
+```{r, warning = FALSE, message = FALSE}
+playerStats$values <- as.numeric(playerStats$values)
+playerStats %>% glimpse
+```
+We can see that now they have been converted into the corresponding numeric values, and we can now visualize the data.  
+
+## 4. Save the resulting data, and create a visualization using `ggplot2`  
+
+```{r, warning = FALSE, message = FALSE}
+
+playerStats %>% ggplot() + geom_point(aes(x = factor(stat), y = values, color = factor(position))) + theme(axis.text.x = element_text(angle=60))
+```
